@@ -32,7 +32,8 @@ if (is_file('system/cache/' . $crc)){
 
 //load functions
 require_once 'system/common.php';
-$db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . 'system/database.db');
+$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
+$db = new PDO('sqlite:' . $root);
 
 //if site is off, then say "See ya later"
 if ($conf['work'] !== 1 and !in_array(getip(), $conf['admin_ip'])){

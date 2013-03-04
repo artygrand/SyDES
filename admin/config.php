@@ -16,7 +16,9 @@ define('VERSION', '1.7');
 define('DEFAULT_MODULE', 'pages');
 define('DEFAULT_ACTION', 'view');
 define('DB_DRIVER', 'sqlite'); // sqlite or mysql
-define('DB_NAME', $_SERVER['DOCUMENT_ROOT'] . 'system/database.db'); // full_path_to_db.sqlite or mysql_db_name 
+
+$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
+define('DB_NAME', $root); // full_path_to_db.sqlite or mysql_db_name 
 
 /* MySQL database */
 define('MYSQL_USER', 'root');

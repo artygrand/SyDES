@@ -40,7 +40,8 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		$user = $_POST['db_user'];
 		$pass = $_POST['db_pass'];
 	} else {
-		$db_dsn = 'sqlite:' . $_SERVER['DOCUMENT_ROOT'] . 'system/database.db';
+		$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
+		$db_dsn = 'sqlite:' . $root;
 		$user = NULL;
 		$pass = NULL;
 	}
