@@ -1,0 +1,4 @@
+SyDES
+=====
+
+Lightweight CMS
