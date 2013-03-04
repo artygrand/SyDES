@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Language" content="ru">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>{meta:title}</title>
+	<meta name="generator" content="SyDES - CMS from ArtyGrand">
+	<meta name="description" content="{meta:description}">
+	<meta name="keywords" content="{meta:keywords}">
+	<base href="http://{base}">
+	<link rel="stylesheet" href="templates/default/style.css" media="all">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link rel="icon" href="templates/default/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<div id="holder">
+	<div id="header">
+		<h1>{meta:site_title}</h1>
+		<h2>{meta:site_description}</h2>
+	</div>
+	<div id="menu"> {iblock:menu} </div>
+	<div id="undermenu"></div>
+	<div id="content">
+	{content}
+	</div>
+</div>
+<footer><p>Powered by <a href="http://sydes.artygrand.ru">SyDES</a></p></footer>
+</body>
+</html>

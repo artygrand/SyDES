@@ -1,0 +1,13 @@
+.cm-s-notepad span.cm-comment {color: #48ab50;font-style:italic;}
+.cm-s-notepad span.cm-atom {font-style:italic;color:gray;}
+.cm-s-notepad span.cm-number, .cm-s-notepad span.cm-attribute {color:#d90f0f;}
+.cm-s-notepad span.cm-keyword {color: #352FC5; font-weight: bold;}
+.cm-s-notepad span.cm-string {color:#9D00DA;}
+.cm-s-notepad span.cm-meta {color:#858585;}
+.cm-s-notepad span.cm-variable-2, .cm-s-notepad span.cm-tag { color: #0e42ed; }
+.cm-s-notepad span.cm-variable-3, .cm-s-notepad span.cm-def { color: silver; }
+.cm-s-notepad span.cm-error { color: #AF2018; }
+.cm-s-notepad span.cm-bracket { color: #F0F; }
+.cm-s-notepad span.cm-link { color: #F4C20B; }
+.cm-s-notepad span.CodeMirror-matchingbracket {}
+.cm-s-notepad span.cm-builtin, .cm-s-notepad span.cm-special { color: #FF9D00; }

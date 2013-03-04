@@ -1,0 +1,6 @@
+<ul>
+<a href=""><span>Главная</span></a>
+<a href="second"><span>Второстепенная</span></a>
+<a href="some_page"><span>Страница, которой нет</span></a>
+<a href="admin"><span>Админка</span></a>
+</ul>

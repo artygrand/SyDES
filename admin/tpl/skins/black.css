@@ -1,0 +1,40 @@
+body{background:white;}
+body a:hover{color: #ea4848;}
+input, textarea, select{border:1px solid gray;}
+.gradient{
+background:#151619;
+background: -moz-radial-gradient(top, ellipse farthest-side,  #2f3349 0%, #151619 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, top center, 0px, top center, 100%, color-stop(0%,#2f3349), color-stop(100%,#151619)); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(top, ellipse farthest-side,  #2f3349 0%,#151619 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(top, ellipse farthest-side,  #2f3349 0%,#151619 100%); /* Opera 12+ */
+background: -ms-radial-gradient(top, ellipse farthest-side,  #2f3349 0%,#151619 100%); /* IE10+ */
+background: radial-gradient(ellipse at top,  #2f3349 0%,#151619 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f3349', endColorstr='#151619',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+.header{color:#ebebec;}
+.header h1{color:#A7A7A7;}
+.header a, .footer a{color:white;text-decoration:none;}
+.header a:first-child{margin-right:15px;}
+.content a{color:gray;}
+.breadcrumbs{background:#2c313a;padding-left:15px;color:#A7A7A7;text-transform: uppercase;}
+.breadcrumbs span, .breadcrumbs a{color:#ebebec;}
+.table td{border-top:1px solid #E6E6E6;}
+.zebra tr:nth-child(even){background:#F8F8F8;}
+.highlight tbody tr{border:1px solid transparent;}
+.highlight tbody tr:hover{border:1px solid black;}
+.highlight tbody tr:hover td{border-top:1px solid black;border-bottom:1px solid black;}
+.highlight tbody tr:hover + tr td{border-top:1px solid black;}
+.hidden, .hidden a{color:silver;}
+.footer{background:#2c313a;color:white;}
+#notify li.success {background: rgb(211, 224, 253);border: 1px solid rgb(160, 169, 219);color: rgb(60, 68, 126);}
+#notify li.error {background: #ffe6e3;border: 1px solid #f2c3bf;color: #bf210e;}
+#close:hover{background:#2c313a;}
+.container-buttons div:hover{background:#2c313a;}
+.button{background:#2c313a;color:white;}
+.button:hover{background:#3c414a;}
+.button.disabled{background:#bfc0c4;color:gray;}
+.button.disabled:hover{background:#bfc0c4;cursor:default;}
+#meta{border:1px solid silver;}
+.nav-tabs{border-bottom-color:#000;}
+.nav-tabs li:hover{background:#F1F1F1;}
+.nav-tabs .active{border-color:#000;border-bottom-color:white;}

@@ -1,0 +1,243 @@
+/*curent style
+---------------------*/
+body{
+ background: #afbfcb;
+ font: 14px arial, sans-serif;
+ color: #000;
+ margin: 0; padding: 0;
+}
+#holder{
+ width: 90%;
+ max-width: 1000px;
+ margin: 0 auto;
+ padding-bottom: 25px;
+ background-color: #F5F7F9;
+ border: 2px #436C78 solid; border-top: none;
+}
+#header, #menu, #undermenu, #content, footer{
+ position: relative;
+ width: 100%;
+}
+#header{
+ height: 160px;
+ background: url(img/menu-top-bg.png) repeat-x;
+}
+#header h1{
+ position: absolute;
+ left: 40px; top: 50px;
+ margin: 0;
+ font: 2.4em georgia, serif;
+ color: #fff;
+ z-index: 1;
+}
+#header h2{
+ position: absolute;
+ left: 80px; top: 90px;
+ margin: 0;
+ font: 2.0em georgia, serif;
+ color: #3E515E;
+ z-index: 0;
+}
+#menu{
+ padding-top: 2px;
+ font: 1em arial, sans-serif;
+ min-height: 20px;
+}
+#menu a{ color:#7A96A7; text-decoration:none; font-weight:bold; margin-left:10px; margin-right: 10px; }
+#menu a:hover{ color:#000; text-decoration:none; margin-left:10px; margin-right: 10px; }
+#undermenu{  height: 24px; background: url(img/menu-bottom-bg.png) repeat-x; }
+p{
+ margin: 25px 30px 10px 30px;
+ padding: 0;
+ text-align: justify;
+ text-indent: 15px;
+ font: 1em arial, sans-serif;
+ line-height: 1.5em;
+ color: #3E515E;
+}
+blockquote {
+ margin: 0 30px 10px 50px;
+ font: italic 1.2em sans-serif;
+ background-color: #fff;
+ padding: 5px;
+ text-indent: 0;
+ border: 1px #aaa dotted;
+}
+.noindent{
+ text-indent: 0;
+}
+h1{
+ font: 2em "times new roman", serif;
+ margin: 25px 0 0 30px;
+ padding: 0;
+ color: #3E515E;
+}
+h2{
+ font: 0.8em georgia, serif;
+ margin: -3px 0 0 35px;
+ padding: 0;
+ color: #aaa;
+}
+h3{
+ font: 1.4em verdana, serif;
+ margin: 20px 0 0 30px;
+ padding: 0;
+ color: #3E515E;
+}
+p{
+ margin: 15px 30px 10px 30px;
+}
+h4{
+ font: 1.2em georgia, serif;
+ margin: 0 0 0 50px;
+ padding: 0;
+ color: #3E515E;
+}
+i{
+ font: 1em arial, sans-serif;
+ font-style: italic;
+ color: #000;
+}
+b{
+ font-weight: bold;
+ color: #3E515E;
+}
+ul{
+ background-color: #fff;
+ padding: 10px 70px;
+}
+li{
+ margin: 0 0 0 5px;
+ padding: 0;
+ line-height: 1.5
+}
+a{
+ color: #000;
+ font-weight: bold;
+ text-decoration: underline;
+}
+a:hover{
+ color: #3E515E;
+ text-decoration: none;
+}
+.gray {
+ color: gray;
+}
+footer p{
+ margin: 10px 30px 25px 30px !important;
+ text-align: center !important;
+}
+/*system style
+---------------------*/
+code {
+margin: 0 20px;
+border-top: 20px solid #EEE;
+}
+#gallery {
+ text-align: center;
+}
+#gallery img{
+margin: 15px 10px;
+padding: 5px;
+background: #fff;
+border: 1px gray solid;
+}
+.gall_navi{
+margin: 0 auto;
+text-align: center;
+}
+
+.gall_navi a{
+margin: 0 5px;
+font-size: 18px;
+}
+
+#current{
+font-size: 20px;
+color: #000;
+}
+
+.date {
+color: #999;
+font-size: 14px;
+}
+.mainNews {
+ margin: 30px auto 20px auto;
+ padding:15px 15px 15px 60px;
+ border: 1px #ccc solid;
+ border-top: none;
+ width: 800px;
+}
+.headerNews {
+ font-size: 25px;
+ color: #3E515E;
+ background: #afbfcb;
+ margin: -15px -15px 0 -60px!important;
+ height: 30px;
+ padding: 0 0 5px 100px;
+ position:relative;
+}
+.contentNews p {
+ margin-bottom: 10px;
+ text-indent: -53px !important;
+ }
+code{
+ background: #fff;
+ border: 1px gray solid;
+ max-height: 400px;
+ overflow: auto;
+ white-space: pre;
+ display:block;
+}
+#comment_form, #comments {
+	width: 650px;
+	margin: 10px auto;
+	text-align: center;
+}
+#comment_form  textarea{
+	width: 640px;
+	height: 100px;
+	margin: 10px auto;
+}
+#comment_form  span{
+ line-height: 1.5em;
+}
+#comment_form  input{
+	width: 340px;
+	height: 22px;
+	display: inline-block;
+	margin-right: 115px;
+}
+#comment_form  button{
+ background: #afbfcb;
+ border: 1px gray solid;
+ height: 26px;
+}
+#comments {
+ background: white;
+ overflow: hidden;
+}
+.comment {
+ text-align: right;
+ border-top: 1px #ccc dashed;
+ padding: 5px;
+}
+.comment span.gray {
+ margin: 0 20px 0 40px;
+}
+.comment p {
+ margin: 10px 10px 20px 10px;
+ text-align: left;
+}
+.underline {
+ text-decoration: underline;
+}
+.center {
+ text-align: center;
+}
+.left {
+ text-align: left;
+}
+.right {
+ text-align: right;
+}
