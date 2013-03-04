@@ -3,7 +3,7 @@
 
 Main features
 -------------
-1. Lightweight engine
+1. Lightweight engine (only 124KB for engine + fat by js modules)
 2. Support multi-language for site and admin center
 3. Friendly interface with some magic and changeable skins
 4. Easily expandable with modules
