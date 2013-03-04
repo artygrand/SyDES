@@ -27,7 +27,7 @@ Apache, PHP 5.3, PDO with sqlite driver, mod_rewrite, JSON.
 Third-party software
 ------------
 + ckeditor
-+ ckfinder
++ ckfinder (DEMO)
 + jquery
 + jquery hoverintent
 + jquery autoresize
