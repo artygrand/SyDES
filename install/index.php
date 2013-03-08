@@ -96,7 +96,8 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		'pdo_mysql_not_supported' => 'PDO MySQL is not supported',
 		'mod_rewrite_not_supported' => 'mod_rewrite is not supported',
 		'install_is_impossible' => 'Installation is impossible<br>configure your server',
-		'json_not_supported' => 'json is not supported'
+		'json_not_supported' => 'json is not supported',
+		'other_in_upload' => 'and all folders in "upload" folder'
 	);
 	$l['ru'] = array(
 		'installation' => 'Установка',
@@ -112,7 +113,8 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		'pdo_mysql_not_supported' => 'PDO MySQL не поддерживается',
 		'mod_rewrite_not_supported' => 'mod_rewrite не поддерживается',
 		'install_is_impossible' => 'Установка не возможна.<br>Настройте сервер',
-		'json_not_supported' => 'json не поддерживается'
+		'json_not_supported' => 'json не поддерживается',
+		'other_in_upload' => 'а так же все папки в upload'
 	);
 	
 	$files = array('../system', '../system/cache', '../system/iblocks', '../templates', '../upload');
@@ -121,6 +123,9 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		if(!is_writable($file)){
 			$wr .= '<li>' . $file . '</li>';
 		}
+	}
+	if ($wr){
+		$wr .= '<li>' . $l[$lang]['other_in_upload'] . '</li>';
 	}
 	
 	$req_pdo = class_exists('PDO');
