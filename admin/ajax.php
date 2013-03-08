@@ -13,7 +13,7 @@ if(!isset($_SERVER['HTTP_REFERER']) or strpos($_SERVER['HTTP_REFERER'], '://' . 
 }
 
 // loading of system files
-require 'config.php';
+require '../system/config.php';
 require SYS_DIR . 'common.php';
 require CLASS_DIR . 'core.php';
 require CLASS_DIR . 'module.php';

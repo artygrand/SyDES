@@ -8,7 +8,7 @@
 session_start();
 
 // loading of system files
-require 'config.php';
+require '../system/config.php';
 require SYS_DIR . 'common.php';
 require CLASS_DIR . 'core.php';
 require 'functions.php';

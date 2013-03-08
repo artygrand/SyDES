@@ -5,7 +5,8 @@
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
-define('SYS_DIR', '../system/');
+
+define('SYS_DIR', __DIR__ .'/');
 define('MOD_DIR', 'modules/');
 define('TPL_DIR', 'tpl/');
 define('CLASS_DIR', SYS_DIR . 'class/');
@@ -17,8 +18,7 @@ define('DEFAULT_MODULE', 'pages');
 define('DEFAULT_ACTION', 'view');
 define('DB_DRIVER', 'sqlite'); // sqlite or mysql
 
-$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
-define('DB_NAME', $root); // full_path_to_db.sqlite or mysql_db_name 
+define('DB_NAME', SYS_DIR . 'database.db'); // full_path_to_db.sqlite or mysql_db_name 
 
 /* MySQL database */
 define('MYSQL_USER', 'root');

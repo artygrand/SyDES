@@ -14,7 +14,8 @@ if ($pos !== false){
 if (is_file('install/index.php') and !is_file('system/database.db')){
 	header('Location: install/'); die;
 }
-//load config
+//load configs
+require 'system/config.php';
 $conf = unserialize(file_get_contents('system/config.db'));
 
 $uri = substr($_SERVER["REQUEST_URI"], 1);
@@ -32,8 +33,7 @@ if (is_file('system/cache/' . $crc)){
 
 //load functions
 require_once 'system/common.php';
-$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
-$db = new PDO('sqlite:' . $root);
+$db = new PDO('sqlite:' . DB_NAME);
 
 //if site is off, then say "See ya later"
 if ($conf['work'] !== 1 and !in_array(getip(), $conf['admin_ip'])){
@@ -87,7 +87,7 @@ if (in_array(key($_GET), $plugs)){
 
 //if the page exists, load meta data and template
 if ($page){
-	$meta = getMetaData($db, $page[0]['id'], $pieces[0]);
+	$meta = getMetaData($db, $page[0]['id'], $locale);
 	$template = file_get_contents('templates/' . $conf['template'] . '/' . $page[0]['template'] . '.html');
 } else {
 	header("HTTP/1.0 404 Not Found");
