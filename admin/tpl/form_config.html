@@ -19,6 +19,10 @@
 							<div class="list"><input type="text" value="<?php echo Core::$config['base'];?>" name="base" class="full middle"></div>
 							<div class="list"><?php echo $template;?></div>
 							<div class="list"><input type="checkbox" value="1" name="work" class="full middle"<?php echo Core::$config['work'];?>></div>
+						</div><div class="span4">
+							<div class="list"><?php lang('need_cache', true);?></div>
+						</div><div class="span4">
+							<div class="list"><input type="checkbox" value="1" name="need_cache" class="full middle"<?php echo Core::$config['need_cache'];?>></div>
 						</div></div>
 						<div class="title"><span class="help" title="<?php lang('tip_enter_with_spacebar', true);?>"><?php lang('admin_ip', true);?></span> (<?php lang('your_ip', true);?> <?php echo getIp();?>)</div>
 						<div><input type="text" value="<?php echo $admin_ip;?>" name="admin_ip" class="full middle"></div>

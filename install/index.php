@@ -24,7 +24,8 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		'pass' => md5($_POST['password']),
 		'cookie' => 1,
 		'master_code' => md5($_POST['code']),
-		'final_template' => array('item', 'article')
+		'final_template' => array('item', 'article'),
+		'need_cache' => 1
 	);
 	file_put_contents('../system/config.db', serialize($conf));
 

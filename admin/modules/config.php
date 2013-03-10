@@ -50,6 +50,7 @@ class Config extends Module{
 		if (!Core::$config['base']) Core::$config['base'] = getbase(dirname($_SERVER['PHP_SELF']));
 		Core::$config['work'] = Core::$config['work'] == 1 ? ' checked' : '';
 		Core::$config['cookie'] = Core::$config['cookie'] == 1 ? ' checked' : '';
+		Core::$config['need_cache'] = Core::$config['need_cache'] == 1 ? ' checked' : '';
 		$meta_plugin = $this -> meta -> getPlugin(1);
 		$pages = $this -> getPagesConf();
 		ob_start();
@@ -74,6 +75,7 @@ class Config extends Module{
 			if ($_POST['new_code']) $_POST['master_code'] = md5($_POST['new_code']);
 			$_POST['work'] = isset($_POST['work']) ? 1 : 2;
 			$_POST['cookie'] = isset($_POST['cookie']) ? 1 : 2;
+			$_POST['need_cache'] = isset($_POST['need_cache']) ? 1 : 2;
 			$_POST['admin_ip'] = explode(' ', $_POST['admin_ip']);
 			$_POST['final_template'] = explode(' ', $_POST['final_template']);
 			$_POST['locale'] = explode(' ', $_POST['locale']);

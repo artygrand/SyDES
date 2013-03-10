@@ -96,6 +96,7 @@ $l['your_ip'] = 'Your IP:';
 $l['type'] = 'Page type';
 $l['name'] = 'Name in menu';
 $l['default_template'] = 'Default template';
+$l['need_cache'] = 'Enable Caching';
 /*meta plugin*/
 $l['meta_data'] = 'Meta data';
 $l['meta_tip'] = "Select a key from the list or enter a new\nThe teplate output from the {meta:key}";
