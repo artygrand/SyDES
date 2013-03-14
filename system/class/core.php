@@ -239,7 +239,7 @@ class Core{
 		} else {
 			$date = date('r');
 		}  
-		$stmt = self::$db -> prepare("INSERT INTO access(date, ip, login, password, text) VALUES (:date, :ip, :login, :pass, :text)");
+		$stmt = self::$db -> prepare("INSERT INTO access(date, ip, login, password, text) VALUES (:date, :ip, :login, :password, :text)");
 		$stmt -> execute(array('date' => $date, 'ip' => getip(), 'login' => $login, 'password' => $pass, 'text' => $text));
 	}
 

@@ -22,7 +22,7 @@ class Access extends Module{
 		if ($rawData){
 			foreach($rawData as $data){
 				$data['text'] = in_array($data['text'], array('Used Cookies', 'Access granted')) ? '<span style="color:green">' . $data['text'] . '</span>' : '<span style="color:red">' . $data['text'] . '</span>';
-				$p['content'] .= '<tr><td>' . $data['date'] . '</td><td>' . $data['ip'] . '</td><td>' . $data['login'] . '</td><td>' . $data['pass'] . '</td><td>' . $data['text'] . '</td></tr>';
+				$p['content'] .= '<tr><td>' . $data['date'] . '</td><td>' . $data['ip'] . '</td><td>' . $data['login'] . '</td><td>' . $data['password'] . '</td><td>' . $data['text'] . '</td></tr>';
 			}
 		}
 
