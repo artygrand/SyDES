@@ -34,8 +34,8 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 
 	$_SESSION['pass'] = md5($conf['pass'] . getip()); 
 	$_SESSION['member'] = $_POST['login'];
-	setcookie('member', $conf['login'], time()+3600*24*2, '/');
-	setcookie('pass', md5($conf['pass'] . getip()), time()+3600*24*2, '/');
+	setcookie('member', $conf['login'], time()+3600*24*2, '/admin');
+	setcookie('pass', md5($conf['pass'] . getip()), time()+3600*24*2, '/admin');
 
 	
 	if ($_GET['db_driver'] == 'mysql'){
