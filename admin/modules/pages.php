@@ -456,6 +456,7 @@ class Pages extends Module{
 	private function getPageForm($rawData, $allPages, $meta){
 		//if isset page, then get data
 		if (is_array($rawData)){
+			$rawData[0]['title'] = str_replace('"', "&quot;", $rawData[0]['title']);
 			$rawData[0]['status'] = $rawData[0]['status'] == 1 ? '<a href="?mod=pages&act=toggle&id=' . $rawData[0]['id'] . '" class="span3">' . lang('hide_page') . '</a>' : '<a href="?mod=pages&act=toggle&id=' . $rawData[0]['id'] . '" class="span3">' . lang('show_page') . '</a>';
 			$rawData[0]['content'] = str_replace("<", "&lt;", $rawData[0]['content']);
 			$cached = $this -> isCached($rawData[0]['fullpath']) ? '<a href="?mod=pages&act=clearcache&id=' . $rawData[0]['id'] . '" class="span3">' . lang('clear_cache') . '</a>' : '<span class="span3">' . lang('not_cached') . '</span>';
