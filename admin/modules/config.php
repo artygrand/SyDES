@@ -79,9 +79,9 @@ class Config extends Module{
 			$_POST['admin_ip'] = explode(' ', $_POST['admin_ip']);
 			$_POST['final_template'] = explode(' ', $_POST['final_template']);
 			$_POST['locale'] = explode(' ', $_POST['locale']);
-			foreach(Core::$config as $k => &$p){
+			foreach(Core::$config as $k => &$post){
 				if (!$_POST[$k]) continue;
-				$p = $_POST[$k];
+				$post = $_POST[$k];
 			}
 			$string_to_put = serialize(Core::$config);
 			$file = '../system/config.db';
