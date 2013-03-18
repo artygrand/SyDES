@@ -73,6 +73,7 @@ var editor = CKEDITOR.replace("words",{uiColor:"#CFB39C",height:600,fullPage:tru
 			if(file_put_contents('../templates/' . Core::$config['template'] . '/' . $_GET['file'], $_POST['content']) === false){
 				throw new Exception(lang('not_saved'));
 			}
+			clearAllCache();
 			$p['redirect'] = 1;
 			return $p;
 		}

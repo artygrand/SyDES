@@ -105,6 +105,7 @@ class Config extends Module{
 				$stmt -> execute($val);
 			}
 			Core::clearMenuCache();
+			clearAllCache();
 			$p['redirect'] = 1;
 			return $p;
 		}
@@ -138,18 +139,21 @@ class Config extends Module{
 		} else {
 			$json['error'] = lang('no_value');
 		}
+		clearAllCache();
 		return $json;
 	}
 	
 	public function metaupdate(){	
 		$this -> meta -> update((int)$_POST['id'], $_POST['value']);
 		$json['success'] = lang('saved');
+		clearAllCache();
 		return $json;
 	}
 	
 	public function metadelete(){
 		$this -> meta -> delete((int)$_POST['id']);
 		$json['success'] = lang('deleted');
+		clearAllCache();
 		return $json;
 	}
 }

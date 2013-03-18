@@ -260,6 +260,7 @@ class Pages extends Module{
 			$id = Core::$db -> lastInsertId();
 			$stmt = Core::$db -> prepare("INSERT INTO pages_content (page_id, locale, title, content) VALUES ($id, :locale, :title, :content)");
 			if (!$stmt->execute(array('content' => $content, 'title' => $title, 'locale' => Core::$locale))) throw new Exception(lang('error_not_saved'));
+			clearAllCache();
 		} else {//update old page
 			$id = (int)$_GET['id'];
 			if ($id == 0) throw new Exception(lang('unauthorized_request'));
@@ -319,7 +320,7 @@ class Pages extends Module{
 				$id .= ',' . $path['id'];
 			}
 			Core::$db -> exec("UPDATE pages SET type = 'trash_' || type , status = 0 WHERE id IN ({$id}) AND type NOT LIKE 'trash_%'");
-			$this -> clearcache();
+			clearAllCache();
 			$json['redirect'] = 1;
 			return $json;
 		} else {
@@ -345,7 +346,7 @@ class Pages extends Module{
 				$id .= ',' . $path['id'];
 			}
 			Core::$db -> exec("UPDATE pages SET type = SUBSTR(type, 7,100), status = 1 WHERE id IN ({$id}) AND type LIKE 'trash_%'");
-
+			clearAllCache();
 			$json['redirect'] = 1;
 			return $json;
 		} else {
@@ -369,6 +370,7 @@ class Pages extends Module{
 				$path['status'] = $path['status'] == 1 ? 0 : 1;
 				Core::$db -> exec("UPDATE pages SET status = '{$path['status']}' WHERE fullpath LIKE '{$path['fullpath']}' || '%'");
 			}
+			clearAllCache();
 			$json['redirect'] = 1;
 			return $json;
 		} else {
@@ -389,6 +391,7 @@ class Pages extends Module{
 				throw new Exception(lang('error_not_saved'));
 			}
 			$this -> updateChildrensByFullpath($id, $old[0]['fullpath']);
+			clearAllCache();
 			$json['success'] = lang('saved');
 			return $json;
 		} else {
@@ -413,6 +416,7 @@ class Pages extends Module{
 				Core::$db -> exec("UPDATE pages SET parent_id = '$newParent', fullpath = (SELECT fullpath FROM pages WHERE id = '$newParent') || '/' || (SELECT alias FROM pages WHERE id = '$id') WHERE id = '$id'");
 			}
 			$this -> updateChildrensByFullpath($id, $oldPath);
+			clearAllCache();
 			$json['success'] = lang('saved');
 			return $json;
 		} else {

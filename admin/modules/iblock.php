@@ -120,6 +120,7 @@ class Iblock extends Module{
 			if(file_put_contents(IBLOCK_DIR . $iblock . '.iblock', $_POST['content']) === false){
 				throw new Exception(lang('not_saved'));
 			}
+			clearAllCache();
 			$p['redirect'] = 1;
 			return $p;
 		}

@@ -247,4 +247,11 @@ function getMetaData($db, $id, $locale){
 	}
 	return $meta;
 }
+function clearAllCache(){
+	if($handle = opendir(SYS_DIR . 'cache/')){
+		while(false !== ($file = readdir($handle)))
+			if($file != "." && $file != "..") unlink(SYS_DIR . 'cache/' . $file);
+		closedir($handle);
+	}
+}
 ?>

@@ -263,6 +263,9 @@ You can delete this cell.'
 			}
 			Core::$db -> commit();
 			fclose($handle);
+			
+			clearAllCache();
+			
 		$p['redirect']['url'] = '?mod=import';
 		$p['redirect']['message'] = lang('saved');
 		return $p;
