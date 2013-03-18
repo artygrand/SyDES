@@ -74,12 +74,12 @@ class Module{
 		$rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		if($rows){
 			foreach($rows as $row){
-				$p['content'] .= '<tr><td>' . $row['id'] . '</td>';
+				$p['content'] .= '<tr><td style="width:30px;">' . $row['id'] . '</td>';
 					foreach($this -> tableStructure as $name => $col){
 						if($col['visible'] == false) continue;
 						$p['content'] .= '<td>' . $row[$name] . '</td>';
 					}
-				$p['content'] .= '<td><a href="?mod=' . $this -> name . '&act=edit&id=' . $row['id'] . '">' . lang('edit') . '</a> <a href="?mod=' . $this -> name . '&act=delete&id=' . $row['id'] . '">' . lang('delete') . '</a></td></tr>' . PHP_EOL;
+				$p['content'] .= '<td style="width:150px;"><a href="?mod=' . $this -> name . '&act=edit&id=' . $row['id'] . '">' . lang('edit') . '</a> <a href="?mod=' . $this -> name . '&act=delete&id=' . $row['id'] . '">' . lang('delete') . '</a></td></tr>' . PHP_EOL;
 			}
 		}
 		$p['content'] .= '</table>';
