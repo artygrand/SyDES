@@ -92,8 +92,8 @@ class Module{
 			foreach($this -> tableStructure as $name => &$col){
 				$col['val'] = '';
 			}
-			$stmt = Core::$db -> query("SELECT MAX(id)+1 FROM {$this -> name}");
-			$id = $stmt -> fetchColumn();
+			$stmt = Core::$db -> query("SELECT MAX(id) FROM {$this -> name}");
+			$id = $stmt -> fetchColumn() + 1;
 		} else {
 			$id = (int)$_GET['id'];
 			$stmt = Core::$db -> query("SELECT * FROM {$this -> name} WHERE id = " . $id);
