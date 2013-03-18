@@ -1,4 +1,7 @@
 <?php
+if (is_file('../system/config.db') and is_file('../system/database.db')){
+	die;
+}
 if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'])){
 	@set_time_limit(180);
 	require_once '../system/common.php';
@@ -41,8 +44,7 @@ if (isset($_POST['login']) and isset($_POST['password']) and isset($_POST['code'
 		$user = $_POST['db_user'];
 		$pass = $_POST['db_pass'];
 	} else {
-		$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/database.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/database.db';
-		$db_dsn = 'sqlite:' . $root;
+		$db_dsn = 'sqlite:' . __DIR__ . '/../system/database.db';
 		$user = NULL;
 		$pass = NULL;
 	}

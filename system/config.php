@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
-define('SYS_DIR', __DIR__ .'/');
+define('SYS_DIR', __DIR__ . '/');
 define('MOD_DIR', 'modules/');
 define('TPL_DIR', 'tpl/');
 define('CLASS_DIR', SYS_DIR . 'class/');

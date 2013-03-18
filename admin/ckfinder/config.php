@@ -11,8 +11,7 @@
  */
 function CheckAuthentication(){
 	session_start();
-	$root = substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' ? $_SERVER['DOCUMENT_ROOT'] . 'system/config.db' : $_SERVER['DOCUMENT_ROOT'] . '/system/config.db';
-	$t = unserialize(file_get_contents($root));
+	$t = unserialize(file_get_contents(__DIR__ . '/../../system/config.db'));
 	if (!isset($_SESSION['member']) or !isset($_SESSION['pass']) or $_SESSION['member'] !== $t['login'] or $_SESSION['pass'] !== md5($t['pass'].$_SERVER['REMOTE_ADDR'])){
 		return false;
 	} else {
