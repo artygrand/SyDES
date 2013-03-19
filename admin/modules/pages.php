@@ -368,7 +368,7 @@ class Pages extends Module{
 			$paths = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 			foreach($paths as $path){
 				$path['status'] = $path['status'] == 1 ? 0 : 1;
-				Core::$db -> exec("UPDATE pages SET status = '{$path['status']}' WHERE fullpath LIKE '{$path['fullpath']}' || '%'");
+				Core::$db -> exec("UPDATE pages SET status = '{$path['status']}' WHERE fullpath = '{$path['fullpath']}' OR fullpath LIKE '{$path['fullpath']}' || '/%'");
 			}
 			clearAllCache();
 			$json['redirect'] = 1;
