@@ -239,7 +239,7 @@ function getMetaData($db, $id, $locale){
 	$stmt->execute(array('id' => $id));
 	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
 	foreach($metas as $m){
-		if ($m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
+		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
 			$meta[substr($m['key'], 3)] = $m['value'];
 		} else {
 			$meta[$m['key']] = $m['value'];
