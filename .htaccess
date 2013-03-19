@@ -10,7 +10,7 @@ RewriteRule \.(db|iblock)$ /p404 [R=404,L]
 
 RewriteRule ^(.*)/$ $1 [NC,R=301,L]
 
-RewriteRule ^([\w/-]+)/?$ index.php?p=$1
+RewriteRule ^([\w/-]+)/?$ index.php?p=$1 [QSA]
 
 ErrorDocument 404 /p404
 ErrorDocument 403 /p404
