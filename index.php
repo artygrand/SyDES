@@ -6,7 +6,7 @@ $pos = stripos($_SERVER["HTTP_HOST"], 'www.');
 if ($pos !== false){
 	$redirect2host = substr($_SERVER["HTTP_HOST"], 4);
 	header('HTTP/1.1 301 Moved Permanently');
-	header('Location: http://' . $redirect2host);
+	header('Location: http://' . $redirect2host . $_SERVER["REQUEST_URI"]);
 	die;
 }
 
