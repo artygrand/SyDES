@@ -293,7 +293,7 @@ class Pages extends Module{
 				$id .= ',' . $path['id'];
 			}
 			Core::$db -> exec("DELETE FROM pages WHERE id IN ({$id})");
-			Core::$db -> exec("DELETE FROM pages_content WHERE id IN ({$id})");
+			Core::$db -> exec("DELETE FROM pages_content WHERE page_id IN ({$id})");
 			$this -> meta -> deleteByPageId($_GET['id']);
 			$json['redirect'] = 1;
 			return $json;
