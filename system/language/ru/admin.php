@@ -56,6 +56,7 @@ $l['file_empty'] = 'Файл пуст';
 $l['already_exists'] = 'Такое уже существует';
 $l['success'] = 'Все шикарно!';
 $l['module_installed'] = 'Модуль установлен';
+$l['confirm_deletion'] = 'Точно удалить?';
 /*mod pages*/
 $l['yet_empty'] = 'Пока пусто. Но можно добавить, нажав на [+1].';
 $l['page_title'] = 'Заголовок';

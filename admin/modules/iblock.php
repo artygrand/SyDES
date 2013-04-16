@@ -26,7 +26,7 @@ class Iblock extends Module{
 			<td>{iblock:%6$s}</td>
 			<td style="width:150px;"><p>
 				<a href="?mod=iblock&act=edit&file=%6$s">' . lang('edit') . '</a>
-				<a href="?mod=iblock&act=delete&file=%6$s.iblock">' . lang('delete') . '</a>
+				<a href="?mod=iblock&act=delete&file=%6$s.iblock" onclick="return confirm(\'' . lang('confirm_deletion') . '\')">' . lang('delete') . '</a>
 			</p></td>
 		</tr>';
 		parent::__construct();

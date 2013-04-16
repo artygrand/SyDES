@@ -55,6 +55,7 @@ $l['file_empty'] = 'File is empty';
 $l['already_exists'] = 'Already exists';
 $l['success'] = 'Success!';
 $l['module_installed'] = 'Module was installed';
+$l['confirm_deletion'] = 'Are you sure?';
 /*mod pages*/
 $l['yet_empty'] = 'Yet empty. Just click [+1] for adding one page.';
 $l['page_title'] = 'Title';
