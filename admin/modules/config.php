@@ -8,12 +8,6 @@
 
 class Config extends Module{
 	/**
-	* Sets the name of default page template
-	* @var string
-	*/
-	public $template = 'index';
-
-	/**
 	* Sets the native module name for menu
 	* @var string
 	*/
@@ -128,7 +122,7 @@ class Config extends Module{
 			$p['name'] .= '<div class="list"><input type="text" value="' . $d['name'] . '" name="pages[' . $d['type'] . '][name]" class="full middle"></div>';
 			$p['dflt_tpl'] .= '<div class="list">' . getSelect($tpls, 'title', $d['dflt_tpl'], 'class="full" name="pages[' . $d['type'] . '][dflt_tpl]"') . '</div>';
 		}
-		$p['dflt_tpl'] .= '<div class="list">' . getSelect($tpls, 'title', 'index', 'class="full" name="pages[neu][dflt_tpl]"') . '</div>';
+		$p['dflt_tpl'] .= '<div class="list">' . getSelect($tpls, 'title', 'page', 'class="full" name="pages[neu][dflt_tpl]"') . '</div>';
 		return $p;
 	}
 	

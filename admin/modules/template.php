@@ -13,11 +13,11 @@ class Template extends Module{
 	public static $allowedActions = array('view', 'edit', 'save');
 	
 	/**
-	* Instantly redirects to index file editor
+	* Instantly redirects to template editor
 	* @return array
 	*/
 	public function view(){
-		$p['redirect']['url'] = '?mod=template&act=edit&file=index.html';
+		$p['redirect']['url'] = '?mod=template&act=edit&file=page.html';
 		return $p;
 	}
 
