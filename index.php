@@ -21,9 +21,9 @@ $conf = unserialize(file_get_contents('system/config.db'));
 if ($conf['need_cache'] == 1){
 	$uri = substr($_SERVER["REQUEST_URI"], 1);
 	if(!$uri){
-		$crc = md5('/home');
+		$crc = md5('/');
 	} elseif(in_array($uri, $conf['locale'])){
-		$crc = md5($uri . '/home');
+		$crc = md5($uri . '/');
 	} else {
 		$crc = md5($uri);
 	}

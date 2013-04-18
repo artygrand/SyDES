@@ -1,5 +1,5 @@
-INSERT OR REPLACE INTO `prefix_pages` VALUES ('1','0','home','/home','1','page','page');
-INSERT OR REPLACE INTO `prefix_pages` VALUES ('2','1','second','/home/second','0','page','page');
+INSERT OR REPLACE INTO `prefix_pages` VALUES ('1','0','','/','1','page','page');
+INSERT OR REPLACE INTO `prefix_pages` VALUES ('2','3','second','/tretiya_stranitsa/second','0','page','page');
 INSERT OR REPLACE INTO `prefix_pages` VALUES ('3','0','tretiya_stranitsa','/tretiya_stranitsa','1','page','page');
 INSERT OR REPLACE INTO `prefix_pages_content` VALUES ('1','ru','Главная','Это содержимое главной страницы');
 INSERT OR REPLACE INTO `prefix_pages_content` VALUES ('2','ru','Вторая страница','Второй уровень и страница выключена');
