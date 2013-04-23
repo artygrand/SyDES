@@ -111,7 +111,7 @@ if ($page){
 	}
 }
 
-$template = preg_replace('!{meta:.*}!', '', $template);
+$template = preg_replace('!{meta:[^}]*}!', '', $template);
 
 //initialize all info-blocks
 if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
