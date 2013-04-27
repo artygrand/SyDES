@@ -69,9 +69,11 @@
 		$(document).on('click','.file',function(){var e=$(this);BrowseServer('Files:/',e)})
 		$(document).on('click','.pdf',function(){var e=$(this);BrowseServer('Files:/pdf/',e)})
 		$(document).on('click','.flash',function(){var e=$(this);BrowseServer('Flash:/',e)})
+		$(document).on('click','.folder',function(){var e=$(this),folder=e.val().replace('/upload/images/', '');BrowseServer('Images:/'+folder+'/',e,'crop')})
 		
-		function BrowseServer(path,e){var finder=new CKFinder();finder.basePath = '/admin/ckfinder/';finder.startupPath=path;finder.selectActionFunction=SetInput;finder.selectActionData=e;finder.popup();}
+		function BrowseServer(path,e,w){var finder=new CKFinder();finder.basePath = '/admin/ckfinder/';finder.startupPath=path;if(w=='crop'){finder.selectActionFunction=SetInputCropped}else{finder.selectActionFunction=SetInput}finder.selectActionData=e;finder.popup();}
 		function SetInput(fileUrl,data){data['selectActionData'].val(fileUrl).change()}
+		function SetInputCropped(fileUrl,data){data['selectActionData'].val(fileUrl.split('/').splice(3,fileUrl.split('/').length-4).join('/')).change()}
 
 		<?php $this -> render('jsfunc');?>
 		</script>

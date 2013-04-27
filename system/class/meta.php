@@ -9,6 +9,7 @@ class Meta{
 		'date' => array('date','date_start','date_end'),
 		'pdf' => array('pdf'),
 		'file' => array('file'),
+		'folder' => array('folder'),
 		'flash' => array('flash','swf')
 	);
 	function __construct($caller){
