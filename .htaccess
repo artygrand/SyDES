@@ -15,6 +15,8 @@ RewriteRule ^([\w/-]+)/?$ index.php?p=$1 [QSA]
 ErrorDocument 404 /p404
 ErrorDocument 403 /p404
 
+php_flag magic_quotes_gpc Off
+
 ## optimization below
 <IfModule mod_expires.c>
 ExpiresActive On
