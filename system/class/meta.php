@@ -74,7 +74,7 @@ class Meta{
 		$value = trim($value);
 		if(!$value or !$key) return false;
 		$stmt = Core::$db -> prepare("INSERT INTO {$this -> table} (page_id, key, value) VALUES (:id, :key, :value)");  
-		$stmt -> execute(array('id' => $id, 'key' => $key, 'value' => $value));
+		$stmt -> execute(array('id' => $id, 'key' => $key, 'value' => str_replace('"','&quot;',$value)));
 		return $this -> getMetaBySomeId(Core::$db -> lastInsertId());
 	}
 	
@@ -82,7 +82,7 @@ class Meta{
 		$value = trim($value);
 		if(!$value) exit;
 		$stmt = Core::$db -> prepare("UPDATE {$this -> table} SET value = :value WHERE id = :id");
-		$stmt -> execute(array('id' => $id, 'value' => $value));
+		$stmt -> execute(array('id' => $id, 'value' => str_replace('"','&quot;',$value)));
 	}
 	
 	public function delete($id){

@@ -6,6 +6,7 @@ RewriteBase /
 RewriteRule ^sitemap.xml$ /index.php?sitemap=1 [L]
 RewriteRule ^robots.txt$ /index.php?robots=1 [L]
 RewriteRule ^rss/(.+)$ /index.php?rss=$1 [L]
+RewriteRule ^thumb/(\d+)x(\d+)/(.+)$ /index.php?thumb=1&width=$1&height=$2&src=$3 [L]
 RewriteRule \.(db|iblock)$ /p404 [R=404,L]
 
 RewriteRule ^(.*)/$ $1 [NC,R=301,L]
