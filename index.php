@@ -19,13 +19,11 @@ require 'system/config.php';
 $conf = unserialize(file_get_contents('system/config.db'));
 
 if ($conf['need_cache'] == 1){
-	$uri = substr($_SERVER["REQUEST_URI"], 1);
-	if(!$uri){
-		$crc = md5('/');
-	} elseif(in_array($uri, $conf['locale'])){
-		$crc = md5($uri . '/');
+	$uri = $_SERVER["REQUEST_URI"];
+	if(in_array(ltrim($uri, '/'), $conf['locale'])){
+		$crc = md5($uri . '/'); // home page with locale "/ru/" 
 	} else {
-		$crc = md5($uri);
+		$crc = md5($uri); // other pages
 	}
 	if (is_file('system/cache/' . $crc)){ 
 		include ('system/cache/' . $crc);
@@ -81,10 +79,7 @@ if (in_array(key($_GET), $plugs)){
 	} else {
 		// get home page with default (single) locale
 		$page = getPageData($db, $locale, 1);
-		
-	}
-
-	
+	}	
 }
 
 //if the page exists, load meta data and template
@@ -135,6 +130,6 @@ if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
 
 echo $template;
 if ($page and $conf['need_cache'] == 1){
-	file_put_contents('system/cache/' . md5($locale . $page[0]['fullpath']), $template);
+	file_put_contents('system/cache/' . $crc, $template);
 }
 ?>

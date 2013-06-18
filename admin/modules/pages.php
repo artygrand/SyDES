@@ -487,11 +487,10 @@ class Pages extends Module{
 	* @return bool
 	*/
 	private function isCached($path){
-		if(is_file(SYS_DIR . 'cache/' . md5(Core::$locale . $path))){
-			return true;
-		} else{
-			return false;
+		if (count(Core::$config['locale']) > 1){
+			$path = '/' . Core::$locale . $path;
 		}
+		return is_file(SYS_DIR . 'cache/' . md5($path));
 	}
 	
 	/**
@@ -506,8 +505,12 @@ class Pages extends Module{
 			$stmt = Core::$db -> query("SELECT fullpath FROM pages WHERE id IN ({$_GET['id']})");
 			$paths = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 			foreach($paths as $path){
-				if(is_file(SYS_DIR . 'cache/' . md5(Core::$locale . $path['fullpath']))){
-					unlink(SYS_DIR . 'cache/' . md5(Core::$locale . $path['fullpath']));
+				if (count(Core::$config['locale']) > 1){
+					$path['fullpath'] = '/' . Core::$locale . $path['fullpath'];
+				}
+				$crc = md5($path['fullpath']);
+				if(is_file(SYS_DIR . 'cache/' . $crc)){
+					unlink(SYS_DIR . 'cache/' . $crc);
 				}
 			}
 			$json['redirect'] = 1;
