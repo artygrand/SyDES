@@ -1,54 +1,72 @@
 <?php
-$plugs = str_replace(array('system/plugin/','.php'), '', glob('system/plugin/*.php'));
+/**
+* SyDES :: index file
+* @version 1.8
+* @copyright 2011-2013, ArtyGrand <artygrand.ru>
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*/
 
-//remove www
-$pos = stripos($_SERVER["HTTP_HOST"], 'www.');
-if ($pos !== false){
-	$redirect2host = substr($_SERVER["HTTP_HOST"], 4);
+require 'config.php';
+require SYS_DIR . 'common.php';
+$admin_folder = 'admin'; // if you renamed admin folder and want create new site
+
+// www, or not www, that is the question 
+$www = stripos($_SERVER["HTTP_HOST"], 'www.');
+if((WWW and $www === false) or (!WWW and $www !== false)){
+	$r2h = WWW ? 'www.' . $_SERVER["HTTP_HOST"] : substr($_SERVER["HTTP_HOST"], 4);
 	header('HTTP/1.1 301 Moved Permanently');
-	header('Location: http://' . $redirect2host . $_SERVER["REQUEST_URI"]);
+	header('Location: http://' . $r2h . $_SERVER["REQUEST_URI"]);
 	die;
 }
 
-//install at first run
-if (is_file('install/index.php') and !is_file('system/database.db')){
-	header('Location: install/'); die;
+// some site created?
+if (!is_file(SITE_DIR . 'baseconfig.db')){
+	header('Location: ' . $admin_folder . '/?mod=sitemanager&act=create-first-site');
+	die; // let's create them
 }
-//load configs
-require 'system/config.php';
-$conf = unserialize(file_get_contents('system/config.db'));
 
-if ($conf['need_cache'] == 1){
+$baseconfig = unserialize(file_get_contents(SITE_DIR . 'baseconfig.db'));
+$site = $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '\\/');
+if (!isset($baseconfig['sites'][$_SERVER["HTTP_HOST"]])){
+	$site = 'default';
+} else {
+	$site = $baseconfig['sites'][$_SERVER["HTTP_HOST"]];
+}
+
+$config = unserialize(file_get_contents(SITE_DIR . $site . '/config.db'));
+
+// if site in maintenance mode, then say "See ya later"
+if ($config['maintenance_mode'] == 1 and !in_array(getip(), $baseconfig['admin']['admin_ip'])){
+	die($config['say']);
+}
+
+// check for page cache if needed
+if ($config['need_cache'] == 1){
 	$uri = $_SERVER["REQUEST_URI"];
-	if(in_array(ltrim($uri, '/'), $conf['locale'])){
+	if(in_array(ltrim($uri, '/'), $config['locale'])){
 		$crc = md5($uri . '/'); // home page with locale "/ru/" 
 	} else {
 		$crc = md5($uri); // other pages
 	}
-	if (is_file('system/cache/' . $crc)){ 
-		include ('system/cache/' . $crc);
+	if (is_file(CACHE_DIR . $crc)){
+		include (CACHE_DIR . $crc);
 		die;
 	}
 }
 
-//load functions
-require_once 'system/common.php';
-$db = new PDO('sqlite:' . DB_NAME);
+$db = new PDO('sqlite:' . SITE_DIR . $site . '/database.db');
 
-//if site is off, then say "See ya later"
-if ($conf['work'] !== 1 and !in_array(getip(), $conf['admin_ip'])){
-	die($conf['say']);
-}
-$base = !$conf['base'] ? getbase('/\\') : $conf['base'];
-
-// check, what is needed to load. plugin or page?
-if (in_array(key($_GET), $plugs)){
-	include 'system/plugin/' . key($_GET) . '.php';
+// check, what is needed to load, helper or any page?
+if (isset($_GET['helper'])){
+	$helpers = str_replace(array(SYS_DIR . 'helper/', '.php'), '', glob(SYS_DIR . 'helper/*.php'));
+	if (in_array($_GET['helper'], $helpers)){
+		include SYS_DIR . 'helper/' . $_GET['helper'] . '.php';
+	}
 } elseif (isset($_GET['p'])){
 	if(preg_match('![^\w/-]!', $_GET['p'])) die ('Shoo, shoo!');
-	if(count($conf['locale']) > 1){
+	if(count($config['locale']) > 1){
 		$pieces = explode('/', $_GET['p'], 2);
-		if(in_array($pieces[0], $conf['locale'])){
+		if(in_array($pieces[0], $config['locale'])){
 			$locale = $pieces[0];
 			if(isset($pieces[1])){
 				// get page with current locale
@@ -60,18 +78,18 @@ if (in_array(key($_GET), $plugs)){
 		} else {
 			// if is set many locales, but not selected current, redirect to default locale
 			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: /'. $conf['locale'][0] . '/' . $_GET['p']);
+			header('Location: /'. $config['locale'][0] . '/' . $_GET['p']);
 			die;
 		}
 	} else {
-		$locale = $conf['locale'][0];
+		$locale = $config['locale'][0];
 		// get page with default (single) locale
 		$page = getPageData($db, $locale, $_GET['p']);
 	}
 } else {
 	// home page without locale, I think
-	$locale = $conf['locale'][0];
-	if(count($conf['locale']) > 1){
+	$locale = $config['locale'][0];
+	if(count($config['locale']) > 1){
 		// if is set many locales, redirect to default locale
 		header('HTTP/1.1 301 Moved Permanently');
 		header('Location: /'. $locale);
@@ -82,43 +100,57 @@ if (in_array(key($_GET), $plugs)){
 	}	
 }
 
-//if the page exists, load meta data and template
+// if the page exists
 if ($page){
-	$meta = getMetaData($db, $page[0]['id'], $locale);
-	$template = file_get_contents('templates/' . $conf['template'] . '/' . $page[0]['template'] . '.html');
+	// if this page not from helper, load meta data
+	if(isset($page[0])){
+		$page = $page[0];
+		$meta = getMetaData($db, $locale, $page['id']);
+	} else {
+		$meta = array();
+	}
+	$template = file_get_contents(TEMPLATE_DIR . $config['template'] . '/' . $page['template'] . '.html');
+	
 } else {
 	header("HTTP/1.0 404 Not Found");
-	$template = file_get_contents('templates/' . $conf['template'] . '/404.html');
+	$template = file_get_contents(TEMPLATE_DIR . $config['template'] . '/404.html');
+	$page = array();
 	$meta = array();
 }
 
-//paste content to template 
-$template = str_replace('{base}', $base, $template);
-
-if ($meta){
-	foreach($meta as $key => $val){
-		$template = str_replace('{meta:' . $key . '}', $val, $template);
-	}
+// paste content to template 
+$template = str_replace('{base}', $config['base'], $template);
+foreach($meta as $key => $val){
+	$template = str_replace('{meta:' . $key . '}', $val, $template);
 }
-if ($page){
-	foreach($page[0] as $key => $val){
-		$template = str_replace('{' . $key . '}', $val, $template);
-	}
+foreach($page as $key => $val){
+	$template = str_replace('{' . $key . '}', $val, $template);
 }
 
+// use multilaguage
+if (preg_match_all('/{lang:([^}]+)}/', $template, $matches)){
+	include SITE_DIR. $site . '/language/' . $locale . '.php';
+	foreach($matches[1] as $ib => $text){
+		$template = str_replace($matches[0][$ib], lang($text), $template);
+	}
+}
+
+// let's clean the template
+$template = preg_replace('/{if[^}]*?{meta:.*?}.*?if}/', '', $template);
 $template = preg_replace('!{meta:[^}]*}!', '', $template);
+$template = str_replace(array('{if', 'if}'), '', $template);
 
-//initialize all info-blocks
+// initialize all info-blocks
 if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
-	for ($ib = 0; $ib <= count($matches[1])-1; $ib++){
-		if (is_file('system/iblocks/'.$matches[1][$ib].'.iblock')){
-			ob_start();
+	for ($ib = 0; $ib <= $aib = count($matches[1])-1; $ib++){
+		if (is_file(SYS_DIR . 'iblock/'.$matches[1][$ib].'.iblock')){
 			if ($matches[2][$ib]){
 				$match = str_replace('?', '', $matches[2][$ib]);
 				$match = str_replace('&amp;', '&', $match);
-				parse_str($match); //string like a "first=value&arr[]=foo+bar&arr[]=baz"
+				parse_str($match); // string like a "first=value&arr[]=foo+bar&arr[]=baz"
 			}
-			require 'system/iblocks/' . $matches[1][$ib] . '.iblock';
+			ob_start();
+			include SYS_DIR . 'iblock/' . $matches[1][$ib] . '.iblock';
 			$block_content = ob_get_contents();
 			ob_end_clean();
 		} else {
@@ -129,7 +161,8 @@ if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
 }
 
 echo $template;
-if ($page and $conf['need_cache'] == 1){
-	file_put_contents('system/cache/' . $crc, $template);
+// cache needed only for real pages
+if (!empty($meta) and $config['need_cache'] == 1){
+	file_put_contents(CACHE_DIR . $crc, $template);
 }
 ?>

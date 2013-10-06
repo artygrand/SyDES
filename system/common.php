@@ -1,9 +1,9 @@
 <?php
 /**
-* SyDES v1.7 (SQLite) black box file
-*
-* copyright 2011-2012, ArtyGrand (artygrand.ru)
-* license http://opensource.org/licenses/gpl-license.php GNU Public License
+* SyDES :: helpful functions
+* @version 1.8
+* @copyright 2011-2013, ArtyGrand <artygrand.ru>
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
 //find ip with proxy
@@ -23,7 +23,7 @@ function getip(){
 }
 
 //russian dates
-function rus_date() {
+function rus_date(){
     $translate = array(
     'am' => 'дп', 'pm' => 'пп', 'AM' => 'ДП', 'PM' => 'ПП',
     'Monday' => 'Понедельник', 'Mon' => 'Пн', 'Tuesday' => 'Вторник', 'Tue' => 'Вт',
@@ -39,7 +39,7 @@ function rus_date() {
     'rd' => 'е', 'th' => 'ое'
     );
     
-    if (func_num_args() > 1) {
+    if (func_num_args() > 1){
         $timestamp = func_get_arg(1);
         return strtr(date(func_get_arg(0), $timestamp), $translate);
     } else {
@@ -47,26 +47,19 @@ function rus_date() {
     }
 }
 
-//get base to links
-function getbase($trim){
-	$bhost = $_SERVER['HTTP_HOST'];
-	$buri = rtrim(dirname($_SERVER['PHP_SELF']), $trim);
-	return $bhost.$buri.'/';
-}
-
 /**
 * Return flat array of folders or files with needed extensions
 * or folders tree, if recursive mode is on
-* @dir = string, relative path to the destination folder
-* @mask = array('html', 'txt') - extensions
+* @param string $dir - relative path to the destination folder
+* @param array $mask = array('html', 'txt') - extensions
 *		or array(true) - all files
 *		or array('/') - folders
-* @recursive = true or false
+* @param bool $recursive
 * @return array
 */
 function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	$pages = array();
-	foreach(glob($dir.'/*', GLOB_NOSORT) as $filename){
+	foreach(glob($dir.'/*') as $filename){
 		if ($mask[0] === '/' and is_dir($filename)){
 			$del = !$del ? $dir . '/' : $del;
 			$alias = str_replace($del, '', $filename);
@@ -95,60 +88,70 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	return $pages;
 }
 
-function natorder($a,$b) { 
+function natorder($a,$b){
 	return strnatcmp ($a['fullpath'], $b['fullpath']); 
 }
 
-function hook($mod, $act, $data){
-	$functions=@Core::$hook[$mod -> name][$act];
-	if(is_array($functions)){
-		ksort($functions);
-		foreach($functions as $function){
-			if($function and function_exists($function)){
-				$data = $function($mod, $data);
-			}
-		}
+function lang($text){
+	global $l;
+	if (isset($l[$text])){
+		return $l[$text];
+	} else {
+		return $text;
 	}
-	return $data;
+}
+
+function token($length){
+    $chars = array(
+        'A','B','C','D','E','F','G','H','J','K','L','M',
+        'N','P','Q','R','S','T','U','V','W','X','Y','Z',
+        'a','b','c','d','e','f','g','h','i','j','k','m',
+        'n','o','p','q','r','s','t','u','v','w','x','y','z',
+        '1','2','3','4','5','6','7','8','9');
+    if ($length < 0 or $length > 58) return null;
+    shuffle($chars);
+    return implode('', array_slice($chars, 0, $length));
+}
+
+/**
+* Insert data into template and return beautiful html
+* @paran string $template
+* @paran array $data
+* @return string
+*/
+function render($template, $data = array()){
+	if (file_exists($template)){
+		extract($data);
+		ob_start();
+			require($template);
+			$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+	}
+}
+
+/**
+* Returns the correct ends for the russian words.
+* 1 яблоко, 2 яблока, 5 яблок
+* @return string
+*/
+function rus_ending($num, $str1, $str2, $str3){
+    $val = $num % 100;
+    if ($val > 10 && $val < 20) return "$num $str3";
+    else {
+        $val = $num % 10;
+        if ($val == 1) return "$num $str1";
+        elseif ($val > 1 && $val < 5) return "$num $str2";
+        else return "$num $str3";
+    }
 }
 
 /*ADMIN FUNCTIONS*/
 
-/**
-* Returns the correct ends for the russian numerators.
-* 1 яблоко, 2 яблока, 5 яблок
-* @var integer $num
-* @var string $str1
-* @var string $str2
-* @var string $str3
-* @return string
-*/
-function get_correct_str($num, $str1, $str2, $str3){
-    $val = $num % 100;
-    if ($val > 10 && $val < 20) return $num .' '. $str3;
-    else {
-        $val = $num % 10;
-        if ($val == 1) return $num .' '. $str1;
-        elseif ($val > 1 && $val < 5) return $num .' '. $str2;
-        else return $num .' '. $str3;
-    }
-}
-
 //just str_replace, but once
-function str_replace_once($search, $replace, $text){ 
+function str_replace_once($search, $replace, $text){
    $pos = strpos($text, $search); 
    return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text; 
-}
-
-function lang($text, $echo = false){ 
-	global $l;
-	if (isset($l[$text])){
-		if ($echo) echo $l[$text];
-		else return $l[$text];
-	} else {
-		if ($echo) echo $text;
-		else return $text;
-	}
 }
 
 /**
@@ -223,22 +226,24 @@ function createTable($table, $cols){
 }
 
 function getPageData($db, $locale, $where){
-	if ((int)$where != 0){
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.id = :where AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('where' => (int)$where, 'locale' => $locale));
+	if (is_numeric($where)){
+		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.id = :id AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
+		$stmt->execute(array('id' => (int)$where, 'locale' => $locale));
 	} else {
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.fullpath = :where AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('where' => '/'.$where, 'locale' => $locale));
+		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.fullpath = :fullpath AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
+		$stmt->execute(array('fullpath' => '/'.$where, 'locale' => $locale));
 	}
 	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 }
-function getMetaData($db, $id, $locale){
-	$stmt = $db -> query("SELECT key, value FROM config_meta WHERE page_id = 1");
+
+function getMetaData($db, $locale, $id){
+	// selects meta from global config.
+	$stmt = $db -> query("SELECT key, value FROM global_meta WHERE page_id = 1");
 	$metas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-	$stmt = $db -> prepare("SELECT key, value FROM pages_meta WHERE page_id = :id");
-	$stmt->execute(array('id' => $id));
+	$stmt = $db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$id}");
 	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
 	foreach($metas as $m){
+		// selects key for current locale.
 		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
 			$meta[substr($m['key'], 3)] = $m['value'];
 		} else {
@@ -250,7 +255,7 @@ function getMetaData($db, $id, $locale){
 function clearAllCache(){
 	if($handle = opendir(SYS_DIR . 'cache/')){
 		while(false !== ($file = readdir($handle)))
-			if($file != "." && $file != "..") unlink(SYS_DIR . 'cache/' . $file);
+			if($file != "." && $file != "..") unlink(ROOT_DIR . 'cache/' . $file);
 		closedir($handle);
 	}
 }

@@ -1,0 +1,128 @@
+/*----------------------------------------------------
+           Vulcan - CSS - Exclusively for IE6
+------------------------------------------------------*/
+
+
+/* Header
+------------------------------------------------------*/
+/* Mainmenu Styling */
+.navigation{
+	width:550px;
+	margin-left:96px;
+}
+.dot-separator{
+	width:32px;
+	margin-top:20px;
+}
+
+
+/*  Slideshow
+------------------------------------------------------*/
+#slideshow ul, #slideshow li{
+	margin:12px 0px 0px 6px; 
+}
+#pager{
+	top:260px;
+}
+#pager-alt{
+	top:260px;
+}
+.slideshow-altImage span {
+	bottom:2px;
+}
+.slide-more{
+	height:28px;
+}
+
+
+/* Content
+------------------------------------------------------*/
+.separator-content{
+	width:47px;
+}
+.front-box-content{
+	width:285px;
+}
+#content .front-box-content{
+	padding-bottom:45px;
+}
+#content .front-box-content2{
+	padding-bottom:45px;
+}
+#content-left{
+	margin-right:48px;
+}
+.sidebar{
+	float:none;
+}
+.sidebar-bottom{
+	background-position:top;
+}
+.front-box-content2{
+	width:622px;
+	margin-top:25px;
+	float:left;
+}
+
+
+/* Services
+------------------------------------------------------*/
+.more-button{
+	height:28px;
+	margin:10px 0px 8px 0px;
+	padding:8px 20px 0px 20px;
+}
+.services-box p{
+	margin-bottom:22px;
+}
+
+
+/* Blog
+------------------------------------------------------*/
+.blog-box{
+	padding:12px 12px 11px 12px;
+}
+.left-head{
+	height:38px;
+}
+.author{
+	width:592px;
+	padding:10px 15px 4px 15px;
+}
+.authorpic{
+	padding-bottom:10px;
+}
+
+
+/* Portfolio
+------------------------------------------------------*/
+.ie6-text{
+	float:left;
+}
+a.switch_thumb{
+	margin:0px 0px 0px 0px;
+}
+.pf-box-view{
+	padding:12px 12px 12px 12px;
+}
+.pf{
+	margin-top:-6px;
+	margin-right:195px;
+	float:right;
+}
+ul.thumb_view li .pf-box-view{
+	padding:12px 12px 12px 12px;
+}
+
+/* Contact
+------------------------------------------------------*/
+.input-submit{
+	float:left; 
+	margin-left:323px;
+}
+
+/* Footer
+------------------------------------------------------*/
+#footer-last{
+	width:957px;
+}

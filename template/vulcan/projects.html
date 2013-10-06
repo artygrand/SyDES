@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Language" content="ru">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="keywords" content="{meta:keywords}">
+  <meta name="description" content="{meta;description}">
+  <meta name="generator" content="SyDES - CMS from ArtyGrand">
+  <title>{meta:title}</title>
+  <base href="http://{base}">
+
+<!-- ////////////////////////////////// -->
+<!-- //      Start Stylesheets       // -->
+<!-- ////////////////////////////////// -->
+<link href="templates/vulcan/css/style.css" rel="stylesheet">
+<link href="templates/vulcan/css/colorbox.css" rel="stylesheet" media="screen">
+<!--[if IE 6]>    
+	<link href="templates/vulcan/css/ie6.css" rel="stylesheet">
+    <script src="templates/vulcan/js/DD_belatedPNG.js"></script>
+	<script> 
+	   DD_belatedPNG.fix('img'); 
+       DD_belatedPNG.fix('#slide-container');
+       DD_belatedPNG.fix('#prev a');
+       DD_belatedPNG.fix('#next a');
+       DD_belatedPNG.fix('#bottom-content');
+       DD_belatedPNG.fix('#footer-content');
+       DD_belatedPNG.fix('ul.list-bottom li');       
+	</script>    
+<![endif]-->
+<!--[if IE 7]>    
+	<style>
+    .maincontent{padding:0px 0px 60px 0px;}
+    ul.display li .content_block{padding:15px 0px 22px 0px;}
+    ul.thumb_view li .pf-box-view{padding:12px 12px 12px 12px;}
+    #content-fullwidth{padding-bottom:15px;}
+    </style>
+<![endif]-->
+
+<!-- ////////////////////////////////// -->
+<!-- //      Javascript Files        // -->
+<!-- ////////////////////////////////// -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="templates/vulcan/js/dropdown.js"></script>
+<script src="templates/vulcan/js/jquery.corner.js"></script>
+<script>
+    $('.more-button, .pf-box-view').corner("8px");
+</script>
+<script src="templates/vulcan/js/jquery.colorbox.js"></script>
+<script>
+	$(document).ready(function(){				
+		$("a[rel='portfolio']").colorbox({transition:"fade"});				
+	});
+</script>
+<script>
+$(document).ready(function(){
+ 
+	$("a.switch_thumb").toggle(function(){
+	  $(this).addClass("swap"); 
+	  $("ul.display").fadeOut("fast", function() {
+	  	$(this).fadeIn("fast").addClass("thumb_view"); 
+		 });
+	  }, function () {
+      $(this).removeClass("swap");
+	  $("ul.display").fadeOut("fast", function() {
+	  	$(this).fadeIn("fast").removeClass("thumb_view");
+		});
+	}); 
+
+});
+</script>
+</head>
+<body>
+	<div id="container">
+    
+    	<!-- BEGIN OF HEADER -->
+    	<div id="top-container-inner">
+        
+        	<!-- begin of logo and mainmenu -->
+        	<div id="header">
+            	<div id="logo"><a href=""><img src="templates/vulcan/images/logo.png" alt=""></a></div>
+                <div id="mainmenu">
+{iblock:menu}
+                </div>            
+            </div>
+            <!-- end of logo and mainmenu -->    
+                    
+        </div>
+        <!-- END OF HEADER -->
+        
+        <!-- BEGIN OF PAGE TITLE -->
+        <div id="page-title">
+        	<div id="page-title-inner">
+                <div class="title">
+                <h1>{title}</h1>
+                </div>
+                <div class="dot-separator-title"></div>
+                <div class="description">
+                <p>{meta:description}</p>
+                </div>
+            </div>   	            
+        </div>
+        <!-- END OF PAGE TITLE --> 
+        
+        <!-- BEGIN OF CONTENT -->
+        <div id="content">
+        
+        	<div id="content-fullwidth">          
+                <div class="maincontent">
+                <h3 class="pf-title">Мы сделали много замечателеьных вещей</h3>
+                	<div id="pf-view"><a href="#" class="switch_thumb">Режим превью</a></div>
+                <p class="ie6-text">{content}</p>
+                
+                <ul class="display">
+                    <li>
+                        <div class="content_block">
+                            <div class="pf-box-view"><a href="templates/vulcan/images/portfolio-big/pf-big.jpg" rel="portfolio" title="Project Name"><img src="templates/vulcan/images/portfolio-thumb/pf-thumb1.jpg" alt="" /></a></div>
+                            <h4>Cronos - Premium Business Template</h4>
+                            <p>Ratione voluptatem sequi nesciunteque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
+                            <ul class="check-list pf-list">
+                            <li>Molestias excepturi sint occaecati cupiditate non provident</li>
+                            <li>Similique sunt in culpa qui officia deserunt mollitia anim</li>
+                            <li>Harum quidem rerum facilis est et expedita distinctio tempore</li>
+                            </ul>
+                                <div class="more-button pf"><a href="#">Visit Site</a></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="content_block">
+                            <div class="pf-box-view"><a href="templates/vulcan/images/portfolio-big/pf-big.jpg" rel="portfolio" title="Project Name"><img src="templates/vulcan/images/portfolio-thumb/pf-thumb2.jpg" alt="" /></a></div>
+                            <h4>Onixus - Corporate Business Template</h4>
+                            <p>Ratione voluptatem sequi nesciunteque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
+                            <ul class="check-list pf-list">
+                            <li>Molestias excepturi sint occaecati cupiditate non provident</li>
+                            <li>Similique sunt in culpa qui officia deserunt mollitia anim</li>
+                            <li>Harum quidem rerum facilis est et expedita distinctio tempore</li>
+                            </ul>
+                                <div class="more-button pf"><a href="#">Visit Site</a></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="content_block">
+                            <div class="pf-box-view"><a href="templates/vulcan/images/portfolio-big/pf-big.jpg" rel="portfolio" title="Project Name"><img src="templates/vulcan/images/portfolio-thumb/pf-thumb3.jpg" alt="" /></a></div>
+                            <h4>Triveo - Clean Business Template</h4>
+                            <p>Ratione voluptatem sequi nesciunteque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
+                            <ul class="check-list pf-list">
+                            <li>Molestias excepturi sint occaecati cupiditate non provident</li>
+                            <li>Similique sunt in culpa qui officia deserunt mollitia anim</li>
+                            <li>Harum quidem rerum facilis est et expedita distinctio tempore</li>
+                            </ul>
+                                <div class="more-button pf"><a href="#">Visit Site</a></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="content_block">
+                            <div class="pf-box-view"><a href="templates/vulcan/images/portfolio-big/pf-big.jpg" rel="portfolio" title="Project Name"><img src="templates/vulcan/images/portfolio-thumb/pf-thumb4.jpg" alt="" /></a></div>
+                            <h4>Batik - Minimalist Wedding Card</h4>
+                            <p>Ratione voluptatem sequi nesciunteque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
+                            <ul class="check-list pf-list">
+                            <li>Molestias excepturi sint occaecati cupiditate non provident</li>
+                            <li>Similique sunt in culpa qui officia deserunt mollitia anim</li>
+                            <li>Harum quidem rerum facilis est et expedita distinctio tempore</li>
+                            </ul>
+                                <div class="more-button pf"><a href="#">Visit Site</a></div>
+                        </div>                
+                    </li>
+                </ul>
+                               
+                </div>
+            </div>            
+                  
+        </div>
+        <!-- END OF CONTENT -->
+        
+        <!-- BEGIN OF FOOTER -->
+        <div id="bottom-container">
+        	<div id="footer-content">
+            
+            	<!-- begin of footer-address --> 
+            	<div id="footer-address">
+{iblock:footer_address}
+                </div>
+                <!-- end of footer-address -->
+                
+                <!-- begin of company-news -->
+                <div id="footer-news">
+                <h3>Новости компании</h3>
+{iblock:child_links?id=4}
+                </div>
+                <!-- end of company-news -->
+                
+                <!-- begin of footer-menu and copyright -->
+                <div id="footer-last">
+                	<div id="footer-menu">
+{iblock:menu_footer}
+                    </div>
+                    <div id="footer-copyright">
+                    © ГК AKTEY Group, 2010—2013
+                    </div>
+                </div>
+                <!-- end of footer-menu and copyright -->
+                            
+            </div>
+        </div>
+        <!-- END OF FOOTER -->
+    	
+    </div>
+</body>
+</html>

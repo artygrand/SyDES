@@ -1,62 +1,71 @@
 <?php
 /**
-* SyDES administrative center - main file
-* @version 1.7
-* @copyright 2011-2012, ArtyGrand (artygrand.ru)
+* SyDES :: admin index file
+* @version 1.8
+* @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 session_start();
 
-// loading of system files
-require '../system/config.php';
+require '../config.php';
 require SYS_DIR . 'common.php';
-require CLASS_DIR . 'core.php';
-require 'functions.php';
-require CLASS_DIR . 'module.php';
+require SYS_DIR . 'admin.php';
+require SYS_DIR . 'module.php';
+require SYS_DIR . 'user.php';
+require 'hook.php';
 
-// Initialize core
-$Core = new Core();
+// configure the instance
+$admin = new Admin();
 
-// get lost
-if (isset($_GET['act']) and $_GET['act'] === 'exit'){
-	$Core -> quit();
+$admin->selectLang();
+require 'language/' . Admin::$lang . '.php';
+
+$admin->setMode();
+
+Admin::$config = unserialize(file_get_contents(SITE_DIR . 'baseconfig.db'));
+
+// check user's rights
+$user = new User();
+if (!empty($_GET['act']) and $_GET['act'] == 'logout'){
+	$user->logout();
+	Admin::redirectTo('');
 }
-//Load the language file if it exist
-require_once LANG_DIR . Core::$language . '/admin.php';
+if (!$user->isAuthorized()){
+	die($user->showLoginForm());
+}
+if (!$user->hasPermission()){
+	die(' ');
+}
 
-if (DEMO or $Core -> IsAuthorized()){
-	// get module
-	$module = empty($_GET['mod']) ? DEFAULT_MODULE : $_GET['mod'];
-	$module = new $module();
+// continue to configure the instance
+$admin->selectSite();
+$admin->db = new PDO('sqlite:' . SITE_DIR . $admin->site . '/database.db');
+$admin->siteConfig = unserialize(file_get_contents(SITE_DIR . $admin->site . '/config.db'));
+$admin->selectLocale();
 
-	//get action
-	$action = empty($_GET['act']) ? DEFAULT_ACTION : $_GET['act'];
-	
-	if ($action == DEFAULT_ACTION){
-		$Core -> checkModules();
-	}
+// get module and run the action
+$module = empty($_GET['mod']) ? DEFAULT_MODULE : $_GET['mod'];
+$action = empty($_GET['act']) ? DEFAULT_ACTION : $_GET['act'];
 
-	if (in_array($action, $module::$allowedActions)){
-		try {
-			$Core -> content = hook($module, $action, $module -> $action());
-		} catch (Exception $e) {
-			$Core -> redirectTo('?mod=' . $module -> name, $e->getMessage());
-		}
-		if(isset($Core -> content['redirect'])){
-			if(is_array($Core -> content['redirect'])){
-				$Core -> redirectTo($Core -> content['redirect']['url'], $Core -> content['redirect']['message'], 'success');
-			} else if(isset($_SERVER['HTTP_REFERER'])){
-				header('Location:' . $_SERVER['HTTP_REFERER']);
-				exit;
-			} else{
-				$Core -> redirectTo('?mod=' . $module -> name, lang('success'), 'success');
-			}
-		}
-		$Core -> GetHTML('index.html');
+if (strpos($module, '/') !== false or !is_file("module/{$module}/index.php")){
+	Admin::redirectTo('', lang('unauthorized_request'));
+}
+
+require "module/{$module}/index.php";
+if (!in_array($action, $module::${'allowed4' . Admin::$mode})){
+	Admin::redirectTo('', lang('unauthorized_request'));
+}
+$module = new $module();
+
+try{
+	$admin->response = $admin->hook($module, $action, $module->$action());
+} catch (Exception $e){
+	if (Admin::$mode == 'html'){
+		Admin::redirectTo('?mod=' . $module->name, lang($e->getMessage()));
 	} else {
-		$Core -> redirectTo('?mod=' . $module -> name, lang('unauthorized_request'));
+		echo json_encode(array('error' => lang($e->getMessage())));
 	}
-} else {
-	include 'login.php';
 }
+
+$admin->renderPage();
 ?>
