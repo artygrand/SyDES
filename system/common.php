@@ -164,7 +164,11 @@ function getSelect($data, $what, $current, $props = ''){
 	foreach ($data as $value){
 		$which = (is_array($value) and $what != '') ? $value[$what] : $value;
 		$select .= '	<option value="' . $which . '"';
-		$select .= $which == $current ? ' selected' : '';
+		if (is_array($current)){
+			$select .= in_array($which, $current) ? ' selected' : '';
+		} else {
+			$select .= $which == $current ? ' selected' : '';
+		}
 		$select .= '>' . $which . "</option>\n";
 	}
 	return $select . "</select>\n";

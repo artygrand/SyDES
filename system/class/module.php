@@ -100,7 +100,11 @@ class Module{
 			$rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 			if (!$rows) throw new Exception(lang('no_value'));
 			foreach($this -> tableStructure as $name => &$col){
-				$col['val'] = $rows[0][$name];
+				if($this -> tableStructure[$name]['tag'] == 'select' and strpos($this -> tableStructure[$name]['props'], 'multiple') !== false){
+					$col['val'] = unserialize($rows[0][$name]);
+				} else {
+					$col['val'] = $rows[0][$name];
+				}
 			}
 		}
 
@@ -117,7 +121,11 @@ class Module{
 			$data = array((int)$_GET['id']);
 			foreach ($_POST as $key => $value){
 				if(in_array($key, $tableKeys)){
-					$data[] = $value;
+					if($this -> tableStructure[$key]['tag'] == 'select' and strpos($this -> tableStructure[$key]['props'], 'multiple') !== false){
+						$data[] = serialize($value);
+					} else {
+						$data[] = $value;
+					}
 				}
 			}
 			$count = count($this -> tableStructure) + 1;
