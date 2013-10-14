@@ -181,6 +181,7 @@ function getForm($data){
 		if($input['tag'] == 'textarea'){
 			$form .= '<div class="title">' . $input['title'] . '</div><div><textarea name="' . $name . '" ' . $input['props'] . '>' . $input['val'] . '</textarea></div>' . PHP_EOL;
 		} elseif ($input['tag'] == 'select'){
+			if(strpos($input['props'], 'multiple') !== false){$name = $name.'[]';}
 			$form .= '<div class="title">' . $input['title'] . '</div><div>' . getSelect($input['values'], '', $input['val'], 'name="' . $name . '" '.$input['props']) . '</div>';
 		} else {
 			$form .= '<div class="title">' . $input['title'] . '</div><div><input type="' . $input['tag'] . '" name="' . $name . '" value="' . $input['val'] . '" ' . $input['props'] . '></div>' . PHP_EOL;
