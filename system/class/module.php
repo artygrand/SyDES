@@ -77,7 +77,11 @@ class Module{
 				$p['content'] .= '<tr><td style="width:30px;">' . $row['id'] . '</td>';
 					foreach($this -> tableStructure as $name => $col){
 						if($col['visible'] == false) continue;
-						$p['content'] .= '<td>' . $row[$name] . '</td>';
+						if($this -> tableStructure[$name]['tag'] == 'select'){
+							$col['val'] = $p['content'] .= '<td>' . implode(', ', unserialize($row[$name])) . '</td>';
+						} else {
+							$p['content'] .= '<td>' . $row[$name] . '</td>';
+						}
 					}
 				$p['content'] .= '<td style="width:150px;"><a href="?mod=' . $this -> name . '&act=edit&id=' . $row['id'] . '">' . lang('edit') . '</a> <a href="?mod=' . $this -> name . '&act=delete&id=' . $row['id'] . '">' . lang('delete') . '</a></td></tr>' . PHP_EOL;
 			}
@@ -100,7 +104,7 @@ class Module{
 			$rows = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 			if (!$rows) throw new Exception(lang('no_value'));
 			foreach($this -> tableStructure as $name => &$col){
-				if($this -> tableStructure[$name]['tag'] == 'select' and strpos($this -> tableStructure[$name]['props'], 'multiple') !== false){
+				if($this -> tableStructure[$name]['tag'] == 'select'){
 					$col['val'] = unserialize($rows[0][$name]);
 				} else {
 					$col['val'] = $rows[0][$name];
@@ -121,7 +125,7 @@ class Module{
 			$data = array((int)$_GET['id']);
 			foreach ($_POST as $key => $value){
 				if(in_array($key, $tableKeys)){
-					if($this -> tableStructure[$key]['tag'] == 'select' and strpos($this -> tableStructure[$key]['props'], 'multiple') !== false){
+					if($this -> tableStructure[$key]['tag'] == 'select'){
 						$data[] = serialize($value);
 					} else {
 						$data[] = $value;

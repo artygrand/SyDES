@@ -164,11 +164,7 @@ function getSelect($data, $what, $current, $props = ''){
 	foreach ($data as $value){
 		$which = (is_array($value) and $what != '') ? $value[$what] : $value;
 		$select .= '	<option value="' . $which . '"';
-		if (is_array($current)){
-			$select .= in_array($which, $current) ? ' selected' : '';
-		} else {
-			$select .= $which == $current ? ' selected' : '';
-		}
+		$select .= in_array($which, (array)$current) ? ' selected' : '';
 		$select .= '>' . $which . "</option>\n";
 	}
 	return $select . "</select>\n";
@@ -185,8 +181,7 @@ function getForm($data){
 		if($input['tag'] == 'textarea'){
 			$form .= '<div class="title">' . $input['title'] . '</div><div><textarea name="' . $name . '" ' . $input['props'] . '>' . $input['val'] . '</textarea></div>' . PHP_EOL;
 		} elseif ($input['tag'] == 'select'){
-			if(strpos($input['props'], 'multiple') !== false){$name = $name.'[]';}
-			$form .= '<div class="title">' . $input['title'] . '</div><div>' . getSelect($input['values'], '', $input['val'], 'name="' . $name . '" '.$input['props']) . '</div>';
+			$form .= '<div class="title">' . $input['title'] . '</div><div>' . getSelect($input['values'], '', $input['val'], 'name="' . $name . '[]" '.$input['props']) . '</div>';
 		} else {
 			$form .= '<div class="title">' . $input['title'] . '</div><div><input type="' . $input['tag'] . '" name="' . $name . '" value="' . $input['val'] . '" ' . $input['props'] . '></div>' . PHP_EOL;
 		}
