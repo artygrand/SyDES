@@ -7,7 +7,7 @@ class SimpleImage{
 
 	public function load($filename){
 		$image_info = @getimagesize($filename);
-		if (!$image_info or !in_array($image_info[2], array(1,2,3))){
+		if (!$image_info or !in_array($image_info[2], array(1,2,3)) or strpos($filename, 'upload/images') === false){
 			header("HTTP/1.0 404 Not Found");
 			die;
 		}
@@ -78,10 +78,16 @@ if (isset($_GET['src']) and $_GET['src']){
 	$pic_width = (int)$_GET['width'];
 	$pic_height = (int)$_GET['height'];
 	$cachedImg = 'cache/pic_' . $pic_width . '_' . $pic_height . '_' . $pic_str;
-	if (!is_file($cachedImg)){
+	if (!is_file($cachedImg) and count(glob('cache/pic_*_' . $pic_str)) < 5){
 		$image = new SimpleImage();	
 		$image->load($_GET['src']);
-		$image->doit('crop', $pic_width, $pic_height);
+		if ($pic_height > 500 or $pic_width > 500 or $pic_height < 50 or $pic_width < 50){
+			header("HTTP/1.0 404 Not Found");
+			die;
+		}
+		if ($image->width > $pic_width and $image->height > $pic_height){
+			$image->doit('crop', $pic_width, $pic_height);
+		}
 		$image->save($cachedImg);
 		$image->destroy();
 	}

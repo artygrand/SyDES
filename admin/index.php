@@ -1,7 +1,7 @@
 <?php
 /**
 * SyDES :: admin index file
-* @version 1.8
+* @version 1.8✓
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
@@ -14,58 +14,63 @@ require SYS_DIR . 'module.php';
 require SYS_DIR . 'user.php';
 require 'hook.php';
 
-// configure the instance
 $admin = new Admin();
 
-$admin->selectLang();
+$admin->setLang();
 require 'language/' . Admin::$lang . '.php';
-
+lang('init', $l);
 $admin->setMode();
 
-Admin::$config = unserialize(file_get_contents(SITE_DIR . 'baseconfig.db'));
+if (file_exists(SITE_DIR . 'baseconfig.db')){
+	Admin::$config = unserialize(file_get_contents(SITE_DIR . 'baseconfig.db'));
+} else {
+	User::createUser();
+	Admin::createSite(DEFAULTSITE);
+}
 
 // check user's rights
 $user = new User();
 if (!empty($_GET['act']) and $_GET['act'] == 'logout'){
 	$user->logout();
-	Admin::redirectTo('');
+	redirect('');
 }
-if (!$user->isAuthorized()){
-	die($user->showLoginForm());
-}
-if (!$user->hasPermission()){
-	die(' ');
-}
+if (!$user->isAuthorized()) die($user->showLoginForm());
+if (!$user->hasPermission()) die(json_encode(array('error' => lang('unauthorized_request'))));
 
 // continue to configure the instance
-$admin->selectSite();
-$admin->db = new PDO('sqlite:' . SITE_DIR . $admin->site . '/database.db');
-$admin->siteConfig = unserialize(file_get_contents(SITE_DIR . $admin->site . '/config.db'));
-$admin->selectLocale();
+$admin->setSite();
+Admin::$db = new PDO('sqlite:' . SITE_DIR . Admin::$site . '/database.db');
+Admin::$db->exec('SET NAMES "utf8"');
+Admin::$db->exec('SET time_zone = "'. date_default_timezone_get() .'"');
+Admin::$siteConfig = unserialize(file_get_contents(SITE_DIR . Admin::$site . '/config.db'));
+$admin->setLocale();
 
 // get module and run the action
 $module = empty($_GET['mod']) ? DEFAULT_MODULE : $_GET['mod'];
 $action = empty($_GET['act']) ? DEFAULT_ACTION : $_GET['act'];
 
-if (strpos($module, '/') !== false or !is_file("module/{$module}/index.php")){
-	Admin::redirectTo('', lang('unauthorized_request'));
+if (strpos($module, '/') !== false or !is_file("module/{$module}/{$module}.php")){
+	redirect('', lang('unauthorized_request'));
 }
 
-require "module/{$module}/index.php";
+require "module/{$module}/{$module}.php";
 if (!in_array($action, $module::${'allowed4' . Admin::$mode})){
-	Admin::redirectTo('', lang('unauthorized_request'));
+	redirect('', lang('unauthorized_request'));
+}
+if (file_exists('module/' . $module . '/lang/' . Admin::$lang . '.php')){
+	require 'module/' . $module . '/lang/' . Admin::$lang . '.php';
+	lang('add', $l);
 }
 $module = new $module();
 
 try{
-	$admin->response = $admin->hook($module, $action, $module->$action());
+	$admin->execute($module, $action);
 } catch (Exception $e){
-	if (Admin::$mode == 'html'){
-		Admin::redirectTo('?mod=' . $module->name, lang($e->getMessage()));
+	if (Admin::$mode == 'ajax'){
+		die(json_encode(array('error' => lang($e->getMessage()))));
 	} else {
-		echo json_encode(array('error' => lang($e->getMessage())));
+		redirect('?mod=' . $module->name, lang($e->getMessage()));
 	}
 }
-
 $admin->renderPage();
 ?>

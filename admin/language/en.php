@@ -1,5 +1,5 @@
 <?php
-/*actions*/
+/*actions ✓*/
 $l['delete'] = 'Delete';
 $l['update'] = 'Update';
 $l['edit'] = 'Edit';

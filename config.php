@@ -1,7 +1,7 @@
 <?php
 /**
 * SyDES :: system configuration
-* @version 1.8
+* @version 1.8✓
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
@@ -16,6 +16,8 @@ define('DEFAULT_MODULE', 'pages');
 define('DEFAULT_ACTION', 'view');
 
 define('VERSION', '1.8');
+define('ADMIN', 'admin'); //wanna rename folder?
+define('DEFAULTSITE', 'default'); 
 define('DEMO', false);
 define('WWW', false);
 

@@ -1,14 +1,12 @@
 <?php
 /**
 * SyDES :: index file
-* @version 1.8
+* @version 1.8✓
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
-
 require 'config.php';
 require SYS_DIR . 'common.php';
-$admin_folder = 'admin'; // if you renamed admin folder and want create new site
 
 // www, or not www, that is the question 
 $www = stripos($_SERVER["HTTP_HOST"], 'www.');
@@ -21,19 +19,15 @@ if((WWW and $www === false) or (!WWW and $www !== false)){
 
 // some site created?
 if (!is_file(SITE_DIR . 'baseconfig.db')){
-	header('Location: ' . $admin_folder . '/?mod=sitemanager&act=create-first-site');
+	header('Location: ' . ADMIN . '/?act=createsite');
 	die; // let's create them
 }
 
 $baseconfig = unserialize(file_get_contents(SITE_DIR . 'baseconfig.db'));
 $site = $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '\\/');
-if (!isset($baseconfig['sites'][$_SERVER["HTTP_HOST"]])){
-	$site = 'default';
-} else {
-	$site = $baseconfig['sites'][$_SERVER["HTTP_HOST"]];
-}
-
+$site = isset($baseconfig['domains'][$site]) ? $baseconfig['domains'][$site] : DEFAULTSITE;
 $config = unserialize(file_get_contents(SITE_DIR . $site . '/config.db'));
+$config['locale'] = $baseconfig['sites'][$site]['locales'];
 
 // if site in maintenance mode, then say "See ya later"
 if ($config['maintenance_mode'] == 1 and !in_array(getip(), $baseconfig['admin']['admin_ip'])){
@@ -41,7 +35,7 @@ if ($config['maintenance_mode'] == 1 and !in_array(getip(), $baseconfig['admin']
 }
 
 // check for page cache if needed
-if ($config['need_cache'] == 1){
+if ($config['need_cache']){
 	$uri = $_SERVER["REQUEST_URI"];
 	if(in_array(ltrim($uri, '/'), $config['locale'])){
 		$crc = md5($uri . '/'); // home page with locale "/ru/" 
@@ -117,9 +111,11 @@ if ($page){
 	$page = array();
 	$meta = array();
 }
-
+foreach($baseconfig['domains'] as $base => $nsite){
+	if ($nsite == $site) break;
+}
 // paste content to template 
-$template = str_replace('{base}', $config['base'], $template);
+$template = str_replace('{base}', "http://$base/", $template);
 foreach($meta as $key => $val){
 	$template = str_replace('{meta:' . $key . '}', $val, $template);
 }
@@ -130,6 +126,7 @@ foreach($page as $key => $val){
 // use multilaguage
 if (preg_match_all('/{lang:([^}]+)}/', $template, $matches)){
 	include SITE_DIR. $site . '/language/' . $locale . '.php';
+	lang('init', $l);
 	foreach($matches[1] as $ib => $text){
 		$template = str_replace($matches[0][$ib], lang($text), $template);
 	}
@@ -162,7 +159,7 @@ if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
 
 echo $template;
 // cache needed only for real pages
-if (!empty($meta) and $config['need_cache'] == 1){
+if (!empty($meta) and $config['need_cache']){
 	file_put_contents(CACHE_DIR . $crc, $template);
 }
 ?>

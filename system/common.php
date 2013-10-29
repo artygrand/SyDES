@@ -1,80 +1,82 @@
 <?php
 /**
 * SyDES :: helpful functions
-* @version 1.8
+* @version 1.8✓
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
-//find ip with proxy
+function redirect($link, $m = '', $s = 'error'){
+	setcookie('messText', $m, time()+5);
+	setcookie('messStatus', $s, time()+5);
+	if(Admin::$mode == 'ajax'){
+		die(json_encode(array('redirect' => $link)));
+	} else {
+		$host = $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/';
+		header("Location: http://$host$link");
+		die;
+	}
+}
+	
 function getip(){
-	if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"),"unknown"))
-	$ip = getenv("HTTP_CLIENT_IP");
-	elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown"))
-	$ip = getenv("HTTP_X_FORWARDED_FOR");
-	elseif (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown"))
-	$ip = getenv("REMOTE_ADDR");
-	elseif ($_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
-	$ip = $_SERVER['REMOTE_ADDR'];
- 	else
-	$ip = "unknown";
-  
+	if (!empty($_SERVER['HTTP_X_REAL_IP'])){
+		$ip = $_SERVER['HTTP_X_REAL_IP'];
+	} elseif (!empty($_SERVER['HTTP_CLIENT_IP'])){
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
 	return $ip;
 }
 
-//russian dates
 function rus_date(){
-    $translate = array(
-    'am' => 'дп', 'pm' => 'пп', 'AM' => 'ДП', 'PM' => 'ПП',
-    'Monday' => 'Понедельник', 'Mon' => 'Пн', 'Tuesday' => 'Вторник', 'Tue' => 'Вт',
-    'Wednesday' => 'Среда', 'Wed' => 'Ср', 'Thursday' => 'Четверг', 'Thu' => 'Чт',
-    'Friday' => 'Пятница', 'Fri' => 'Пт', 'Saturday' => 'Суббота', 'Sat' => 'Сб',
-    'Sunday' => 'Воскресенье', 'Sun' => 'Вс', 'January' => 'Января', 'Jan' => 'Янв',
-    'February' => 'Февраля', 'Feb' => 'Фев', 'March' => 'Марта', 'Mar' => 'Мар',
-    'April' => 'Апреля', 'Apr' => 'Апр', 'May' => 'Мая', 'May' => 'Мая',
-    'June' => 'Июня', 'Jun' => 'Июн', 'July' => 'Июля', 'Jul' => 'Июл',
-    'August' => 'Августа', 'Aug' => 'Авг', 'September' => 'Сентября', 'Sep' => 'Сен',
-    'October' => 'Октября', 'Oct' => 'Окт', 'November' => 'Ноября', 'Nov' => 'Ноя',
-    'December' => 'Декабря', 'Dec' => 'Дек', 'st' => 'ое', 'nd' => 'ое',
-    'rd' => 'е', 'th' => 'ое'
-    );
-    
-    if (func_num_args() > 1){
-        $timestamp = func_get_arg(1);
-        return strtr(date(func_get_arg(0), $timestamp), $translate);
-    } else {
-        return strtr(date(func_get_arg(0)), $translate);
-    }
+	$translate = array(
+	'am' => 'дп', 'pm' => 'пп', 'AM' => 'ДП', 'PM' => 'ПП',
+	'Monday' => 'Понедельник', 'Mon' => 'Пн', 'Tuesday' => 'Вторник', 'Tue' => 'Вт',
+	'Wednesday' => 'Среда', 'Wed' => 'Ср', 'Thursday' => 'Четверг', 'Thu' => 'Чт',
+	'Friday' => 'Пятница', 'Fri' => 'Пт', 'Saturday' => 'Суббота', 'Sat' => 'Сб',
+	'Sunday' => 'Воскресенье', 'Sun' => 'Вс', 'January' => 'Января', 'Jan' => 'Янв',
+	'February' => 'Февраля', 'Feb' => 'Фев', 'March' => 'Марта', 'Mar' => 'Мар',
+	'April' => 'Апреля', 'Apr' => 'Апр', 'May' => 'Мая', 'May' => 'Мая',
+	'June' => 'Июня', 'Jun' => 'Июн', 'July' => 'Июля', 'Jul' => 'Июл',
+	'August' => 'Августа', 'Aug' => 'Авг', 'September' => 'Сентября', 'Sep' => 'Сен',
+	'October' => 'Октября', 'Oct' => 'Окт', 'November' => 'Ноября', 'Nov' => 'Ноя',
+	'December' => 'Декабря', 'Dec' => 'Дек', 'st' => 'ое', 'nd' => 'ое',
+	'rd' => 'е', 'th' => 'ое'
+	);
+
+	if (func_num_args() > 1){
+		$timestamp = func_get_arg(1);
+		return strtr(date(func_get_arg(0), $timestamp), $translate);
+	} else {
+		return strtr(date(func_get_arg(0)), $translate);
+	}
 }
 
-/**
-* Return flat array of folders or files with needed extensions
-* or folders tree, if recursive mode is on
-* @param string $dir - relative path to the destination folder
-* @param array $mask = array('html', 'txt') - extensions
-*		or array(true) - all files
-*		or array('/') - folders
-* @param bool $recursive
-* @return array
-*/
 function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	$pages = array();
 	foreach(glob($dir.'/*') as $filename){
-		if ($mask[0] === '/' and is_dir($filename)){
+		if (is_array($mask)){
+			if (in_array(pathinfo($filename, PATHINFO_EXTENSION), $mask)){
+				static $file = 1;			
+				$pages[$file]['dir'] = pathinfo($filename, PATHINFO_DIRNAME);
+				$pages[$file]['title'] = pathinfo($filename, PATHINFO_BASENAME);
+				$pages[$file]['cyr_name'] = iconv('cp1251','utf-8//TRANSLIT', pathinfo($filename, PATHINFO_FILENAME));
+				$pages[$file]['ext'] = pathinfo($filename, PATHINFO_EXTENSION);
+				$file++;
+			}
+		} elseif (is_dir($filename)){
 			$del = !$del ? $dir . '/' : $del;
 			$alias = str_replace($del, '', $filename);
-			$name = str_replace($dir . '/', '', $filename);
-			$pages[$alias] = array('fullpath' => $filename, 'title' => $name);
-		} elseif (in_array(pathinfo($filename, PATHINFO_EXTENSION), $mask)){
-			$file = pathinfo($filename, PATHINFO_BASENAME);
-			$parent = pathinfo($filename, PATHINFO_DIRNAME);
-			$name = pathinfo($filename, PATHINFO_FILENAME);
-			$ext = pathinfo($filename, PATHINFO_EXTENSION);
-			$cyr_name = iconv('cp1251','utf-8//TRANSLIT',$name);
-			$pages[$file] = array('parent' => $parent, 'fullpath' => $filename, 'alias' => $file, 'title' => $name, 'ext' => $ext, 'cyr_name' => $cyr_name);
-		}
-		if($recursive === true and is_dir($filename)){
-			if ($mask[0] === '/'){
+			$pages[$alias] = array(
+				'fullpath' => $filename,
+				'title' => str_replace($dir . '/', '', $filename)
+			);
+		} 
+		if($recursive == true and is_dir($filename)){
+			if (!is_array($mask)){
 				$pages[$alias]['childs'] = globRecursive($filename, $mask, true, $del);
 				if (!$pages[$alias]['childs']){
 					unset($pages[$alias]['childs']);
@@ -88,17 +90,14 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	return $pages;
 }
 
-function natorder($a,$b){
-	return strnatcmp ($a['fullpath'], $b['fullpath']); 
+function natorder($a,$b, $what){
+	return strnatcmp($a[$what], $b[$what]); 
 }
 
-function lang($text){
-	global $l;
-	if (isset($l[$text])){
-		return $l[$text];
-	} else {
-		return $text;
-	}
+function lang($text, $dl = array()){
+	static $l = array();
+	if ($dl) $l = array_merge($l, $dl);
+	return isset($l[$text]) ? $l[$text] : $text;
 }
 
 function token($length){
@@ -113,12 +112,6 @@ function token($length){
     return implode('', array_slice($chars, 0, $length));
 }
 
-/**
-* Insert data into template and return beautiful html
-* @paran string $template
-* @paran array $data
-* @return string
-*/
 function render($template, $data = array()){
 	if (file_exists($template)){
 		extract($data);
@@ -130,11 +123,6 @@ function render($template, $data = array()){
 	}
 }
 
-/**
-* Returns the correct ends for the russian words.
-* 1 яблоко, 2 яблока, 5 яблок
-* @return string
-*/
 function rus_ending($num, $str1, $str2, $str3){
     $val = $num % 100;
     if ($val > 10 && $val < 20) return "$num $str3";
@@ -146,32 +134,124 @@ function rus_ending($num, $str1, $str2, $str3){
     }
 }
 
-/*ADMIN FUNCTIONS*/
-
-//just str_replace, but once
 function str_replace_once($search, $replace, $text){
    $pos = strpos($text, $search); 
    return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text; 
 }
 
-/**
-* Selects data from array and create <select>
-* @param array $data
-* @param string $what (which element to use. title, path or what?)
-* @param string $current (selected option)
-* @param string $props (properties: class="full" name="someshit" id="id")
-* @return string
-*/
-function getSelect($data, $what, $current, $props = ''){
-	$select = PHP_EOL . '<select ' . $props . '>' . PHP_EOL;
-	foreach ($data as $value){
-		$which = (is_array($value) and $what != '') ? $value[$what] : $value;
-		$select .= '	<option value="' . $which . '"';
-		$select .= $which == $current ? ' selected' : '';
-		$select .= '>' . $which . "</option>\n";
+function getSelect($data, $selected, $props = ''){
+	$select = "\n<select {$props}>\n";
+	foreach ($data as $value => $title){
+		$select .= "\t<option value=\"{$value}\"";
+		$select .= in_array($value, (array)$selected) ? ' selected' : '';
+		$select .= ">{$title}</option>\n";
 	}
-	return $select . "</select>\n";
+	return "{$select}</select>\n";
 }
+
+function getPaginator($url, $count, $current, $perPage = 10, $links = 3){
+	$pages = ceil($count / $perPage);
+	if ($pages < 2) return;
+	
+	$url .= strpos($url, '?') === false ? '?' : '&';
+	$thisPage = floor($current / $perPage);
+
+	if ($pages < ($links * 2) + 2){
+		$from = 1;
+		$to = $pages;
+	} else {
+		if ($thisPage < $links + 1){
+			$from = 1;
+			$to = ($links * 2) + 1;
+		} elseif ($thisPage < $pages - $links - 1){
+			$from = $thisPage - ($links - 1);
+			$to = $thisPage + ($links + 1);
+		} elseif ($thisPage > $pages - $links - 2){
+			$from = $pages - ($links * 2);
+			$to = $pages;
+		}
+	}
+	$html = '';
+	for ($i = $from; $i <= $to; $i++){
+		$skip = ($i - 1) * $perPage;
+		if ($current == $skip){
+			$html .= '<span class="active">' . $i . '</span> ';
+		} else {
+			$html .= '<a href="' . $url . 'skip=' . $skip . '">' . $i . '</a> ';
+		}
+	}
+	if ($pages > ($links * 2) + 1){
+		$html = '<a href="' . $url . 'skip=0"><<</a> ' . $html . '<a href="' . $url . 'skip=' . ($pages - 1) * $perPage . '">>></a>';
+	}
+
+	return '<div class="paginator">' . $html . '</div>';
+}
+
+function getList($data, $current, $props = '', $which = 'ul'){
+	$html = "\n<{$which} {$props}>\n";
+	$format = '<li><a href="%1$s>%2$s</a></li>' . PHP_EOL;
+	foreach ($data as $value => $title){
+		$value .= $value == $current ? '" active' : '"';
+		$html .= sprintf($format, $value, $title);
+	}
+	return $html . "</{$which}>\n";
+}
+
+function getPageData($db, $locale, $where){
+	if (is_numeric($where)){
+		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.id = :id AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
+		$stmt->execute(array('id' => (int)$where, 'locale' => $locale));
+	} else {
+		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.fullpath = :fullpath AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
+		$stmt->execute(array('fullpath' => '/'.$where, 'locale' => $locale));
+	}
+	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMetaData($db, $locale, $id){
+	$stmt = $db -> query("SELECT key, value FROM global_meta WHERE page_id = 1");
+	$metas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+	$stmt = $db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$id}");
+	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
+	foreach($metas as $m){
+		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
+			$meta[substr($m['key'], 3)] = $m['value'];
+		} else {
+			$meta[$m['key']] = $m['value'];
+		}
+	}
+	return $meta;
+}
+
+function addFiles($type, $files){
+	$format = $type == 'css' ? '<link href="%1$s" rel="stylesheet" media="all">' : '<script src="%1$s"></script>';
+	$html = '';
+	foreach($files as $file){
+		$html .= sprintf($format, $file) . PHP_EOL;
+	}
+	return $html;
+}
+
+function getBreadcrumbs($crumbs){
+	$html = '<ol class="breadcrumb"><li><a href=".">' . lang('home') . '</a></li>';
+	foreach ($crumbs as $crumb){
+		if (isset($crumb['url'])){
+			$html .= '<li><a href="' . $crumb['url'] . '">' . $crumb['title'] . '</a></li>';
+		} else {
+			$html .= '<li class="active">' . $crumb['title'] . '</li>';
+		}
+	}
+	return $html . '</ol>';
+}
+
+function getCheckbox($name, $checked, $text){
+	$checked = $checked ? ' checked' : '';
+	return '<div class="checkbox"><label><input name="' . $name . '" type="checkbox" value="1"' . $checked . '>' . $text . '</label></div>';
+}
+
+
+
+/*       TODO нижние фунекции еще проверить надо       */
 
 /**
 * Selects data from array and create inputs
@@ -225,33 +305,6 @@ function createTable($table, $cols){
 	Core::$db -> exec("CREATE TABLE {$table} (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT{$a})");
 }
 
-function getPageData($db, $locale, $where){
-	if (is_numeric($where)){
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.id = :id AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('id' => (int)$where, 'locale' => $locale));
-	} else {
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.fullpath = :fullpath AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('fullpath' => '/'.$where, 'locale' => $locale));
-	}
-	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-}
-
-function getMetaData($db, $locale, $id){
-	// selects meta from global config.
-	$stmt = $db -> query("SELECT key, value FROM global_meta WHERE page_id = 1");
-	$metas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-	$stmt = $db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$id}");
-	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
-	foreach($metas as $m){
-		// selects key for current locale.
-		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
-			$meta[substr($m['key'], 3)] = $m['value'];
-		} else {
-			$meta[$m['key']] = $m['value'];
-		}
-	}
-	return $meta;
-}
 function clearAllCache(){
 	if($handle = opendir(SYS_DIR . 'cache/')){
 		while(false !== ($file = readdir($handle)))
@@ -259,4 +312,5 @@ function clearAllCache(){
 		closedir($handle);
 	}
 }
+
 ?>

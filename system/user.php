@@ -1,7 +1,7 @@
 <?php
 /**
 * SyDES :: user main class file
-* @version 1.8
+* @version 1.8✓
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
@@ -29,6 +29,7 @@ class User{
 	public function isAuthorized(){
 		// already logged
 		if (isset($_SESSION['user'], $_SESSION['hash']) and $_SESSION['user'] == $this->username and $_SESSION['hash'] == md5($this->password . getip())){
+			Admin::$token = $_SESSION['token'];
 			return true;
 		// login by cookies
 		} elseif ($this->autologin == 1 and isset($_COOKIE['user'], $_COOKIE['hash'])){
@@ -72,7 +73,7 @@ class User{
 	* @return string
 	*/
 	public function showLoginForm(){
-		$form = render('template/loginform.php');
+		$form = render('template/userform.php', array('register' => false, 'autologin' => Admin::$config['admin']['autologin'], 'title' => lang('account_login'), 'button' => lang('login')));
 		return $form;
 	}
 	
@@ -89,6 +90,29 @@ class User{
 			}
 		} else {
 			return true;
+		}
+	}
+	
+	public static function createUser(){
+		if (isset($_POST['username'], $_POST['password'], $_POST['mastercode'])){
+			$password = md5($_POST['password']);
+			Admin::$config['admin'] = array(
+				'username' => $_POST['username'],
+				'password' => $password ,
+				'mastercode' => md5($_POST['mastercode']),
+				'autologin' => false,
+				'admin_ip' => array(getip())
+			);
+			Admin::saveConf();
+			chmod(SITE_DIR . 'baseconfig.db', 0777);
+
+			$_SESSION['user'] = $_POST['username']; 
+			$_SESSION['hash'] = md5($password . getip());
+			Admin::$token = token(12);
+			$_SESSION['token'] = Admin::$token;
+		} else {
+			echo render('template/userform.php', array('register' => true, 'autologin' => false, 'title' => lang('signup'), 'button' => lang('signup_now')));
+			die;
 		}
 	}
 }

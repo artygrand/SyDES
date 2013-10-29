@@ -1,0 +1,35 @@
+html, body{height:100%;}
+body,h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:Arial;}
+form select{padding:5px;}
+#menu{position:fixed;top:0;left:0;width:100%;overflow:hidden;cursor:default;z-index:20;}
+#menu>div{padding:15px 15px 0;}
+#menu .col-xs-12 {float:left;}
+#menu h3{margin-top:0;line-height:1.3;}
+#menu a:first-child{margin-right:15px;}
+.sitename{padding-right:35px;}
+#menuclick{position:fixed;top:0;left:0;bottom:0;right:0;z-index:19;display:none;}
+.main{height:100%;border-top:50px solid #808080;border-bottom:50px solid #808080;overflow:auto;}
+.undermenu{margin:0 0 15px;}
+.breadcrumb{border-radius:0;margin-bottom:0;}
+.siteselect{margin:8px 15px;}
+.content{margin:0 auto 15px;padding:0 10px;overflow:hidden;}
+@media(min-width:768px){
+.col-xs-12,.col-sm-12,.col-md-12,.col-lg-12 {float:left;}
+}
+.footer{position:fixed;bottom:0;left:0;width:100%;}
+.footer .wrap{margin:15px 0;}
+.modal-header{padding:5px 15px;}
+.modal-header .close {margin-top:0;}
+.modal-footer{padding:0;}
+.modal-footer .btn+.btn {margin-left:15px;}
+.btn {border-radius:0;}
+
+
+#notify {position:fixed;top:0;right:0;z-index:110;padding:0;}
+#notify li {width:250px;list-style:none;margin:5px;padding:10px;text-align:center;color:black;}
+.paginator .active{font-weight: bold;}
+.paginator  a, .paginator span{padding:2px 5px;}
+select.site-modules{height:114px;}
+.clear{clear:both;}
+select.form-control{padding-right:6px;}
+.table.va-middle td{vertical-align:middle;}

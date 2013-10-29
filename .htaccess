@@ -5,8 +5,7 @@ Options -Indexes
 
 # Prevent Direct Access to files
 <FilesMatch "\.(db|iblock|log)">
- Order deny,allow
- Deny from all
+	Order allow,deny
 </FilesMatch>
 
 # SEO URL Settings
@@ -29,8 +28,10 @@ RewriteRule ^(.*)$ index.php?p=$1 [QSA]
 ErrorDocument 404 /error
 ErrorDocument 403 /error
 
-php_flag magic_quotes_gpc Off
-php_flag display_errors 1
+<IfModule mod_php5.c>
+	php_flag magic_quotes_gpc 0
+	php_flag display_errors 1
+</IfModule>
 
 ## optimization below
 <IfModule mod_expires.c>
@@ -58,7 +59,7 @@ php_flag display_errors 1
 <IfModule mod_gzip.c>
 	mod_gzip_on Yes
 	mod_gzip_dechunk Yes
-	mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+	mod_gzip_item_include file \.(html?|txt|css|js|php)$
 	mod_gzip_item_include mime ^text/.*
 	mod_gzip_item_include mime ^application/x-javascript.*
 	mod_gzip_item_include mime ^image/.*
