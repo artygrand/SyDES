@@ -7,9 +7,6 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 class Admin{
-	/**
-	* Dummy properties
-	*/
 	public static $config = array();
 	public static $siteConfig = array();
 	public static $token = '';
@@ -19,7 +16,7 @@ class Admin{
 	public static $mode = 'html';
 	public static $db = '';
 	public static $site = DEFAULTSITE;
-	public $locale = 'en';
+	public static $locale = 'en';
 
 	/**
 	* Sets admin language
@@ -35,7 +32,6 @@ class Admin{
 		} elseif ($_SERVER['HTTP_ACCEPT_LANGUAGE']){
 			self::$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 		}
-
 		foreach (glob('language/*.php') as $l){
 			$l = str_replace(array('language/', '.php'), '', $l);
 			$langs[] = $l;
@@ -44,7 +40,6 @@ class Admin{
 			self::$lang = $langs[0];
 			$needUpd = true;
 		}
-
 		if ($needUpd){
 			setcookie('lang', self::$lang, time()+604800);
 		}
@@ -90,13 +85,13 @@ class Admin{
 	*/
 	public function setLocale(){
 		if (!empty($_GET['locale']) and in_array($_GET['locale'], self::$config['sites'][self::$site]['locales'])){
-			$this->locale = $_GET['locale'];
-			setcookie('locale', $this->locale, time()+604800);
+			self::$locale = $_GET['locale'];
+			setcookie('locale', self::$locale, time()+604800);
 		} elseif (!empty($_COOKIE['locale']) and in_array($_COOKIE['locale'], self::$config['sites'][self::$site]['locales'])){
-			$this->locale = $_COOKIE['locale'];
+			self::$locale = $_COOKIE['locale'];
 		} else {
-			$this->locale = self::$config['sites'][self::$site]['locales'][0];
-			setcookie('locale', $this->locale, time()+604800);
+			self::$locale = self::$config['sites'][self::$site]['locales'][0];
+			setcookie('locale', self::$locale, time()+604800);
 		}
 	}
 	
@@ -158,6 +153,7 @@ class Admin{
 				'siteName' => self::$config['sites'][self::$site]['name'],
 				'pageTypes' => '',
 				'modules' => $this->getModuleList(),
+				'pages' => $this->getPagesList(),
 				'breadcrumbs' => '',
 				'js' => '',
 				'css' => '',
@@ -168,7 +164,8 @@ class Admin{
 				'footerLeft' => '',
 				'footerCenter' => '',
 				'cssfiles' => array(),
-				'jsfiles' => array()
+				'jsfiles' => array(),
+				'skin' => isset($_COOKIE['skin']) ? $_COOKIE['skin'] : 'black'
 			);
 			$this->response = array_merge($dummy, $this->response);
 			
@@ -201,7 +198,7 @@ class Admin{
 			if (count($data['locales']) > 1){
 				foreach($data['locales'] as $locale){
 					$sites["site={$site}&locale={$locale}"] = "{$data['name']} : {$locale}";
-					if ($site == self::$site and $locale == $this->locale){
+					if ($site == self::$site and $locale == self::$locale){
 						$current = "site={$site}&locale={$locale}";
 					}
 				}
@@ -218,18 +215,27 @@ class Admin{
 			return false;
 		}
 	}
-	
+
 	private function getModuleList(){
-		$mods = array();
+		$list = array();
 		foreach(self::$config['sites'][self::$site]['modules'] as $module){
-			$mods["?mod={$module}"] = isset(self::$config['modules'][$module]['name'][self::$lang]) ? self::$config['modules'][$module]['name'][self::$lang] : self::$config['modules'][$module]['name']['en'];
+			$name = self::$config['modules'][$module]['name'];
+			$list["?mod={$module}"] = isset($name[self::$lang]) ? $name[self::$lang] : $name['en'];
 			if (self::$config['modules'][$module]['quick']){
-				$mods["?mod={$module}"] .= '</a><a href="?mod=' . $module . '&act=edit" data-toggle="tooltip" data-placement="right" title="' . lang('add_more'). '">[+1]';
+				$list["?mod={$module}"] .= '</a><a href="?mod=' . $module . '&act=edit" data-toggle="tooltip" data-placement="right" title="' . lang('add_more'). '">[+1]';
 			}
 		}
-		return getList($mods, false, 'class="list-unstyled"');
+		return getList($list, false, 'class="list-unstyled"');
 	}
-	
+
+	private function getPagesList(){
+		$list = array();
+		foreach(self::$siteConfig['page_types'] as $type => $data){
+			$list["?mod=pages&type={$type}"] = $data['title'];
+		}
+		return getList($list, false, 'class="list-unstyled"');
+	}
+
 	public static function createSite($site){
 		if (file_exists(SITE_DIR . $site)){
 			redirect('?mod=config&act=site_manager_view', lang('site_already_created'));
@@ -241,7 +247,8 @@ class Admin{
 			self::$config['sites'][$site] = array('modules' => array(), 'locales' => array(self::$lang), 'name' => $_POST['sitename']);
 			self::$config['modules'] = array();
 		} else {
-			$domains = explode("\n", $_POST['new']['domains']);
+			$data = $_POST['sites']['new'];
+			$domains = explode("\n", $data['domains']);
 			foreach($domains as $dom){
 				$dom = trim($dom);
 				if(!empty($dom)){
@@ -249,14 +256,11 @@ class Admin{
 				}
 			}
 			self::$config['sites'][$site] = array(
-				'locales' => explode(' ', trim($_POST['new']['locales'])),
-				'name' => $_POST['new']['site_name']
+				'locales' => explode(' ', trim($data['locales'])),
+				'name' => $data['site_name']
 			);
-			self::$config['sites'][$site]['modules'] = isset($_POST['new']['modules']) ? $_POST['new']['modules'] : array();
+			self::$config['sites'][$site]['modules'] = isset($data['modules']) ? $data['modules'] : array();
 		}
-		/*
-		 TODO  базу данных заполнить таблицами и главной страницей. это в модуле pages, наверно
-		*/
 		file_put_contents(SITE_DIR . 'baseconfig.db', serialize(self::$config));
 		mkdir(SITE_DIR . $site, 0777);
 		
@@ -264,7 +268,16 @@ class Admin{
 			'maintenance_mode' => false,
 			'need_cache' => false,
 			'template' => 'default',
-			'say' => render('template/say_default.php')
+			'say' => self::$htmlSay,
+			'page_types' => array(
+				'page' => array(
+					'title' => lang('pages'),
+					'layout' => 'page',
+					'structure' => 'tree',
+					'root' => '0',
+					'meta' => array()
+				)
+			)
 		);
 		file_put_contents(SITE_DIR . $site . '/config.db', serialize($config));
 		chmod(SITE_DIR . $site . '/config.db', 0777);
@@ -304,7 +317,29 @@ class Admin{
 		return array($errors, $wr);
 	}
 	
+	public static function getSaveButton($file, $button = ''){
+		if (is_writable($file) and is_writable(dirname($file))){
+			return $button ? $button : '<div class="form-group"><button type="submit" class="btn btn-primary btn-block">' . lang('save') . '</button></div>';
+		} else {
+			return '<div class="form-group"><button type="button" class="btn btn-primary btn-block disabled">' . lang('not_writeable') . '</button></div>';
+		}
+	}
 	
-	
+	private static $htmlSay = '<!DOCTYPE html>
+<html>
+ <head>
+  <style>
+  html, body{height:100%;}
+   body {background:#fff;margin:0;padding:0;color:#555;font:normal 30px/30px Arial;}
+   #text {position:absolute;top:50%;left:50%;margin:-51px 0 0 -173px;text-align:center;}
+   .block1{width:390px;height:100%;margin:0 auto;border-left:1px dashed #555;border-right:1px dashed #555;}
+   .block2{width:100%;height:140px;position:absolute;top:50%;margin-top:-75px;border-top:1px dashed #555;border-bottom:1px dashed #555;}
+  </style>
+ </head>
+ <body>
+  <div id="text">Нам очень жаль, но<br>сайт временно отключен<br>Приходите позднее</div>
+  <div class="block1">&nbsp;</div><div class="block2">&nbsp;</div>
+ </body>
+</html>';
 }
 ?>

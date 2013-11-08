@@ -21,7 +21,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label for="mastercode"><?php echo lang('new_mastercode');?></label>
-			<input type="text" name="mastercode" class="form-control" id="mastercode" placeholder="<?php echo lang('new_mastercode');?>">
+			<input type="text" name="mastercode" class="form-control" id="newmastercode" placeholder="<?php echo lang('new_mastercode');?>">
 		</div>
 	</div>
 	<div class="col-md-12">

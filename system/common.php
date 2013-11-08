@@ -90,9 +90,9 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	return $pages;
 }
 
-function natorder($a,$b, $what){
+/*function natorder($a,$b, $what){
 	return strnatcmp($a[$what], $b[$what]); 
-}
+}*/
 
 function lang($text, $dl = array()){
 	static $l = array();
@@ -249,6 +249,27 @@ function getCheckbox($name, $checked, $text){
 	return '<div class="checkbox"><label><input name="' . $name . '" type="checkbox" value="1"' . $checked . '>' . $text . '</label></div>';
 }
 
+function clearCache(){
+	$cache = glob(CACHE_DIR . Admin::$site . '_*');
+	if ($cache){
+		foreach($cache as $file){
+			unlink($file);
+		}
+	}
+}
+
+function issetTable($table){
+	return (bool)Admin::$db -> query("SELECT 1 FROM {$table} WHERE 1");
+}
+
+function createTable($table, $cols){
+	$a = 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT';
+	foreach($cols as $name => $col){
+		$a .= ", {$name} {$col['type']}";
+	}
+	Admin::$db -> exec("CREATE TABLE {$table} ({$a}, position int(11) NOT NULL default '0')");
+}
+
 
 
 /*       TODO нижние фунекции еще проверить надо       */
@@ -271,46 +292,4 @@ function getForm($data){
 	}
 	return $form . PHP_EOL;
 }
-
-function getSaveButton($file){
-	return is_writable($file) ? '<button type="submit" class="full button">' . lang('save') . '</button>' : '<button type="button" class="full button">' . lang('not_writeable') . '</button>';
-}
-
-function getCodeInput(){
-	if (!isset($_SESSION['master_code']) or $_SESSION['master_code'] != Core::$config['master_code']){
-		return '<div class="title"><span class="help" title="' . lang('tip_developer_code') . '">' . lang('developer_code') . '</span>:</div><div><input type="text" name="code" class="full" required></div>';
-	}
-}
-
-function canEdit(){
-	if (!isset($_SESSION['master_code']) or $_SESSION['master_code'] != Core::$config['master_code']){
-		if (md5($_POST['code']) == Core::$config['master_code']){
-			$_SESSION['master_code'] = Core::$config['master_code'];
-		} else return false;
-	} 
-	return true;
-}
-
-function issetTable($table){
-	$stmt = Core::$db -> query("SELECT 1 FROM {$table} WHERE 1");
-	if ($stmt) return true;
-	else return false;
-}
-
-function createTable($table, $cols){
-	$a = '';
-	foreach($cols as $name => $col){
-		$a .= ', ' . $name . ' ' . $col['type'];
-	}
-	Core::$db -> exec("CREATE TABLE {$table} (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT{$a})");
-}
-
-function clearAllCache(){
-	if($handle = opendir(SYS_DIR . 'cache/')){
-		while(false !== ($file = readdir($handle)))
-			if($file != "." && $file != "..") unlink(ROOT_DIR . 'cache/' . $file);
-		closedir($handle);
-	}
-}
-
 ?>

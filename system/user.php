@@ -34,19 +34,19 @@ class User{
 		// login by cookies
 		} elseif ($this->autologin == 1 and isset($_COOKIE['user'], $_COOKIE['hash'])){
 			if ($_COOKIE['user'] != $this->username or $_COOKIE['hash'] != md5($this->password . getip())){
-				Admin::log($_COOKIE['user'] . ': ' . lang('Access denied: wrong cookies'));
+				Admin::log("{$_COOKIE['user']} is not logged. Wrong cookie");
 				$this->logout();
 				return false;
 			} else {
 				$_SESSION['user'] = $_COOKIE['user']; 
 				$_SESSION['hash'] = $_COOKIE['hash'];
-				Admin::log($_COOKIE['user'] . ': ' . lang('Access granted: used cookies'));
+				Admin::log("{$_COOKIE['user']} is logged by cookie");
 				Admin::$token = token(12);
 				$_SESSION['token'] = Admin::$token;
 				return true;
 			}
 		// login by password
-		} elseif (isset($_POST['username'], $_POST['password'])){
+		} elseif (isset($_POST['username'], $_POST['password']) and strlen($_POST['username']) < 18 and strlen($_POST['password']) < 18){
 			if ($_POST['username'] == $this->username and md5($_POST['password']) == $this->password){
 				$_SESSION['user'] = $this->username;
 				$_SESSION['hash'] = md5($this->password . getip());
@@ -54,12 +54,12 @@ class User{
 					setcookie('user', $_SESSION['user'], time()+172800);
 					setcookie('hash', $_SESSION['hash'], time()+172800);
 				}
-				Admin::log($_POST['username'] . ': ' . lang('Access granted: used password'));
+				Admin::log("{$_POST['username']} is logged by password");
 				Admin::$token = token(12);
 				$_SESSION['token'] = Admin::$token;
 				return true;
 			} else {
-				Admin::log($_POST['username'] . ': ' . $_POST['password'] . ': ' . lang('Access denied: wrong password'));
+				Admin::log("{$_POST['username']} is not logged. {$_POST['password']} - wrong password");
 				return false;
 			}
 		// login as demo-user
@@ -114,6 +114,15 @@ class User{
 			echo render('template/userform.php', array('register' => true, 'autologin' => false, 'title' => lang('signup'), 'button' => lang('signup_now')));
 			die;
 		}
+	}
+	
+	public static function isMasterActive(){
+		if(isset($_POST['mastercode']) and md5($_POST['mastercode']) == Admin::$config['admin']['mastercode']) $_SESSION['master'] = 1;
+		return isset($_SESSION['master']);
+	}
+	
+	public static function getMasterInput(){
+		return isset($_SESSION['master']) ? '' : '<div class="form-group"><input type="text" name="mastercode" class="form-control" placeholder="' . lang('mastercode') . '" required></div>';
 	}
 }
 ?>

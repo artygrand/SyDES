@@ -1,6 +1,6 @@
 html, body{height:100%;}
 body,h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:Arial;}
-form select{padding:5px;}
+.form-control{padding:6px;}
 #menu{position:fixed;top:0;left:0;width:100%;overflow:hidden;cursor:default;z-index:20;}
 #menu>div{padding:15px 15px 0;}
 #menu .col-xs-12 {float:left;}
@@ -31,5 +31,23 @@ form select{padding:5px;}
 .paginator  a, .paginator span{padding:2px 5px;}
 select.site-modules{height:114px;}
 .clear{clear:both;}
-select.form-control{padding-right:6px;}
+
 .table.va-middle td{vertical-align:middle;}
+
+.with-dropdown > .btn{padding-right:34px;}
+.with-dropdown > .btn.btn-sm{padding-right:30px;}
+.with-dropdown > .btn-group{position:absolute;right:0;}
+.with-dropdown .dropdown-toggle{z-index:3;}
+
+.skin-selector a{width:25px;height:32px;text-indent:-999px;overflow:hidden;display:inline-block;}
+.status-wrap{width:83px;overflow:hidden;height:25px;}
+.status{width:110px;margin-left:-2px;margin-top:-2px;background:rgba(0,0,0,0);cursor:pointer;}
+.hidechilds, .showchilds{margin-left:-18px;cursor:pointer;}
+.level-1 td:nth-child(3){padding-left:20px}
+.level-2 td:nth-child(3){padding-left:50px}
+.level-3 td:nth-child(3){padding-left:80px}
+.level-4 td:nth-child(3){padding-left:110px}
+.level-5 td:nth-child(3){padding-left:140px}
+.level-6 td:nth-child(3){padding-left:170px}
+.level-7 td:nth-child(3){padding-left:200px}
+.level-8 td:nth-child(3){padding-left:230px}

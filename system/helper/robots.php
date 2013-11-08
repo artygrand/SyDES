@@ -1,12 +1,13 @@
 <?php
-$pos = stripos($_SERVER["HTTP_HOST"], 'www.');
-$host = $pos !== false ? substr($_SERVER["HTTP_HOST"], 4) : $_SERVER["HTTP_HOST"];
-$robots = 'User-agent: *
+$robots = "User-agent: *
 Disallow: /?*
-Sitemap: http://' . $host . '/sitemap.xml
+Disallow: /index.php?*
+Sitemap: http://{$_SERVER['HTTP_HOST']}/sitemap.xml
 
 User-agent: Yandex
-Host: ' . $host;
+Disallow: /?*
+Disallow: /index.php?*
+Host: {$_SERVER["HTTP_HOST"]}";
 header("Content-Type: text/plain");
-die ($robots);
+die($robots);
 ?>

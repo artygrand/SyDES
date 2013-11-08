@@ -1,14 +1,14 @@
 <div class="panel-group" id="accordion">
 <?php 
 $i = 0;
-foreach($sites as $site => $data){ $i++;?>
+foreach($sites as $site => $data){?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
 				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#site-<?php echo $site;?>"><?php echo $data['name'];?></a>
 			</h4>
 		</div>
-		<div id="site-<?php echo $site;?>" class="panel-collapse collapse <?php if ($i == 1){echo 'in';}?>">
+		<div id="site-<?php echo $site;?>" class="panel-collapse collapse <?php if (++$i == 1){echo 'in';}?>">
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6"><?php echo $data['archives'];?></div>

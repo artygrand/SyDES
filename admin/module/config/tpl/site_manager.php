@@ -1,26 +1,26 @@
 <div class="panel-group" id="accordion">
 <?php 
 $i = 0;
-foreach($sites as $site => $data){ $i++;?>
+foreach($sites as $site => $data){?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
 				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#site-<?php echo $site;?>"><?php echo $data['name'];?></a>
 			</h4>
 		</div>
-		<div id="site-<?php echo $site;?>" class="panel-collapse collapse <?php if ($i == 1){echo 'in';}?>">
+		<div id="site-<?php echo $site;?>" class="panel-collapse collapse <?php if (++$i == 1){echo 'in';}?>">
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?php echo lang('site_name');?></label>
-							<input type="text" name="<?php echo $site;?>[site_name]" class="form-control" placeholder="<?php echo lang('my_super_site');?>" value="<?php if ($site != 'new'){echo $data['name'];}?>">
+							<input type="text" name="sites[<?php echo $site;?>][site_name]" class="form-control" placeholder="<?php echo lang('my_super_site');?>" value="<?php if ($site != 'new'){echo $data['name'];}?>">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?php echo lang('locales');?></label>
-							<input type="text" name="<?php echo $site;?>[locales]" class="form-control" placeholder="en ru de ua" data-toggle="tooltip" title="<?php echo lang('tip_locales');?>" value="<?php echo $data['locales'];?>">
+							<input type="text" name="sites[<?php echo $site;?>][locales]" class="form-control" placeholder="en ru de ua" data-toggle="tooltip" title="<?php echo lang('tip_locales');?>" value="<?php echo $data['locales'];?>">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -32,7 +32,7 @@ foreach($sites as $site => $data){ $i++;?>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?php echo lang('connectet_domains');?></label>
-							<textarea name="<?php echo $site;?>[domains]" class="form-control" rows="5" data-toggle="tooltip" title="<?php echo lang('tip_enter_on_new_line');?>" placeholder="site.com"><?php echo $data['domains'];?></textarea>
+							<textarea name="sites[<?php echo $site;?>][domains]" class="form-control" rows="5" data-toggle="tooltip" title="<?php echo lang('tip_enter_on_new_line');?>" placeholder="site.com"><?php echo $data['domains'];?></textarea>
 						</div>
 					</div>
 <?php if ($site != 'new'){?>

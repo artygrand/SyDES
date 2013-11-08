@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="template/css/structure.min.css" rel="stylesheet" media="screen">
-	<link href="template/css/skin/black.css" rel="stylesheet" media="screen">
+	<link href="template/css/skin/<?php echo $skin?>.css" rel="stylesheet" media="screen" id="skin">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -38,11 +38,7 @@
 		<div class="col-xs-12 col-sm-3"><h3 class="sitename"><a href=".." target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo lang('to_site');?>"><?php echo $siteName;?></a></h3></div>
 		<div class="col-xs-6 col-sm-3">
 			<h3><?php echo lang('content');?></h3>
-			<ul class="list-unstyled">
-				<li><a href="#">Страницы</a></li>
-				<li><a href="#">Новости</a></li>
-				<li><a href="#">Статьи</a></li>
-			</ul>
+			<?php echo $pages;?>
 		</div>
 		<div class="col-xs-6 col-sm-3">
 			<h3><?php echo lang('modules');?></h3>

@@ -1,6 +1,0 @@
-//get base to links
-function getbase($trim){
-	$host = $_SERVER['HTTP_HOST'];
-	$uri = rtrim(dirname($_SERVER['PHP_SELF']), $trim);
-	return $host.$uri.'/';
-}

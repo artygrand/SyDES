@@ -5,32 +5,16 @@
 * @copyright 2011-2013, ArtyGrand <artygrand.ru>
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
- 
 class Config extends Module{
 	public $name = 'config';
-	public $r = array();
-	/**
-	* Sets the allowed actions for user
-	* @var array
-	*/
-	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'backups_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall');
-
-	/**
-	* Sets the allowed actions for user over AJAX
-	* @var array
-	*/
-	public static $allowed4ajax = array('modal_interface', 'metaadd', 'metaupdate', 'metadelete', 'clearcache', 'modal_module_edit', 'module_save');
-
-	/**
-	* Sets the allowed actions for demo user
-	* @var array
-	*/
+	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'backups_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall', 'pages_update');
+	public static $allowed4ajax = array('modal_interface', 'metaadd', 'metaupdate', 'metadelete', 'clearcache', 'modal_module_edit', 'module_save', 'interface_update');
 	public static $allowed4demo = array('view');
-	
+
 	function __construct(){
 		$this->r['contentLeft'] = render('module/config/tpl/nav.php');
 	}
-	
+
 	public function view(){
 		foreach(glob('../template/*') as $template){
 			$template = str_replace('../template/', '', $template);
@@ -45,12 +29,12 @@ class Config extends Module{
 		$crumbs[] = array('title' => lang('configuration'));
 		$this->r['title'] = lang('site_settings');
 		$this->r['contentCenter'] = $main;
-		$this->r['contentRight'] = '<button type="submit" class="btn btn-primary btn-block">' . lang('save') . '</button>';
+		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput();
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
 		$this->r['form_url'] = '?mod=config&act=save';
 		return $this->r;
 	}
-	
+
 	public function profile_view(){
 		$crumbs[] = array('url' => '?mod=config','title' => lang('configuration'));
 		$crumbs[] = array('title' => lang('profile'));
@@ -59,12 +43,12 @@ class Config extends Module{
 			'autologin_check' => Admin::$config['admin']['autologin'] ? 'checked' : '',
 			'admin_ip_list' => implode(' ', Admin::$config['admin']['admin_ip'])
 		));
-		$this->r['contentRight'] = '<button type="submit" class="btn btn-primary btn-block">' . lang('save') . '</button>';
+		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput();
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
 		$this->r['form_url'] = '?mod=config&act=profile_update';
 		return $this->r;
 	}
-	
+
 	public function sitemanager_view(){
 		if (isset(Admin::$config['sites'])){
 			foreach(Admin::$config['sites'] as $site => $confs){
@@ -91,12 +75,12 @@ class Config extends Module{
 
 		$this->r['title'] = lang('site_manager');
 		$this->r['contentCenter'] = $main;
-		$this->r['contentRight'] = '<button type="submit" class="btn btn-primary btn-block">' . lang('save') . '</button>';
+		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput();
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
 		$this->r['form_url'] = '?mod=config&act=site_update';
 		return $this->r;
 	}
-	
+
 	public function modules_view(){
 		$box = array('logs','pages','config','templates','iblocks');
 		foreach(glob('module/*') as $mod){
@@ -122,7 +106,7 @@ class Config extends Module{
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
 		return $this->r;
 	}
-	
+
 	public function backups_view(){
 		if (isset(Admin::$config['sites'])){
 			foreach(Admin::$config['sites'] as $site => $confs){
@@ -147,29 +131,69 @@ class Config extends Module{
 	}
 
 	public function pages_view(){
-		// TODO
-		$main = render('module/config/tpl/page_types.php', array());
-		$right = '<button type="button" class="btn btn-primary btn-block">' . lang('save') . '</button>';
+		
+		include 'module/templates/templates.php';
+		$template = new Templates();
+		$template->createLayouts();
+		foreach($template->getLayouts() as $k => $v){
+			$layouts[$k] = $v['name'];
+		}
+		if (!issetTable('pages')){
+			include 'module/pages/pages.php';
+			$pages = new Pages();
+			$pages->install();
+		}
+		$stmt = Admin::$db -> query("SELECT pages.id, pages_content.title FROM pages, pages_content WHERE pages.parent_id = 0 AND pages_content.page_id = pages.id AND pages.type = 'page' AND pages_content.locale = '" . Admin::$locale . "' ORDER BY pages.id");
+		foreach($stmt -> fetchAll(PDO::FETCH_ASSOC) as $k){
+			$roots[$k['id']] = $k['title'];
+		}
+		$types = Admin::$siteConfig['page_types'];
+		$types['new'] = array('title' => '<span class="glyphicon glyphicon-plus"></span> ' . lang('create_new_pagetype'),'layout' => '','structure' => '','root' => '','meta' => array());
 		$crumbs[] = array('url' => '?mod=config','title' => lang('configuration'));
 		$crumbs[] = array('title' => lang('page_types'));
-
 		$this->r['title'] = lang('page_types');
-		$this->r['contentCenter'] = $main;
-		$this->r['contentRight'] = '<button type="submit" class="btn btn-primary btn-block">' . lang('save') . '</button>';
+		$this->r['contentCenter'] = render('module/config/tpl/page_types.php', array('types' => $types, 'layouts' => $layouts, 'roots' => $roots));
+		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput();
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
+		$this->r['form_url'] = '?mod=config&act=pages_update';
 		return $this->r;
 	}
-	
+
+	public function pages_update(){
+		if (!User::isMasterActive()){
+			throw new Exception('restricted');
+		}
+		foreach($_POST['types'] as $type => $data){
+			if ($type != 'new'){
+				$data['meta'] = explode(' ', $data['meta']);
+				Admin::$siteConfig['page_types'][$type] = array_merge(Admin::$siteConfig['page_types'][$type], $data);
+			}
+		}
+		$new = $_POST['types']['new'];
+		if (!empty($new['title']) and !empty($new['type'])){
+			$type = $new['type'];
+			unset($new['type']);
+			$new['meta'] = explode(' ', $new['meta']);
+			Admin::$siteConfig['page_types'][$type] = $new;
+		}
+		file_put_contents(SITE_DIR . Admin::$site . '/config.db', serialize(Admin::$siteConfig));
+		Admin::log('User is saved page types');
+		redirect('?mod=config&act=pages_view', lang('saved'), 'success');
+	}
+
 	public function site_update(){
-		foreach($_POST as $site => $data){
-			$_POST[$site]['domains'] = trim($_POST[$site]['domains']);
-			$_POST[$site]['locales'] = trim($_POST[$site]['locales']);
-			$_POST[$site]['site_name'] = trim($_POST[$site]['site_name']);
+		if (!User::isMasterActive()){
+			throw new Exception('restricted');
+		}
+		foreach($_POST['sites'] as $site => &$data){
+			$data['domains'] = trim($data['domains']);
+			$data['locales'] = trim($data['locales']);
+			$data['site_name'] = trim($data['site_name']);
 			if ($site != 'new'){
-				Admin::$config['sites'][$site]['name'] = $_POST[$site]['site_name'];
-				Admin::$config['sites'][$site]['locales'] = explode(" ", $_POST[$site]['locales']);
-				Admin::$config['sites'][$site]['modules'] = empty($_POST[$site]['modules']) ? array() : $_POST[$site]['modules'];
-				$domains = explode("\n", $_POST[$site]['domains']);
+				Admin::$config['sites'][$site]['name'] = $data['site_name'];
+				Admin::$config['sites'][$site]['locales'] = explode(" ", $data['locales']);
+				Admin::$config['sites'][$site]['modules'] = empty($data['modules']) ? array() : $data['modules'];
+				$domains = explode("\n", $data['domains']);
 				foreach($domains as $dom){
 					$dom = trim($dom);
 					if(!empty($dom)){
@@ -179,17 +203,21 @@ class Config extends Module{
 			}
 		}
 		Admin::saveConf();
-		
-		if (!empty($_POST['new']['domains']) and !empty($_POST['new']['site_name']) and !empty($_POST['new']['locales'])){
-			$base = explode("\n", $_POST['new']['domains']);
+		$new = $_POST['sites']['new'];
+		if (!empty($new['domains']) and !empty($new['site_name']) and !empty($new['locales'])){
+			$base = explode("\n", $new['domains']);
 			if (!empty($base[0])){
 				Admin::createSite(properUri(trim($base[0])));
+				Admin::log('User is created new site');
 			}
 		}
 		redirect('?mod=config&act=sitemanager_view', lang('saved'), 'success');
 	}
 
 	public function site_delete(){
+		if (!User::isMasterActive()){
+			throw new Exception('restricted');
+		}
 		if (!isset($_GET['token']) or $_GET['token'] !== Admin::$token){
 			redirect('?mod=config&act=sitemanager_view', lang('unauthorized_request'));
 		}
@@ -205,23 +233,28 @@ class Config extends Module{
 			unlink(SITE_DIR . 'baseconfig.db');
 		} else {
 			Admin::saveConf();
+			Admin::log('User is deleted site ' . $_GET['site']);
 		}
 		redirect('?mod=config&act=sitemanager_view', lang('saved'), 'success');
 	}
 	
 	public function profile_update(){
+		if (!User::isMasterActive()){
+			throw new Exception('restricted');
+		}
 		if (!empty($_POST['username'])){
 			Admin::$config['admin']['username'] = $_POST['username'];
 		}
 		if (!empty($_POST['password'])){
 			Admin::$config['admin']['password'] = $_POST['password'];
 		}
-		if (!empty($_POST['mastercode'])){
-			Admin::$config['admin']['mastercode'] = $_POST['mastercode'];
+		if (!empty($_POST['newmastercode'])){
+			Admin::$config['admin']['mastercode'] = $_POST['newmastercode'];
 		}
 		Admin::$config['admin']['autologin'] = isset($_POST['autologin']);
 		Admin::$config['admin']['admin_ip'] = !empty($_POST['admin_ip']) ? explode(' ', $_POST['admin_ip']) : array();
 		Admin::saveConf();
+		Admin::log('User is saved profile');
 		redirect('?mod=config&act=profile_view', lang('saved'), 'success');
 	}
 	
@@ -271,17 +304,39 @@ class Config extends Module{
 	}
 	
 	public function save(){
+		if (!User::isMasterActive()){
+			throw new Exception('restricted');
+		}
 		Admin::$siteConfig['template'] = $_POST['template'];
 		Admin::$siteConfig['maintenance_mode'] = isset($_POST['maintenance_mode']);
 		Admin::$siteConfig['need_cache'] = isset($_POST['need_cache']);
 		Admin::$siteConfig['say'] = $_POST['say'];
 		file_put_contents(SITE_DIR . Admin::$site . '/config.db', serialize(Admin::$siteConfig));
+		Admin::log('User is saved site settings');
 		redirect('?mod=config&act=view', lang('saved'), 'success');
 	}
 	
 	public function modal_interface(){
-	// TODO
-		return array('modal' => array('title' => 'Настройка интерфейса', 'content' => 'about <b> new content</b>'));
+		foreach (glob('language/*.php') as $l){
+			$l = str_replace(array('language/', '.php'), '', $l);
+			$langs[$l] = $l;
+		}
+		foreach (glob('template/css/skin/*.css') as $l){
+			$l = str_replace(array('template/css/skin/', '.css'), '', $l);
+			$skins[] = $l;
+		}
+		$form = render('module/config/tpl/modal_interface.php', array('langs' => $langs, 'menu' => isset($_COOKIE['menu']), 'skins' => $skins));
+		return array('modal' => array('title' => lang('interface_setting'), 'content' => $form, 'form_url' => '?mod=config&act=interface_update'));
+	}
+
+	public function interface_update(){
+		setcookie('lang', $_POST['lang'], time()+604800);
+		if (isset($_POST['menu'])){
+			setcookie('menu', 'click', time()+604800);
+		} else {
+			setcookie('menu', '', time()-1);
+		}
+		return array('success' => lang('saved'));
 	}
 
 	private function getModuleSelector($site){
@@ -290,7 +345,7 @@ class Config extends Module{
 			$modules[$mod] = $data['name'][Admin::$lang];
 		}
 		$used = $site == 'new' ? '' : (isset(Admin::$config['sites'][$site]['modules']) ? Admin::$config['sites'][$site]['modules'] : '');
-		return getSelect($modules, $used, $props = 'name="' . $site . '[modules][]" multiple class="form-control site-modules"');
+		return getSelect($modules, $used, $props = 'name="sites[' . $site . '][modules][]" multiple class="form-control site-modules"');
 	}
 	
 	private function rmFoldr($dir){
@@ -298,6 +353,11 @@ class Config extends Module{
 			is_dir($obj) ? $this->rmFoldr($obj) : unlink($obj);
 		}
 		rmdir($dir);
+	}
+	
+	private function getLayouts(){
+		$layouts = TEMPLATE_DIR . Admin::$siteConfig['template'] . '/' . 'layouts.db';
+		return file_exists($layouts) ? unserialize(file_get_contents($layouts)) : array();
 	}
 }
 ?>

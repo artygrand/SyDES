@@ -7,8 +7,7 @@ $(document).ready(function(){
 	$('#menuclick').click(function(){makeShort();$('#menuclick').hide()})
 	$('.ids').enableCheckboxRangeSelection();
 	notify(getCookie('messText'),getCookie('messStatus'))
-	$('#language').change(function(){setCookie('lang',$(this).val(),7);window.location.reload()})/*TODO заменить на единую сохранялку?*/
-	$('#skin li').click(function(){var skin = $(this).attr('title');$('#skin').attr('href','tpl/skins/'+skin+'.css');setCookie('skin',skin,7);return false})/*TODO заменить на единую сохранялку?*/
+	$(document).on('click','.skin-selector a',function(){var skin=$(this).attr('title');$('#skin').attr('href','template/css/skin/'+skin+'.css');setCookie('skin',skin,7);return false})
 
 	$('#keys').change(function(){$('#key').val($(this).val()).change()})/*meta plugin*/
 	$('#checkall').click(function(){if($(this).prop('checked')){$('.ids').prop('checked',true)}else{$('.ids').prop('checked',false)}})
@@ -20,7 +19,6 @@ $(document).ready(function(){
 	$('.ajaxmodal').click(function(){$.ajax({type:'GET',url:$(this).data('url')+'&ajax='+token})})
 	$(document).on('click','#modal-save',function(){$.ajax({type:'POST',url:$('#modal-form').prop('action')+'&ajax='+token,data:$('#modal-form').serialize()})})
 	$('#other').change(function(){location.href = $(this).data('url') + $(this).val()})
-	$('#btn-save').width(($("#btn-save").parent().width()-63))
 	$('.submit').click(function(){sendForm($(this).data('act'))})
 })
 

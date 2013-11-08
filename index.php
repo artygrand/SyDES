@@ -42,8 +42,8 @@ if ($config['need_cache']){
 	} else {
 		$crc = md5($uri); // other pages
 	}
-	if (is_file(CACHE_DIR . $crc)){
-		include (CACHE_DIR . $crc);
+	if (is_file(CACHE_DIR . $site . '_' . $crc)){
+		include (CACHE_DIR . $site . '_' . $crc);
 		die;
 	}
 }
@@ -160,6 +160,6 @@ if (preg_match_all('/{iblock:([^\?]+?)(\?.+)?}/', $template, $matches)){
 echo $template;
 // cache needed only for real pages
 if (!empty($meta) and $config['need_cache']){
-	file_put_contents(CACHE_DIR . $crc, $template);
+	file_put_contents(CACHE_DIR . $site . '_' . $crc, $template);
 }
 ?>
