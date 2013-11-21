@@ -9,7 +9,7 @@ class Config extends Module{
 	public $name = 'config';
 	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall', 'pages_update');
 	public static $allowed4ajax = array('modal_interface', 'metaadd', 'metaupdate', 'metadelete', 'clearcache', 'modal_module_edit', 'module_save', 'interface_update');
-	public static $allowed4demo = array('view');
+	public static $allowed4demo = array('view', 'profile_view', 'sitemanager_view', 'modules_view', 'pages_view');
 
 	function __construct(){
 		$this->r['contentLeft'] = render('module/config/tpl/nav.php');
