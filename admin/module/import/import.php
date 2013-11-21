@@ -189,7 +189,7 @@ class Import{
 				}
 			}
 			
-			//TODO разобраться с position, сделать интуитивную сортировку
+			//TODO разобраться с position, сделать интуитивную сортировку, убрать вообще столбец position
 			
 			
 			//insert in database

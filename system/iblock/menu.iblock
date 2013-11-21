@@ -1,17 +1,5 @@
-                    <ul class="navigation">
-                        <li class="current"><a href="">Главная</a></li>
-                        <li><a href="about">О компании</a></li>                    
-                        <li><a href="services">Услуги</a>
-                        	<ul>
-                                <li><a href="services/serv1">Услуга 1</a></li>
-                                <li><a href="#">Другая услуга</a></li>
-                                <li><a href="#">еще это делаем</a></li>
-                                <li><a href="#">и это тоже</a></li>
-                                <li><a href="#">Все предлагаем</a></li>
-                            </ul>
-                        </li>                                
-                        <li><a href="projects">Проекты</a></li>
-                        <li><a href="news">Новости</a></li>
-						 <li><a href="news">Новости</a></li>
-                        <li><a href="contacts">Контакты</a></li>
-                    </ul>
+<ul class="navigation">
+	<li class="current"><a href="">Главная</a></li>
+	<li><a href="about">О компании</a></li>                    
+	<li><a href="contacts">Контакты</a></li>
+</ul>

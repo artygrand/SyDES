@@ -47,11 +47,13 @@
 		<div class="col-xs-12 col-sm-3">
 			<h3><?php echo lang('settings');?></h3>
 			<ul class="list-unstyled row">
+				<li class="col-xs-6 col-sm-12"><a href="?mod=menu"><?php echo lang('menu');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=config"><?php echo lang('configuration');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=templates"><?php echo lang('templates');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=iblocks"><?php echo lang('iblocks');?></a></li>
-				<li class="col-xs-6 col-sm-12"><a href="?mod=logs"><?php echo lang('logs');?></a></li>
+				<li class="col-xs-6 col-sm-12"><a href="?mod=import"><?php echo lang('export/import');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=pages&type=trash"><?php echo lang('trash_bin');?></a></li>
+				<li class="col-xs-6 col-sm-12"><a href="?mod=logs"><?php echo lang('logs');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?act=logout"><?php echo lang('exit');?></a></li>
 			</ul>
 		</div>

@@ -9,10 +9,9 @@ $(document).ready(function(){
 	notify(getCookie('messText'),getCookie('messStatus'))
 	$(document).on('click','.skin-selector a',function(){var skin=$(this).attr('title');$('#skin').attr('href','template/css/skin/'+skin+'.css');setCookie('skin',skin,7);return false})
 
-	$('#keys').change(function(){$('#key').val($(this).val()).change()})/*meta plugin*/
+	$('#keys').change(function(){$('#key').val($(this).val()).change()})
+	
 	$('#checkall').click(function(){if($(this).prop('checked')){$('.ids').prop('checked',true)}else{$('.ids').prop('checked',false)}})
-	$('#fullpath').click(function(){$('.table').toggleClass('hideLinks')})/*TODO засунуть в "нажми меня"?*/
-	$('#fulltree').click(function(){if($(this).attr('checked')){setCookie('fullTree',1,7)}else{setCookie('fullTree', null, -1)};window.location.reload()})
 	$('body').tooltip({selector:'[data-toggle=tooltip]'})
 	$("[data-toggle=popover]").popover({html:true})
 	$('.siteselect').change(function(){location.href = '?'+apdQS($(this).val())})
@@ -49,6 +48,17 @@ function setCookie(n,v,x){var d=new Date();d.setDate(d.getDate()+x);var e=escape
 function getCookie(n){var i,x,y,arr=document.cookie.split(';');for(i=0;i<arr.length;i++){x=arr[i].substr(0,arr[i].indexOf('='));y=arr[i].substr(arr[i].indexOf('=')+1);x=x.replace(/^\s+|\s+$/g,'');if(x==n){return decodeURI(y.replace(/\+/g,' '))}}}
 function notify(m,s){if(m != null){$('#notify').append($('<li class="'+s+'"></li>').html(m).delay(3000).slideUp());setCookie('messText', null, -1)}}
 function showModal(data){var out=$('#modal-blank').html().replace(/-bln/g,'').replace('{{title}}',data.title).replace('{{content}}',data.content).replace('{{form_url}}',data.form_url);$('#for-modal').html(out);$('#modal').modal('show')}
-function sendForm(p){if(p=='save'){document.form.action += '&goto=view'} $('.content').submit();}
+function sendForm(p){document.form.action += '&goto='+p; $('.content').submit();}
 function addHandler(object, event, handler, useCapture) {if (object.addEventListener)object.addEventListener(event, handler, useCapture);else if (object.attachEvent)object.attachEvent('on' + event, handler);else object['on' + event] = handler;}
 function hotSave(evt){evt = evt || window.event;var key = evt.keyCode || evt.which;key = !isGecko ? (key == 83 ? 1 : 0) : (key == 115 ? 1 : 0);if (evt.ctrlKey && key){if(evt.preventDefault) evt.preventDefault();evt.returnValue = false;sendForm('apply');window.focus();return false;}}
+
+$(document).on('change','.meta_input',function(){if($(this).val() != ''){meta_upd($(this).val(), $(this).data('id'), $(this).data('mod'))}})
+function meta_add(id,mod){
+	if ($('#value').val()!='' && $('#key').val()!=''){var value=$('#value').val();var key=$('#key').val()}else{return false};
+	$.ajax({type:'POST',url:'?mod='+mod+'&act=metaadd&ajax='+token,data:{page_id:id,key:key,value:value},complete: function(){$("#meta").append(window.respond.content);$('#meta > input').val('')}})
+}
+function meta_del(id,mod){$.ajax({type:'POST',url:'?mod='+mod+'&act=metadelete&ajax='+token,data:{id:id},complete:function(){$("div#meta_" + id).remove()}})}
+function meta_upd(value,id,mod){$.ajax({type:'POST',url:'?mod='+mod+'&act=metaupdate&ajax='+token,data:{id:id,value:value}})}
+
+$(document).on('mousedown','.date',function(){if(!$(this).hasClass('hasDatepicker')){$(this).datepicker({dateFormat:'dd.mm.yy'})}})
+$(document).on('click','.image, .file, .pdf, .flash, .folder',function(){alert('Do the MAGIC...')})

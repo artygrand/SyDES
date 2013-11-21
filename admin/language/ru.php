@@ -12,10 +12,7 @@ $l['connectet_domains'] = 'Привязанные домены';
 $l['site_name'] = 'Название сайта';
 $l['locales'] = 'Языки страниц';
 $l['my_super_site'] = 'Мой клевый сайт';
-$l['backups'] = 'Бэкапы';
-$l['create_backup'] = 'Создать бэкап';
 $l['empty'] = 'Тут пока пусто';
-$l['download_backup'] = 'Скачать бэкап от';
 $l['install'] = 'Установить';
 $l['installed'] = 'Установлено';
 $l['uninstall'] = 'Удалить';
@@ -54,11 +51,14 @@ $l['layout_editing'] = 'Редактирование макета';
 $l['new_layout_creation'] = 'Создание нового макета';
 $l['enter_new_layout_identifier'] = 'Введите идентификатор (page, product, article)';
 
-
+$l['menu'] = 'Меню';
+$l['export/import'] = 'Экспорт/Импорт';
 $l['save_and_back'] = 'Сохранить и назад';
 $l['save_as'] = 'Сохранить как...';
+$l['save_and_new'] = 'Сохранить и новое';
+$l['save_copy'] = 'Сохранить копией';
 $l['enter_filename'] = 'Введите название файла';
-
+$l['all'] = 'все';
 $l['file'] = 'Файл';
 $l['label'] = 'Метка';
 $l['left_column'] = 'Левая колонка';
@@ -73,10 +73,14 @@ $l['only_by_ciick'] = 'только по клику';
 $l['admin_language'] = 'Язык админки';
 $l['skin'] = 'Шкурка';
 
+$l['sticky'] = 'Закреплено';
+$l['set_sticky'] = 'Закрепить';
+$l['category'] = 'Категория';
 
 $l['title_in_menu'] = 'Название в меню';
 $l['key_in_db'] = 'Ключ в базе';
 $l['default_layout'] = 'Макет по умолчанию';
+$l['layout'] = 'Макет';
 $l['structure'] = 'Структура';
 $l['news'] = 'Новости';
 
@@ -89,8 +93,10 @@ $l['interface_setting'] = 'Настройка интерфейса';
 
 $l['hide_from_menu'] = 'Скрыть из меню';
 $l['set_new_parent'] = 'Назначить нового родителя';
+$l['select_parent'] = 'Выберите родителя';
 /*actions*/
 $l['delete'] = 'Удалить';
+$l['delete_forever'] = 'Удалить совсем';
 $l['update'] = 'Обновить';
 $l['edit'] = 'Изменить';
 $l['all_selected_pages'] = 'Все отмеченные страницы';
@@ -163,11 +169,12 @@ $l['actions'] = 'Действия';
 $l['not_saved'] = 'Страница<br>не сохранена';
 $l['parent'] = 'Родитель';
 $l['editor'] = 'Редактирование';
-$l['page_alias'] = 'Алиас страницы';
+$l['slug'] = 'Алиас';
 $l['page_content'] = 'Контент страницы';
 $l['root'] = 'Корень';
 $l['show_all_pages'] = 'Показать все страницы?';
-$l['view_page'] = 'Посмотреть<br>на сайте';
+$l['view_page'] = 'Посмотреть';
+$l['tip_view_page'] = 'Посмотреть на сайте';
 $l['hide_page'] = 'Скрыть страницу';
 $l['show_page'] = 'Сделать видимой';
 $l['clear_cache'] = 'Удалить <br>из кэша';
@@ -186,10 +193,7 @@ $l['site_template'] = 'Шаблон сайта';
 $l['admin_ip'] = 'Если сайт выключен, доступ только этим IP';
 
 
-$l['admin_login'] = 'Логин администратора';
-$l['new_pass'] = 'Новый пароль';
-$l['new_developer_code'] = 'Новый код разработчика';
-$l['final_template'] = 'Шаблоны страниц, скрытых в меню "Родитель"';
+
 $l['pages'] = 'Cтраницы';
 $l['your_ip'] = 'Ваш IP: ';
 $l['type'] = 'Тип страницы';

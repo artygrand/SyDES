@@ -67,7 +67,7 @@ if (isset($_GET['helper'])){
 				$page = getPageData($db, $locale, $pieces[1]);
 			} else {
 				// get home page with current locale
-				$page = getPageData($db, $locale, 1);
+				$page = getPageData($db, $locale, 0);
 			}
 		} else {
 			// if is set many locales, but not selected current, redirect to default locale
@@ -90,8 +90,8 @@ if (isset($_GET['helper'])){
 		die;
 	} else {
 		// get home page with default (single) locale
-		$page = getPageData($db, $locale, 1);
-	}	
+		$page = getPageData($db, $locale, 0);
+	}
 }
 
 // if the page exists
@@ -103,17 +103,23 @@ if ($page){
 	} else {
 		$meta = array();
 	}
-	$template = file_get_contents(TEMPLATE_DIR . $config['template'] . '/' . $page['template'] . '.html');
-	
+	$layout = unserialize(file_get_contents(TEMPLATE_DIR . $config['template'] . '/layouts.db'));
+	$layout = $layout[$page['layout']];
+	$template = file_get_contents(TEMPLATE_DIR . $config['template'] . '/' . $layout['file']);
+	$blocks = array('left','right','top','bottom');
+	foreach($blocks as $key){
+		$template = str_replace('{box:' . $key . '}', $layout[$key], $template);
+	}
 } else {
 	header("HTTP/1.0 404 Not Found");
 	$template = file_get_contents(TEMPLATE_DIR . $config['template'] . '/404.html');
 	$page = array();
-	$meta = array();
+	$meta = getMetaData($db, $locale, 0);
 }
 foreach($baseconfig['domains'] as $base => $nsite){
 	if ($nsite == $site) break;
 }
+
 // paste content to template 
 $template = str_replace('{base}', "http://$base/", $template);
 foreach($meta as $key => $val){

@@ -1,14 +1,14 @@
 [SyDES 1.8](http://sydes.artygrand.ru) - Mini cms with SQLite
 =============
 
-    [///////////////////////      ]
+    [//////////////////////////// ]
     Work in progress. Please, wait.
 
 Main features
 -------------
 1. Lightweight
-  1. N/N kB for engine
-  2. 4,92 mB for WYSIWYG editor and file manager
+  1. 178 kB for engine
+  2. 4,92 mB for WYSIWYG editor and file manager :(
 2. Support multi-language for site and admin center
 3. Friendly interface with magic inputs and changeable skins
 4. Easily expandable with modules
@@ -23,11 +23,11 @@ Install
 1. Download and unzip archive in site root folder
 2. Open this folder in browser
 3. Edit chmod, if needed
-4. Enter login, password, master code and sitename
+4. Enter login, password, mastercode and sitename
 
 System requirements
 ------------
-Apache, PHP 5.3, PDO with sqlite driver, mod_rewrite, JSON, iconv, mb_string.
+Apache, PHP 5.3, PDO with sqlite driver, mod_rewrite, JSON, iconv, mbstring.
 
 Third-party software
 ------------
@@ -36,3 +36,4 @@ Third-party software
 + jquery
 + jquery hoverintent
 + jquery UI
++ Bootstrap

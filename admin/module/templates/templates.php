@@ -82,6 +82,7 @@ class Templates extends Module{
 		
 		$right = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db', $button) . User::getMasterInput();
 		$right .= '<div class="form-group"><label class="control-label">' . lang('other_files'). '</label>' . getSelect($this->getFiles(), $_GET['file'], 'id="other" class="form-control" data-url="?mod=templates&act=file_edit&file="') . '</div>';
+		$right .= '<div class="form-group"><label>' . lang('iblock_list') . '</label><pre>' . $this->getIblocks() . '</pre></div>';
 		$crumbs[] = array('title' => lang('templates'), 'url' => '?mod=templates');
 		$crumbs[] = array('title' => lang('file_editing'));
 		$r['title'] = lang('file_editing');
@@ -108,7 +109,7 @@ class Templates extends Module{
 		if(file_put_contents($path, $_POST['code']) === false) throw new Exception(lang('not_saved'));
 		clearCache();
 		Admin::log('User is saved file ' . $_GET['file']);
-		if (isset($_GET['goto']) and $_GET['goto'] == 'view'){
+		if (isset($_GET['goto']) and $_GET['goto'] == 'save'){
 			redirect('?mod=templates', lang('saved'), 'success');
 		} else {
 			redirect('?mod=templates&act=file_edit&file=' . $_GET['file'], lang('saved'), 'success');
@@ -135,7 +136,7 @@ class Templates extends Module{
 		$layout = $layouts[$_GET['layout']];
 		$layout['files'] = getSelect($this->getFiles('html'), $layout['file'], 'class="form-control" name="file"');
 		$main = render('module/templates/tpl/layout.php', $layout);
-		$right = Admin::getSaveButton($this->layouts) . User::getMasterInput() . '<div class="form-group"><textarea name="iblocks" class="form-control" rows="23" placeholder="' . lang('iblock_list') . '"></textarea></div>';
+		$right = Admin::getSaveButton($this->layouts) . User::getMasterInput() . '<div class="form-group"><label>' . lang('iblock_list') . '</label><pre>' . $this->getIblocks() . '</pre></div>';
 		$crumbs[] = array('title' => lang('templates'), 'url' => '?mod=templates');
 		$crumbs[] = array('title' => lang('layout_editing'));
 		$r['title'] = lang('layout_editing');
@@ -232,7 +233,7 @@ class Templates extends Module{
 	public function getLayouts(){
 		return file_exists($this->layouts) ? unserialize(file_get_contents($this->layouts)) : array();
 	}
-	
+
 	public function createLayouts(){
 		$layouts = $this->getLayouts();
 		$used = array();
@@ -249,6 +250,18 @@ class Templates extends Module{
 			}
 			if(file_put_contents($this->layouts, serialize($layouts)) === false) throw new Exception(lang('not_saved'));
 		}
+	}
+
+	public function getIblocks(){
+		$path = glob(SYS_DIR . 'iblock/*.iblock');
+		$pre = '';
+		if($path){
+			foreach($path as $file){
+				$file = str_replace(array(SYS_DIR . 'iblock/','.iblock'), array('{iblock:','}'), $file);
+				$pre .= $file . PHP_EOL;
+			}
+		}
+		return $pre;
 	}
 }
 ?>

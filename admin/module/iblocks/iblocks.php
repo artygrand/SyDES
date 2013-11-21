@@ -88,7 +88,7 @@ class Iblocks extends Module{
 		if(file_put_contents($this->path, $_POST['code']) === false) throw new Exception(lang('not_saved'));
 		clearCache();
 		Admin::log('User is saved iblock ' . $_GET['iblock']);
-		if (isset($_GET['goto']) and $_GET['goto'] == 'view'){
+		if (isset($_GET['goto']) and $_GET['goto'] == 'save'){
 			redirect('?mod=iblocks', lang('saved'), 'success');
 		} else {
 			redirect('?mod=iblocks&act=edit&iblock=' . $_GET['iblock'], lang('saved'), 'success');

@@ -3,44 +3,31 @@
 <head>
 	<meta http-equiv="Content-Language" content="ru">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Потерялись на сайте?</title>
+	<title>Страница с номером 404</title>
 	<meta name="generator" content="SyDES - CMS from ArtyGrand">
 	<meta name="description" content="{meta:description}">
 	<meta name="keywords" content="{meta:keywords}">
-	<base href="http://{base}">
-	<link rel="stylesheet" href="templates/deco/style.css" media="all">
-	<link rel="stylesheet" href="templates/deco/shadowbox/shadowbox.css" media="screen">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script src="templates/deco/shadowbox/shadowbox.js"></script>
-	<script src="templates/deco/script.js"></script>
-	<link rel="icon" href="templates/deco/favicon.ico" type="image/x-icon">
+	<base href="{base}">
+	<link rel="stylesheet" href="template/default/style.css" media="all">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="template/default/script.js"></script>
+	<link rel="icon" href="templates/default/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <div class="wrapper">
 	<div class="header">
-		<a href="" class="logo">{meta:site_title}</a><ul class="menu">{iblock:menu}</ul>
+		<a href="" class="logo">{meta:site_title}</a>
+		{iblock:menu}
 	</div>
-	<div class="topbar">
-		<form class="searchform" action="search" method="get">
-			<input type="text" name="search" placeholder="поиск по каталогу" required><input type="submit" value="Поиск">
-		</form>
-		<ul class="breadCrumbs"></ul>
-	</div>
-	<div class="sidebar">
-		
-	</div>
-	<div class="main with-sidebar">
+	<div class="main">
+		<h1>404</h1>
 		<div class="content">
-			<h2>Потерянная страница</h2>
-			<p>Похоже, вы потреялись на этом сайте. Верхнее меню поможет Вам выйти из этой ситуации?</p>
-			<p>А эту страницу могли удалить или Вас обманули, подложив несуществующий адрес.</p>
-			<p>А еще вы можете воспользоваться поисковиком по каталогу. Там очень много интересных предложений.</p>
+			<p>Беда, однако, с нами приключилась, товарищи. Страница пропала с сайта. В ссылку ее сослали в войд.</p>
 		</div>
 	</div>
-	<div class="push"></div>
 </div>
 <div class="footer">
-{iblock:footer}
+	
 </div>
 </body>
 </html>

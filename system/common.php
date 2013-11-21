@@ -90,10 +90,6 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	return $pages;
 }
 
-/*function natorder($a,$b, $what){
-	return strnatcmp($a[$what], $b[$what]); 
-}*/
-
 function lang($text, $dl = array()){
 	static $l = array();
 	if ($dl) $l = array_merge($l, $dl);
@@ -199,20 +195,24 @@ function getList($data, $current, $props = '', $which = 'ul'){
 
 function getPageData($db, $locale, $where){
 	if (is_numeric($where)){
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.id = :id AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('id' => (int)$where, 'locale' => $locale));
+		$what = 'id';
+		$data['data'] = (int)$where;
 	} else {
-		$stmt = $db -> prepare("SELECT pages.*, pages_content.title, pages_content.content FROM pages, pages_content WHERE pages.status = '1' AND pages.fullpath = :fullpath AND pages_content.locale = :locale AND pages_content.page_id = pages.id");
-		$stmt->execute(array('fullpath' => '/'.$where, 'locale' => $locale));
+		$what = 'fullpath';
+		$data['data'] = "/$where";
 	}
+	$data['locale'] = $locale;
+	$stmt = $db -> prepare("SELECT pages.*, pc.title, pc.content FROM pages, pages_content as pc WHERE pages.status > 0 AND pages.{$what} = :data AND pc.locale = :locale AND pc.page_id = pages.id");
+	$stmt->execute($data);
 	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getMetaData($db, $locale, $id){
-	$stmt = $db -> query("SELECT key, value FROM global_meta WHERE page_id = 1");
+	$stmt = $db -> query("SELECT key, value FROM config_meta WHERE page_id = 1");
 	$metas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 	$stmt = $db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$id}");
 	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
+	$meta = array();
 	foreach($metas as $m){
 		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
 			$meta[substr($m['key'], 3)] = $m['value'];
@@ -267,7 +267,7 @@ function createTable($table, $cols){
 	foreach($cols as $name => $col){
 		$a .= ", {$name} {$col['type']}";
 	}
-	Admin::$db -> exec("CREATE TABLE {$table} ({$a}, position int(11) NOT NULL default '0')");
+	Admin::$db -> exec("CREATE TABLE {$table} ({$a})");
 }
 
 

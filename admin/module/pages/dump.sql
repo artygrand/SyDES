@@ -1,1 +1,1 @@
-INSERT OR REPLACE INTO `pages` VALUES ('1','0','','/','0','2','page','page');INSERT OR REPLACE INTO `pages_content` VALUES ('1','ru','Главная','Это содержимое главной страницы');INSERT OR REPLACE INTO `pages_content` VALUES ('1','en','Home','This is homepage content.');
+INSERT OR REPLACE INTO `pages` VALUES ('0','0','','','0','2','page','page');INSERT OR REPLACE INTO `pages_content` VALUES ('0','ru','Главная','Это содержимое главной страницы');INSERT OR REPLACE INTO `pages_content` VALUES ('0','en','Home','This is homepage content.');

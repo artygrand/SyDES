@@ -7,12 +7,14 @@
 */
 class Config extends Module{
 	public $name = 'config';
-	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'backups_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall', 'pages_update');
+	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall', 'pages_update');
 	public static $allowed4ajax = array('modal_interface', 'metaadd', 'metaupdate', 'metadelete', 'clearcache', 'modal_module_edit', 'module_save', 'interface_update');
 	public static $allowed4demo = array('view');
 
 	function __construct(){
 		$this->r['contentLeft'] = render('module/config/tpl/nav.php');
+		include SYS_DIR . 'plugin/meta.php';
+		$this->meta = new Meta($this->name);
 	}
 
 	public function view(){
@@ -29,7 +31,7 @@ class Config extends Module{
 		$crumbs[] = array('title' => lang('configuration'));
 		$this->r['title'] = lang('site_settings');
 		$this->r['contentCenter'] = $main;
-		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput();
+		$this->r['contentRight'] = Admin::getSaveButton(SITE_DIR . Admin::$site . '/config.db') . User::getMasterInput() . $this->meta->getPlugin(1);
 		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
 		$this->r['form_url'] = '?mod=config&act=save';
 		return $this->r;
@@ -82,7 +84,8 @@ class Config extends Module{
 	}
 
 	public function modules_view(){
-		$box = array('logs','pages','config','templates','iblocks');
+		$box = array('logs','pages','config','templates','iblocks','import','menu');
+		$modules = array();
 		foreach(glob('module/*') as $mod){
 			$mod = str_replace('module/', '', $mod);
 			if(!in_array($mod, $box)){
@@ -107,31 +110,7 @@ class Config extends Module{
 		return $this->r;
 	}
 
-	public function backups_view(){
-		if (isset(Admin::$config['sites'])){
-			foreach(Admin::$config['sites'] as $site => $confs){
-				$sites[$site]['name'] = Admin::$config['sites'][$site]['name'];
-				$bkps = array();
-				foreach(glob('../site/' . $site . '/backup_*.zip') as $bkp){
-					$bkps[$bkp] = lang('download_backup') . ' ' . str_replace(array('../site/' . $site . '/backup_', '.zip'), '', $bkp);
-				}
-				$sites[$site]['archives'] = $bkps ? getList($bkps, '') : lang('empty');
-			}
-		}
-		// TODO единый бекап, если получится в архивы
-		$main = render('module/config/tpl/backups.php', array('sites' => $sites));
-		$crumbs[] = array('url' => '?mod=config','title' => lang('configuration'));
-		$crumbs[] = array('title' => lang('backups'));
-
-		$this->r['title'] = lang('backups');
-		$this->r['contentCenter'] = $main;
-		$this->r['contentRight'] = ' ';
-		$this->r['breadcrumbs'] = getBreadcrumbs($crumbs);
-		return $this->r;
-	}
-
 	public function pages_view(){
-		
 		include 'module/templates/templates.php';
 		$template = new Templates();
 		$template->createLayouts();
@@ -143,12 +122,19 @@ class Config extends Module{
 			$pages = new Pages();
 			$pages->install();
 		}
-		$stmt = Admin::$db -> query("SELECT pages.id, pages_content.title FROM pages, pages_content WHERE pages.parent_id = 0 AND pages_content.page_id = pages.id AND pages.type = 'page' AND pages_content.locale = '" . Admin::$locale . "' ORDER BY pages.id");
-		foreach($stmt -> fetchAll(PDO::FETCH_ASSOC) as $k){
+		$types = Admin::$siteConfig['page_types'];
+		foreach($types as $k => $v){
+			if ($v['structure'] == 'tree') $tree[] = $k;
+		}
+		$types['new'] = array('title' => '<span class="glyphicon glyphicon-plus"></span> ' . lang('create_new_pagetype'),'layout' => '','structure' => '','root' => '','meta' => array());
+		$tree = implode("','", $tree);
+		
+		$stmt = Admin::$db -> query("SELECT pages.id, pc.title FROM pages, pages_content pc WHERE pages.type IN ('$tree') AND pc.page_id = pages.id AND pc.locale = '" . Admin::$locale . "' ORDER BY pages.type, pages.position");
+		$pages = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		array_unshift($pages, array('id' => 0, 'title' => lang('root')));
+		foreach($pages as $k){
 			$roots[$k['id']] = $k['title'];
 		}
-		$types = Admin::$siteConfig['page_types'];
-		$types['new'] = array('title' => '<span class="glyphicon glyphicon-plus"></span> ' . lang('create_new_pagetype'),'layout' => '','structure' => '','root' => '','meta' => array());
 		$crumbs[] = array('url' => '?mod=config','title' => lang('configuration'));
 		$crumbs[] = array('title' => lang('page_types'));
 		$this->r['title'] = lang('page_types');
@@ -268,7 +254,6 @@ class Config extends Module{
 			Admin::$config['modules'][$_GET['module']]['quick'] = false;
 			Admin::saveConf();
 		}
-
 		redirect('?mod=config&act=modules_view', lang('module_installed'), 'success');
 	}
 	
@@ -358,6 +343,26 @@ class Config extends Module{
 	private function getLayouts(){
 		$layouts = TEMPLATE_DIR . Admin::$siteConfig['template'] . '/' . 'layouts.db';
 		return file_exists($layouts) ? unserialize(file_get_contents($layouts)) : array();
+	}
+
+	public function metaadd(){
+		$json['content'] = $this->meta->add((int)$_POST['page_id'], $_POST['key'], $_POST['value']);
+		if ($json['content']){
+			$json['success'] = lang('saved');
+		} else {
+			$json['error'] = lang('no_value');
+		}
+		return $json;
+	}
+
+	public function metaupdate(){	
+		$this->meta->update((int)$_POST['id'], $_POST['value']);
+		return array('success' => lang('saved'));
+	}
+
+	public function metadelete(){
+		$this->meta->delete((int)$_POST['id']);
+		return array('success' => lang('deleted'));
 	}
 }
 ?>

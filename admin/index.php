@@ -49,16 +49,19 @@ $admin->setLocale();
 $module = empty($_GET['mod']) ? DEFAULT_MODULE : $_GET['mod'];
 $action = empty($_GET['act']) ? DEFAULT_ACTION : $_GET['act'];
 
-if (strpos($module, '/') !== false or !is_file("module/{$module}/{$module}.php")){
+if (strpos($module, '/') !== false or !is_file("module/$module/$module.php")){
 	redirect('', lang('unauthorized_request'));
 }
 
-require "module/{$module}/{$module}.php";
+require "module/$module/$module.php";
 if (!in_array($action, $module::${'allowed4' . Admin::$mode})){
 	redirect('', lang('unauthorized_request'));
 }
-if (file_exists('module/' . $module . '/lang/' . Admin::$lang . '.php')){
-	require 'module/' . $module . '/lang/' . Admin::$lang . '.php';
+if (file_exists('module/' . $module . '/language/' . Admin::$lang . '.php')){
+	require 'module/' . $module . '/language/' . Admin::$lang . '.php';
+	lang('add', $l);
+} elseif(file_exists("module/$module/language/en.php")){
+	require "module/$module/language/en.php";
 	lang('add', $l);
 }
 $module = new $module();

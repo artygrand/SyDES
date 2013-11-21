@@ -231,7 +231,7 @@ class Admin{
 	private function getPagesList(){
 		$list = array();
 		foreach(self::$siteConfig['page_types'] as $type => $data){
-			$list["?mod=pages&type={$type}"] = $data['title'];
+			$list["?mod=pages&type={$type}"] = $data['title'] . '</a><a href="?mod=pages&type=' . $type . '&act=edit" data-toggle="tooltip" data-placement="right" title="' . lang('add_more'). '">[+1]';
 		}
 		return getList($list, false, 'class="list-unstyled"');
 	}
