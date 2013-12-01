@@ -24,7 +24,7 @@ class Pages extends Module{
 			$this->conf = Admin::$siteConfig['page_types'][$this->type];
 		}
 		
-		include SYS_DIR . 'plugin/meta.php';
+		include_once SYS_DIR . 'plugin/meta.php';
 		$this->meta = new Meta($this->name);
 	}
 
@@ -208,11 +208,11 @@ class Pages extends Module{
 				$alias .= '-copy';
 			}
 			$fullpath = $parentPath . '/' . $alias;
-			$position = $this->getLastPosition($parent_id);
-			$this->growPos($position);
+			$position = $this->getLastChildPos($parent_id);
+			$this->updatePosition(1, $position);
 			
 			$stmt = Admin::$db->prepare("INSERT OR REPLACE INTO pages VALUES ($id, :parent_id, :alias, :fullpath, :position, :status, :layout, '{$this->type}')");
-			$stmt->execute(array('parent_id' => $parent_id, 'alias' => $alias, 'fullpath' => $fullpath, 'position' => $position, 'status' => $status, 'layout' => $layout ));
+			$stmt->execute(array('parent_id' => $parent_id, 'alias' => $alias, 'fullpath' => $fullpath, 'position' => $position + 1, 'status' => $status, 'layout' => $layout ));
 		} else {
 			$stmt = Admin::$db->prepare("UPDATE pages SET layout = :layout WHERE id = $id");
 			$stmt->execute(array('layout' => $layout));
@@ -245,11 +245,12 @@ class Pages extends Module{
 		$delta = (int)$_GET['delta'];
 		$id = $_GET['id'];
 		$qty = (int)$_GET['qty'];
-		// TODO оптимизировать
 		if($delta < 0){
-			Admin::$db->exec("UPDATE pages SET position = position+$qty WHERE position BETWEEN (SELECT position+($delta) FROM pages WHERE id = $id) AND (SELECT position-1 FROM pages WHERE id = $id) AND type = '{$this->type}'");
+			Admin::$db->exec("UPDATE pages SET position = position+$qty WHERE
+			position BETWEEN (SELECT position+($delta) FROM pages WHERE id = $id) AND (SELECT position-1 FROM pages WHERE id = $id) AND type = '{$this->type}'");
 		} else {
-			Admin::$db->exec("UPDATE pages SET position = position-$qty WHERE position BETWEEN (SELECT position+$qty FROM pages WHERE id = $id) AND (SELECT position+($qty+$delta-1) FROM pages WHERE id = $id) AND type = '{$this->type}'");
+			Admin::$db->exec("UPDATE pages SET position = position-$qty WHERE
+			position BETWEEN (SELECT position+$qty FROM pages WHERE id = $id) AND (SELECT position+($qty+$delta-1) FROM pages WHERE id = $id) AND type = '{$this->type}'");
 		}
 		Admin::$db->exec("UPDATE pages SET position = position + ($delta) WHERE fullpath LIKE (SELECT fullpath FROM pages WHERE id = $id) || '%' AND type = '{$this->type}'");
 		return array('success' => lang('saved'));
@@ -275,11 +276,10 @@ class Pages extends Module{
 		}
 		$parent = (int)$_POST['parent_id'];
 		$ids = explode(',', $_GET['id']);
-		// TODO избавиться от цикла и вообще переписать
 		foreach ($ids as $id){
-			$pos = $this->getLastPosition($parent);
+			$pos = $this->getLastChildPos($parent);
 			$_GET['id'] = $id;
-			$stmt = Admin::$db->query("SELECT $pos - position FROM pages WHERE id = $id");
+			$stmt = Admin::$db->query("SELECT $pos - position +1 FROM pages WHERE id = $id");
 			$_GET['delta'] = $stmt->fetchColumn();
 			$stmt = Admin::$db->query("SELECT count(*) FROM pages WHERE fullpath LIKE (SELECT fullpath FROM pages WHERE id = $id) || '%'");
 			$_GET['qty'] = $stmt->fetchColumn();
@@ -312,22 +312,22 @@ class Pages extends Module{
 		foreach($ids as $i){
 			$stmt = Admin::$db->query("SELECT position FROM pages WHERE id = $i");
 			$pos = $stmt->fetchColumn();
-			$qty = $this->getLastPosition($i) - $pos;
-			$this->shrinkPos($pos, $qty);
+			$posLast = $this->getLastChildPos($i);
+			$this->updatePosition(-1 - ($posLast - $pos), $posLast);
 		}
-		
-		$root = $_GET['to'] == 'trash' ? 0 : Admin::$siteConfig['page_types'][$_GET['to']]['root'];
-		if ($root == 0){
+		if ($to == 'trash'){
+			$root = 0;
 			$path = '';
 		} else {
+			$root = Admin::$siteConfig['page_types'][$to]['root'];
 			$stmt = Admin::$db->query("SELECT fullpath FROM pages WHERE id = $root");
 			$path = $stmt->fetchColumn();
 		}
-		Admin::$db->exec("UPDATE pages SET type = '$to', status = 0, position = 0, parent_id = $root, fullpath = '$path/' || alias WHERE EXISTS(
-			SELECT * FROM pages t1 WHERE t1.id IN ($id) AND (pages.fullpath = t1.fullpath AND id != 0 OR pages.fullpath LIKE t1.fullpath || '/%'))");
+		Admin::$db->exec("UPDATE pages SET type = '$to', status = 0, position = (SELECT IFNULL(MAX(position), 0) + 1 FROM pages WHERE type = '$to'), parent_id = $root, fullpath = '$path/' || alias WHERE EXISTS(
+			SELECT * FROM pages t1 WHERE t1.id IN ($id) AND (pages.fullpath = t1.fullpath AND id != 0 OR pages.fullpath LIKE t1.fullpath || '/%') AND type = '{$this->type}')");
 		clearCache();
 		Admin::log("User is sended page to $to, id {$_GET['id']}");
-		redirect("?mod=pages&type={$this->type}", lang('deleted'), 'success');
+		redirect("?mod=pages&type={$this->type}", lang('sended_to') .' ' . $to, 'success');
 	}
 
 	public function delete(){
@@ -401,17 +401,9 @@ class Pages extends Module{
 		return $stmt->fetchColumn();
 	}
 
-	private function getLastPosition($id){
-		$stmt = Admin::$db->query("SELECT MAX(position)+1 FROM pages WHERE fullpath LIKE (SELECT fullpath FROM pages WHERE id = $id) || '%' AND type = '{$this->type}'");
+	private function getLastChildPos($id){
+		$stmt = Admin::$db->query("SELECT MAX(position) FROM pages WHERE fullpath LIKE (SELECT fullpath FROM pages WHERE id = $id) || '%' AND type = '{$this->type}'");
 		return $stmt->fetchColumn();
-	}
-
-	private function growPos($pos){
-		Admin::$db->exec("UPDATE pages SET position = position + 1 WHERE position >= $pos AND type = '{$this->type}'");
-	}
-
-	private function shrinkPos($pos, $qty){
-		Admin::$db->exec("UPDATE pages SET position = position - $qty WHERE position >= $pos AND type = '{$this->type}'");
 	}
 
 	private function updateChilds($id, $oldPath){
@@ -458,6 +450,12 @@ class Pages extends Module{
 	public function metadelete(){
 		$this->meta->delete((int)$_POST['id']);
 		return array('success' => lang('deleted'));
+	}
+
+	private function updatePosition($delta, $from, $to = false){
+		$from = "position > $from";
+		$to = $to ? "AND position <= $to" : '';
+		Admin::$db->exec("UPDATE pages SET position = position+($delta) WHERE $from $to AND type = '{$this->type}'");
 	}
 }
 ?>
