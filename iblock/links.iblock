@@ -1,0 +1,40 @@
+<?php
+/**
+* Infoblock: Links
+* Shows a list of wanted pages
+* Usage:
+* {iblock:links} = shows a child pages
+* {iblock:links?show=%id%} = shows a pages with specified parent id
+* {iblock:links?show=siblings} = shows a sibling pages
+* {iblock:links?limit=%num%} = %num% - limiting quantity
+* {iblock:links?class=%text%} = just classname for list
+* {iblock:links?sort=1} = for preserve sort order
+*/
+
+/* settings */
+$limit = isset($limit) ? $limit : 10;
+$class = isset($class) ? $class : 'links';
+$sort = isset($sort) ? 'position' : 'id DESC';
+
+if (isset($show)){
+	if ($show == 'siblings'){
+		$parent = $page['parent_id'];
+	} elseif(is_numeric($show)){
+		$parent = $show;
+	}
+} else {
+	$parent = $page['id'];
+}
+
+$data = getPages(array("parent_id = {$parent}", "id <> {$page['id']}", "status > 0"), $sort, $limit);
+
+if(!$data){
+	return;
+}
+?>
+
+<ul class="<?=$class;?>">
+<? foreach($data as $d){ ?>
+	<li><a href="<?=$d['fullpath'];?>"><?=$d['title'];?></a></li>
+<? } ?>
+</ul>

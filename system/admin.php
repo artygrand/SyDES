@@ -1,22 +1,16 @@
 <?php
 /**
-* SyDES :: admin core file
-* Contain the basic methods of the engine
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
-class Admin{
-	public static $config = array();
-	public static $siteConfig = array();
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+class Admin extends Core{
 	public static $token = '';
 	public static $hook = array();
 	public static $menu = array('site_title'=>'', 'page_types'=>'', 'modules'=>'');
 	public static $lang = 'en';
 	public static $mode = 'html';
-	public static $db = '';
-	public static $site = DEFAULTSITE;
-	public static $locale = 'en';
 
 	/**
 	* Sets admin language
@@ -217,7 +211,10 @@ class Admin{
 	}
 
 	private function getModuleList(){
-		$list = array();
+		$list = array(
+			"?mod=menu" => lang('menu'),
+			"?mod=import" => lang('export/import')
+		);
 		foreach(self::$config['sites'][self::$site]['modules'] as $module){
 			$name = self::$config['modules'][$module]['name'];
 			$list["?mod={$module}"] = isset($name[self::$lang]) ? $name[self::$lang] : $name['en'];
@@ -264,10 +261,11 @@ class Admin{
 		file_put_contents(SITE_DIR . 'baseconfig.db', serialize(self::$config));
 		mkdir(SITE_DIR . $site, 0777);
 		
+		$tpls = glob(TEMPLATE_DIR . '*');
 		$config = array(
 			'maintenance_mode' => false,
 			'need_cache' => false,
-			'template' => 'default',
+			'template' => str_replace(TEMPLATE_DIR, '', $tpls[0]),
 			'say' => self::$htmlSay,
 			'page_types' => array(
 				'page' => array(
@@ -282,6 +280,15 @@ class Admin{
 		file_put_contents(SITE_DIR . $site . '/config.db', serialize($config));
 		chmod(SITE_DIR . $site . '/config.db', 0777);
 		
+		self::connect2db($site);
+		
+		$module = new Module();
+		$module->createTable(array('module/pages/schema.sql'));
+		self::$db -> exec("INSERT INTO `pages` VALUES ('0','0','','','#1000','2','page','page')");
+		foreach(self::$config['sites'][$site]['locales'] as $locale){
+			self::$db -> exec("INSERT INTO `pages_content` VALUES ('0','{$locale}','Home','This is homepage content.')");
+		}
+		
 		redirect('?mod=config&act=sitemanager_view');
 	}
 
@@ -290,10 +297,10 @@ class Admin{
 	}
 
 	public static function checkSysReq(){
-		$paths = array('../cache', '../site', '../system/iblock', '../template/default', '../upload/images');
+		$paths = array('../cache', '../site', '../iblock', '../template/default', '../upload/images');
 		$wr = '';
 		foreach ($paths as $path){
-			if(!is_writable($path)){
+			if(file_exists($path) and !is_writable($path)){
 				$wr .= '<li>' . $path . '</li>';
 			}
 		}
@@ -305,8 +312,8 @@ class Admin{
 		$pdo_drv = $req_pdo ? PDO::getAvailableDrivers(): array();
 		$req_sqlite = in_array('sqlite', $pdo_drv);
 		$req_json = function_exists('json_encode');
-		$req_rewrite = in_array('mod_rewrite', apache_get_modules());
-		
+		$req_rewrite = function_exists('apache_get_modules') ? in_array('mod_rewrite', apache_get_modules()) : true;
+
 		$errors = '';
 		$errors .= version_compare(PHP_VERSION, '5.3.0') < 0 ? '<li>' . $l[$lang]['php_too_old'] . '</li>' : '';
 		$errors .= !$req_pdo ? '<li>' . lang('pdo_not_supported') . '</li>' : '';

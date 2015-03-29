@@ -1,0 +1,21 @@
+<?php
+/*
+* Breadcrumbs infoblock
+*
+* @author ArtyGrand
+* @since 1.6
+*/
+if($page['id'] == 0){return;}
+
+$locale = count(Core::$siteConfig['locales']) > 1 ? Core::$siteConfig['locale'] : false;
+$fullpath = $locale ? str_replace_once($locale . '/', '', $page['fullpath']) : $page['fullpath'];
+
+$breadCrumbs = getPages(array("'/{$fullpath}' LIKE fullpath || '/%'"), 'fullpath');
+
+if($breadCrumbs){
+	foreach($breadCrumbs as $crumb){
+		echo '<a href="' . $crumb['fullpath'] . '">' . $crumb['title'] . '</a> > ';
+	}
+}
+echo '<span>', $page['title'], '</span>';
+?>

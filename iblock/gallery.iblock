@@ -1,0 +1,41 @@
+<?php
+/*
+* Infoblock: Simply gallery
+* Shows list of images from folder, 
+* works with ckfinder(preview und upload) and lightbox/shadowbox(lightbox[gal])
+*
+* Usage:
+* {iblock:gallery?folder=%dir/subdir%} = dir in /upload/images folder
+* {iblock:links?perpage=%num%} = limited with paginator
+* {iblock:links?width=%num%&height=%num%} = sizes of preview
+*/
+
+$perpage = isset($perpage) ? $perpage : 50;
+$width = isset($width) ? $width : 150;
+$height = isset($height) ? $height : 150;
+
+$folder = isset($folder) ? $folder : (isset($page['meta:folder']) ? $page['meta:folder'] : '');
+if(empty($folder) or !is_dir('upload/images/' . $folder)){
+	return;
+}
+
+$files = glob('upload/images/' . $folder . '/{*.jpg,*.JPG,*.jpeg,*.gif,*.png}', GLOB_BRACE);
+
+if (empty($files)){
+	echo "Folder {$folder} is empty";
+	return;
+}
+
+$count = count($files);
+$skip = (!empty($_GET['skip']) and $_GET['skip'] > 0) ? (int)$_GET['skip'] : 0;
+$files = array_slice($files, $skip, $perpage);
+
+?>
+
+<div class="gallery">
+<? foreach($files as $img){ ?>
+	<a href="<?=$img?>" rel="lightbox[<?=$folder?>]"><img src="thumb/<?=$width?>_<?=$height?>/<?=$img?>" alt=""></a>
+<? } ?>
+</div>
+
+<?=getPaginator($page['fullpath'], $count, $skip, $perpage);?>

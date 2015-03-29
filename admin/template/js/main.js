@@ -9,8 +9,6 @@ $(document).ready(function(){
 	notify(getCookie('messText'),getCookie('messStatus'))
 	$(document).on('click','.skin-selector a',function(){var skin=$(this).attr('title');$('#skin').attr('href','template/css/skin/'+skin+'.css');setCookie('skin',skin,7);return false})
 
-	$('#keys').change(function(){$('#key').val($(this).val()).change()})
-	
 	$('#checkall').click(function(){if($(this).prop('checked')){$('.ids').prop('checked',true)}else{$('.ids').prop('checked',false)}})
 	$('body').tooltip({selector:'[data-toggle=tooltip]'})
 	$("[data-toggle=popover]").popover({html:true})
@@ -19,6 +17,8 @@ $(document).ready(function(){
 	$(document).on('click','#modal-save',function(){$.ajax({type:'POST',url:$('#modal-form').prop('action')+'&ajax='+token,data:$('#modal-form').serialize()})})
 	$('#other').change(function(){location.href = $(this).data('url') + $(this).val()})
 	$('.submit').click(function(){sendForm($(this).data('act'))})
+	
+	$('#keys').combobox();
 })
 
 $(document).ajaxSend(function(){
@@ -55,10 +55,22 @@ function hotSave(evt){evt = evt || window.event;var key = evt.keyCode || evt.whi
 $(document).on('change','.meta_input',function(){if($(this).val() != ''){meta_upd($(this).val(), $(this).data('id'), $(this).data('mod'))}})
 function meta_add(id,mod){
 	if ($('#value').val()!='' && $('#key').val()!=''){var value=$('#value').val();var key=$('#key').val()}else{return false};
-	$.ajax({type:'POST',url:'?mod='+mod+'&act=metaadd&ajax='+token,data:{page_id:id,key:key,value:value},complete: function(){$("#meta").append(window.respond.content);$('#meta > input').val('')}})
+	$.ajax({type:'POST',url:'?mod='+mod+'&act=metaadd&ajax='+token,data:{page_id:id,key:key,value:value},complete: function(){$("#meta").append(window.respond.content);$('.meta_base').val('')}})
 }
 function meta_del(id,mod){$.ajax({type:'POST',url:'?mod='+mod+'&act=metadelete&ajax='+token,data:{id:id},complete:function(){$("div#meta_" + id).remove()}})}
 function meta_upd(value,id,mod){$.ajax({type:'POST',url:'?mod='+mod+'&act=metaupdate&ajax='+token,data:{id:id,value:value}})}
 
 $(document).on('mousedown','.date',function(){if(!$(this).hasClass('hasDatepicker')){$(this).datepicker({dateFormat:'dd.mm.yy'})}})
-$(document).on('click','.image, .file, .pdf, .flash, .folder',function(){alert('Do the MAGIC...')})
+$(document).on('click','.image',function(){var e=$(this);BrowseServer('Images:/',e)})
+$(document).on('click','.file',function(){var e=$(this);BrowseServer('Files:/',e)})
+$(document).on('click','.pdf',function(){var e=$(this);BrowseServer('Files:/pdf/',e)})
+$(document).on('click','.flash',function(){var e=$(this);BrowseServer('Flash:/',e)})
+$(document).on('click','.folder',function(){var e=$(this),folder=e.val().replace('/upload/images/', '');BrowseServer('Images:/'+folder+'/',e,'crop')})
+
+function BrowseServer(path,e,w){var finder=new CKFinder();finder.basePath = '/admin/ckfinder/';finder.startupPath=path;if(w=='crop'){finder.selectActionFunction=SetInputCropped}else{finder.selectActionFunction=SetInput}finder.selectActionData=e;finder.popup();}
+function SetInput(fileUrl,data,allFiles){
+	var files = []
+	for (var file in allFiles){files.push(allFiles[file]['url'])}
+	data['selectActionData'].val(files.join()).change();
+}
+function SetInputCropped(fileUrl,data){data['selectActionData'].val(fileUrl.split('/').splice(3,fileUrl.split('/').length-4).join('/')).change()}

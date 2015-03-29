@@ -1,10 +1,10 @@
 <?php
 /**
-* SyDES :: helpful functions
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
 function redirect($link, $m = '', $s = 'error'){
 	setcookie('messText', $m, time()+5);
@@ -193,7 +193,7 @@ function getList($data, $current, $props = '', $which = 'ul'){
 	return $html . "</{$which}>\n";
 }
 
-function getPageData($db, $locale, $where){
+function getPage($where){
 	if (is_numeric($where)){
 		$what = 'id';
 		$data['data'] = (int)$where;
@@ -201,26 +201,87 @@ function getPageData($db, $locale, $where){
 		$what = 'fullpath';
 		$data['data'] = "/$where";
 	}
-	$data['locale'] = $locale;
-	$stmt = $db -> prepare("SELECT pages.*, pc.title, pc.content FROM pages, pages_content as pc WHERE pages.status > 0 AND pages.{$what} = :data AND pc.locale = :locale AND pc.page_id = pages.id");
+	$data['locale'] = Core::$siteConfig['locale'];
+	$stmt = Core::$db -> prepare("SELECT pages.*, pc.title, pc.content FROM pages, pages_content as pc WHERE pages.status > 0 AND pages.{$what} = :data AND pc.locale = :locale AND pc.page_id = pages.id");
 	$stmt->execute($data);
-	return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-}
+	$data = $stmt -> fetch(PDO::FETCH_ASSOC);
+	
+	if (!$data){
+		return false;
+	}
 
-function getMetaData($db, $locale, $id){
-	$stmt = $db -> query("SELECT key, value FROM config_meta WHERE page_id = 1");
+	$locale = count(Core::$siteConfig['locales']) > 1 ? Core::$siteConfig['locale'] . '/' : '';
+	$data['fullpath'] = $locale . substr($data['fullpath'], 1);
+	
+	$stmt = Core::$db -> query("SELECT key, value FROM config_meta WHERE page_id = 1");
 	$metas = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-	$stmt = $db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$id}");
+	$stmt = Core::$db -> query("SELECT key, value FROM pages_meta WHERE page_id = {$data['id']}");
 	$metas = array_merge($metas, $stmt -> fetchAll(PDO::FETCH_ASSOC));
+	
 	$meta = array();
 	foreach($metas as $m){
-		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $locale){
-			$meta[substr($m['key'], 3)] = $m['value'];
+		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == Core::$siteConfig['locale']){
+			$meta['meta:' . substr($m['key'], 3)] = $m['value'];
 		} else {
-			$meta[$m['key']] = $m['value'];
+			$meta['meta:' . $m['key']] = $m['value'];
 		}
 	}
-	return $meta;
+
+	return array_merge($meta, $data);
+}
+
+function getPages($filter, $myorder, $mylimit = 0, $skip = 0){
+	$limit = $mylimit ? " LIMIT {$skip}, {$mylimit}" : '';
+	$order = $myorder ? " ORDER BY {$myorder}" : '';
+	$where = implode(' AND ', (array)$filter);
+	
+	$stmt =  Core::$db -> query("SELECT pages.id, pages.parent_id, pages.fullpath, pages_content.title, pages_content.content
+	FROM pages, pages_content 
+	WHERE {$where} AND pages.id = pages_content.page_id AND pages_content.locale = '" . Core::$siteConfig['locale'] . "' 
+	{$order}{$limit}");
+	$data = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+	if (!$data){
+		return false;
+	}
+	
+	$locale = count(Core::$siteConfig['locales']) > 1 ? Core::$siteConfig['locale'] . '/' : '';
+	foreach($data as $d){
+		$id[] = $d['id'];
+		$d['fullpath'] = $locale . substr($d['fullpath'], 1);
+		$pages[$d['id']] = $d;
+	}
+	$id = implode(',', $id);
+	$stmt = Core::$db -> query("SELECT page_id, key, value FROM pages_meta WHERE page_id IN({$id})");
+	$meta = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+	foreach($meta as $m){
+		if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == Core::$siteConfig['locale']){
+			$pages[$m['page_id']]['meta:' . substr($m['key'], 3)] = $m['value'];
+		} else {
+			$pages[$m['page_id']]['meta:' . $m['key']] = $m['value'];
+		}
+	}
+	return $pages;
+}
+
+function getPagesCount($filter){
+	$where = implode(' AND ', (array)$filter);
+
+	$stmt =  Core::$db -> query("SELECT count(pages.id)
+	FROM pages, pages_content 
+	WHERE {$where} AND pages.id = pages_content.page_id AND pages_content.locale = '" . Core::$siteConfig['locale'] . "'");
+	$data = $stmt -> fetchColumn();
+	return $data;
+}
+
+function getIblock($page, $iblock, $params=false){
+	if ($params){
+		$params = str_replace(array('?', '&amp;'), array('', '&'), $params);
+		parse_str($params); // string like a "first=value&arr[]=foo+bar&arr[]=baz"
+	}
+	ob_start();
+	include IBLOCK_DIR . $iblock . '.iblock';
+	return ob_get_clean();
 }
 
 function addFiles($type, $files){
@@ -262,32 +323,21 @@ function issetTable($table){
 	return (bool)Admin::$db -> query("SELECT 1 FROM {$table} WHERE 1");
 }
 
-function createTable($table, $cols){
-	$a = 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT';
-	foreach($cols as $name => $col){
-		$a .= ", {$name} {$col['type']}";
-	}
-	Admin::$db -> exec("CREATE TABLE {$table} ({$a})");
-}
-
-
-
-/*       TODO нижние фунекции еще проверить надо       */
-
-/**
-* Selects data from array and create inputs
-* @param array $data
-* @return string
-*/
 function getForm($data){
 	$form = '';
 	foreach($data as $name => $input){
-		if($input['tag'] == 'textarea'){
-			$form .= '<div class="title">' . $input['title'] . '</div><div><textarea name="' . $name . '" ' . $input['props'] . '>' . $input['val'] . '</textarea></div>' . PHP_EOL;
-		} elseif ($input['tag'] == 'select'){
-			$form .= '<div class="title">' . $input['title'] . '</div><div>' . getSelect($input['values'], '', $input['val'], 'name="' . $name . '" '.$input['props']) . '</div>';
+		if($input['tag'] == 'checkbox'){
+			$form .= getCheckbox($name, $input['val'], $input['title']);
 		} else {
-			$form .= '<div class="title">' . $input['title'] . '</div><div><input type="' . $input['tag'] . '" name="' . $name . '" value="' . $input['val'] . '" ' . $input['props'] . '></div>' . PHP_EOL;
+			$form .= '<div class="form-group"><label for="' . $name . '">' . $input['title'] . '</label>';
+			if($input['tag'] == 'textarea'){
+				$form .= '<textarea name="' . $name . '" id="' . $name . '" ' . $input['props'] . '>' . $input['val'] . '</textarea>';
+			} elseif ($input['tag'] == 'select'){
+				$form .= getSelect(array_combine($input['values'], $input['values']), $input['val'], 'name="' . $name . '[]" ' . $input['props']);
+			} else {
+				$form .= '<input type="' . $input['tag'] . '" name="' . $name . '" id="' . $name . '" value="' . $input['val'] . '" ' . $input['props'] . '>';
+			}
+			$form .= '</div>';
 		}
 	}
 	return $form . PHP_EOL;

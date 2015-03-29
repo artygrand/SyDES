@@ -25,7 +25,6 @@ body,h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:Arial;}
 .modal-footer .btn+.btn {margin-left:15px;}
 .btn {border-radius:0;}
 
-
 #notify {position:fixed;top:0;right:0;z-index:110;padding:0;}
 #notify li {width:250px;list-style:none;margin:5px;padding:10px;text-align:center;color:black;}
 .paginator .active{font-weight: bold;}
@@ -52,9 +51,22 @@ select.site-modules{height:114px;}
 .l-6{padding-left:100px}
 .l-7{padding-left:120px}
 .l-8{padding-left:140px}
+.l-9{padding-left:160px}
+.l-10{padding-left:180px}
+[data-level="1"]+.ready-to-connect{margin-left:75px}
+[data-level="2"]+.ready-to-connect{margin-left:95px}
+[data-level="3"]+.ready-to-connect{margin-left:115px}
+[data-level="4"]+.ready-to-connect{margin-left:135px}
+[data-level="5"]+.ready-to-connect{margin-left:155px}
+[data-level="6"]+.ready-to-connect{margin-left:175px}
+[data-level="7"]+.ready-to-connect{margin-left:195px}
+[data-level="8"]+.ready-to-connect{margin-left:215px}
+[data-level="9"]+.ready-to-connect{margin-left:235px}
+[data-level="10"]+.ready-to-connect{margin-left:255px}
 
 .pagesheader{font-weight:bold;padding:5px;}
 .sortable{padding:0;list-style:none;}
+.ready-to-connect{padding:10px 0;background:#eee;}
 .pagerow{border-top:1px solid #eee;border-bottom:1px solid #eee;padding:5px;min-height:42px;}
 .pagerow:hover{background:#F5F5F5}
 .cell{display:inline-block;height:30px;vertical-align:middle;}
@@ -68,7 +80,8 @@ li .id{line-height:26px;}
 .type.page:before{content:"\e119";}
 .type.catopen:before{content:"\e114";}
 .type.catclosed:before{content:"\e080"}
-.ui-sortable-placeholder{height:42px;}
+.pagestree .ui-sortable-placeholder{height:42px;}
+.ui-sortable-helper ul{padding:0;}
 
 .fullpath{margin-bottom:0;}
 #parent{opacity:0;width:1px;}
@@ -77,3 +90,12 @@ li .id{line-height:26px;}
 .fullpath:hover #path, #parent:focus+#path{opacity:0;width:2px !important;}
 .help{cursor:help;}
 .help:after{content: "?";margin-left:1px;font-size:10px;vertical-align:top;}
+
+/* jQuery-UI*/
+.ui-helper-hidden-accessible{display:none;}
+.custom-combobox {position:relative;}
+.ui-autocomplete {position:absolute;top:0;left:0;background-color:#FFF;border:1px solid #CCC;padding:0;margin:0;list-style:none;}
+.ui-autocomplete a{display:block;padding:5px 10px;cursor:pointer;}
+.ui-datepicker{font-size: 12px;}
+#value{z-index:2;position: relative;}
+.ui-state-focus{background: #F5F5F5 !important;margin:0 !important;border:0 !important;}

@@ -4,7 +4,8 @@
 	<title><?php echo $title;?> :: SyDES</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
 	<link href="template/css/structure.min.css" rel="stylesheet" media="screen">
 	<link href="template/css/skin/<?php echo $skin?>.css" rel="stylesheet" media="screen" id="skin">
 
@@ -21,9 +22,10 @@
 	</style>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="template/js/hoverintent.min.js"></script>
 	<script src="template/js/checkboxrange.min.js"></script>
+	<script src="template/js/combobox.min.js"></script>
 	<script src="template/js/main.js"></script>
 <?php if ($jsfiles) echo addFiles('js', $jsfiles);?>
 
@@ -47,12 +49,9 @@
 		<div class="col-xs-12 col-sm-3">
 			<h3><?php echo lang('settings');?></h3>
 			<ul class="list-unstyled row">
-				<li class="col-xs-6 col-sm-12"><a href="?mod=menu"><?php echo lang('menu');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=config"><?php echo lang('configuration');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=templates"><?php echo lang('templates');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=iblocks"><?php echo lang('iblocks');?></a></li>
-				<li class="col-xs-6 col-sm-12"><a href="?mod=import"><?php echo lang('export/import');?></a></li>
-				<li class="col-xs-6 col-sm-12"><a href="?mod=pages&type=trash"><?php echo lang('trash_bin');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?mod=logs"><?php echo lang('logs');?></a></li>
 				<li class="col-xs-6 col-sm-12"><a href="?act=logout"><?php echo lang('exit');?></a></li>
 			</ul>

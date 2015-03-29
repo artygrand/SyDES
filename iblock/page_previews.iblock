@@ -1,0 +1,52 @@
+<?php
+/**
+* Infoblock: Pages preview
+* Gets preview text, title and link from child pages
+* Usage:
+* {iblock:page_previews} - shows only one category
+* {iblock:page_previews?show=all} - from all categories
+*/
+
+$format = '
+<div class="item">
+	<div class="heading3"><span class="date">%4$s<span> // <a href="%3$s">%1$s</a></div>
+	<p>%2$s</p>
+</div>';
+
+$perpage = isset($perpage) ? $perpage : 20;
+$skip = isset($_GET['skip']) ? (int)$_GET['skip'] : 0;
+
+$locale = count(Core::$siteConfig['locales']) > 1 ? Core::$siteConfig['locale'] : false;
+$fullpath = $locale ? str_replace_once($locale . '/', '', $page['fullpath']) : $page['fullpath'];
+$where = (isset($show) and $show == 'all') ? "fullpath LIKE '/{$fullpath}/%'" : "parent_id = {$page['id']}";
+
+foreach(Core::$siteConfig['page_types'] as $k => $v){
+	if ($v['structure'] == 'list'){
+		$list_types[] = $k;
+	}
+}
+$list_types = "'" . implode("','", $list_types) . "'";
+
+$data = getPages(array($where, "type IN ({$list_types})", 'status > 0'), 'status, id DESC', $perpage, $skip);
+$count = getPagesCount(array($where, "type IN ({$list_types})", 'status > 0'));
+
+if (!$data){
+	return;
+}
+
+mb_internal_encoding('UTF-8');
+foreach($data as $d){
+	$pos = strrpos($d['content'], '<div tag="more"></div>');
+	if ($pos !== false){
+		$d['content'] = strip_tags(substr($d['content'], 0, $pos));
+	} else {
+		$d['content'] = mb_substr(strip_tags($d['content']), 0, 300);
+	}
+	if (isset($d['meta:image'])){
+		$d['content'] = "<img src=\"{$d['meta:image']}\" class=\"item-image-mini\">" . $d['content'];
+	}
+	printf($format, $d['title'], $d['content'], $d['fullpath'], $d['meta:date']);
+}
+
+echo getPaginator($page['fullpath'], $count, $skip, $perpage);
+?>

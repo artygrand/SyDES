@@ -1,8 +1,5 @@
-[SyDES 1.8](http://sydes.artygrand.ru) - Mini cms with SQLite
+[SyDES 1.8](http://sydes.ru) - Mini cms with SQLite
 =============
-
-    [//////////////////////////// ]
-    Work in progress. Please, wait.
 
 Main features
 -------------
@@ -16,7 +13,7 @@ Main features
 6. Uses a SQLite3, but ready for other databases (via PDO)
 7. Ease the development and integration of new templates
 8. User-friendly URLs, automatic robots.txt, sitemap.xml and rss
-9. Automatic page caching
+9. Automatic page caching and thumbnails creation
 
 Install
 ------------

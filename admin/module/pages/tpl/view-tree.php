@@ -1,7 +1,7 @@
 <?php
 $format = '
 <li class="s-%5$s" id="%1$d">
-	<div class="pagerow">
+	<div class="pagerow" data-level="%3$s">
 	<div class="cell checker"><input type="checkbox" class="ids" name="id[]" value="%1$d"></div>
 	<div class="cell id">#%1$d</div>
 	<div class="cell title l-%3$s"><span class="type %6$s"></span> <a href="..%4$s">%2$s</a></div>
@@ -16,7 +16,7 @@ $format = '
 						<li><a href="?mod=pages&type=' . $type . '&act=edit&source=%1$d">' . lang('clone') . '</a></li>
 						<li><a href="?mod=pages&type=' . $type . '&act=edit&parent=%1$d">' . lang('add_subpage') . '</a></li>
 						<li class="divider"></li>
-						<li><a class="danger" href="?mod=pages&act=send&to=trash&id=%1$d">' . lang('delete') . '</a></li>
+						<li><a class="danger" href="?mod=pages&type=' . $type . '&act=delete&id=%1$d">' . lang('delete') . '</a></li>
 					</ul>
 				</div>
 			</div>
@@ -35,12 +35,14 @@ $menu = '<div class="pagesheader">
 </div>
 <ul class="pagestree sortable">' . PHP_EOL;
 
-if (empty($pages[0])){
+if (empty($pages)){
 	echo $menu, '<li>', lang('empty'), '</li></ul>';
 	return;
 }
-$prev_id = $pages[0]['id'];
-$prev_parent = $pages[0]['parent_id'];
+$current = current($pages);
+
+$prev_id = $current['id'];
+$prev_parent = $current['parent_id'];
 
 foreach($pages as $page){
 	if($prev_parent != $page['parent_id']){

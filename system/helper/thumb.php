@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class SimpleImage{
 	public $image;
 	public $image_type;
@@ -25,7 +31,7 @@ class SimpleImage{
 		$this->height = imagesy($this->image);
 	}
 
-	public function save($filename, $image_type=IMAGETYPE_JPEG, $compression=75, $permissions=0777) {
+	public function save($filename, $image_type=IMAGETYPE_JPEG, $compression=75, $permissions=0777){
 		if( $image_type == IMAGETYPE_JPEG ) {
 			imagejpeg($this->image,$filename,$compression);
 		} elseif( $image_type == IMAGETYPE_GIF ) {
@@ -73,25 +79,32 @@ class SimpleImage{
 	}
 }
 
-if (isset($_GET['src']) and $_GET['src']){
-	$pic_str = str_replace('/', '_', $_GET['src']);
-	$pic_width = (int)$_GET['width'];
-	$pic_height = (int)$_GET['height'];
-	$cachedImg = 'cache/pic_' . $pic_width . '_' . $pic_height . '_' . $pic_str;
-	if (!is_file($cachedImg) and count(glob('cache/pic_*_' . $pic_str)) < 5){
-		$image = new SimpleImage();	
-		$image->load($_GET['src']);
-		if ($pic_height > 500 or $pic_width > 500 or $pic_height < 50 or $pic_width < 50){
-			header("HTTP/1.0 404 Not Found");
-			die;
-		}
-		if ($image->width > $pic_width and $image->height > $pic_height){
-			$image->doit('crop', $pic_width, $pic_height);
-		}
-		$image->save($cachedImg);
-		$image->destroy();
+if (!empty($_GET['src']) and !empty($_GET['width']) and !empty($_GET['height'])){
+	$width = (int)$_GET['width'];
+	$height = (int)$_GET['height'];
+	$source = ROOT_DIR . $_GET['src'];
+	$th_dir = THUMB_DIR . "{$width}_{$height}/" . dirname($_GET['src']);
+	$thumb = THUMB_DIR . "{$width}_{$height}/{$_GET['src']}";
+
+	if (count(glob(THUMB_DIR . '*_*/' . $_GET['src'])) > 4 or $height > 500 or $width > 500 or $height < 50 or $width < 50){
+		header("HTTP/1.0 404 Not Found");
+		die;
 	}
-	header('Location: /' . $cachedImg);
+	$image = new SimpleImage();
+	$image->load($source);
+
+	if ($image->width > $width or $image->height > $height){
+		$image->doit('resize', $width, $height);
+	}
+
+	if (!file_exists($th_dir)){
+		mkdir($th_dir, 0777, true);
+	}
+	
+	$image->save($thumb);
+	$image->destroy();
+	
+	header('Location: ' . $_SERVER['REQUEST_URI']);
 	die;
 }
 ?>

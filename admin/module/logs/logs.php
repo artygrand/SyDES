@@ -1,10 +1,10 @@
 <?php
 /**
-* SyDES :: box module for configure templates and layouts
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class Logs extends Module{
 	public $name = 'logs';
 	public static $allowed4html = array('view');

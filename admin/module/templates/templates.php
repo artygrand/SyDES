@@ -1,10 +1,10 @@
 <?php
 /**
-* SyDES :: box module for configure templates and layouts
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class Templates extends Module{
 	public $name = 'templates';
 	public static $allowed4html = array('view', 'file_edit', 'file_save', 'file_delete', 'layout_edit', 'layout_save', 'layout_delete', 'layout_add', 'file_saveas');
@@ -167,7 +167,7 @@ class Templates extends Module{
 
 	public function layout_delete(){
 		if (!User::isMasterActive()){
-			throw new Exception('restricted');
+			throw new Exception('restricted_need_matercode');
 		}
 		$layouts = $this->getLayouts();
 		unset($layouts[$_GET['layout']]);
@@ -246,18 +246,22 @@ class Templates extends Module{
 		if (count($need)){
 			foreach($need as $file){
 				$name = str_replace('.html', '', $file);
-				$layouts[$name] = array('name' => $name, 'file' => $file, 'left' => '', 'right' => '', 'top' => '', 'bottom' => '');
+				if (!isset($layouts[$name])){
+					$layouts[$name] = array('name' => $name, 'file' => $file, 'left' => '', 'right' => '', 'top' => '', 'bottom' => '');
+				} else {
+					$layouts[$name]['file'] = $file;
+				}
 			}
 			if(file_put_contents($this->layouts, serialize($layouts)) === false) throw new Exception(lang('not_saved'));
 		}
 	}
 
 	public function getIblocks(){
-		$path = glob(SYS_DIR . 'iblock/*.iblock');
+		$path = glob(IBLOCK_DIR . '*.iblock');
 		$pre = '';
 		if($path){
 			foreach($path as $file){
-				$file = str_replace(array(SYS_DIR . 'iblock/','.iblock'), array('{iblock:','}'), $file);
+				$file = str_replace(array(IBLOCK_DIR,'.iblock'), array('{iblock:','}'), $file);
 				$pre .= $file . PHP_EOL;
 			}
 		}

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 $robots = "User-agent: *
 Disallow: /?*
 Disallow: /index.php*

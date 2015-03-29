@@ -1,29 +1,32 @@
 <?php
 /**
-* Just sitemap plugin, for search engines
-*
-* version 1.0
-* author ArtyGrand
-*/
-$base = substr($base, 0, -1);
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+foreach(Core::$config['domains'] as $base => $nsite){
+	if ($nsite == $site) break; //mystical seeker of base
+}
+$stmt = Core::$db -> query("SELECT fullpath FROM pages WHERE status > 0 ORDER BY fullpath");
+$paths = $stmt -> fetchAll(PDO::FETCH_COLUMN);
+
 $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
-if(count($conf['locale']) == 1){
-	$stmt = $db -> query("SELECT fullpath FROM pages WHERE status = '1' ORDER BY fullpath;");
-	$rawLoc = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-	foreach($rawLoc as $loc){
-		$sitemap .= '   <url>
-		  <loc>http://' . $base . $loc['fullpath'] . '</loc>
-	   </url>' . PHP_EOL;
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+if(count(Core::$siteConfig['locales']) == 1){
+	foreach($paths as $path){
+		$sitemap .= '
+	<url>
+		<loc>http://' . $base . $path . '</loc>
+	</url>';
 	}
 } else {
-	foreach($conf['locale'] as $loca){
-		$stmt = $db -> query("SELECT pages.fullpath FROM pages, pages_content WHERE pages.status = '1' AND pages_content.locale = '{$loca}' AND pages_content.page_id = pages.id");
-		$rawLoc = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-		foreach($rawLoc as $loc){
-			$sitemap .= '   <url>
-			  <loc>http://' . $base . '/' . $loca . $loc['fullpath'] . '</loc>
-		   </url>' . PHP_EOL;
+	foreach(Core::$siteConfig['locales'] as $locale){
+		foreach($paths as $path){
+			$sitemap .= '
+	<url>
+		<loc>http://' . $base . '/' . $locale . $path . '</loc>
+	</url>' . PHP_EOL;
 		}
 	}
 }

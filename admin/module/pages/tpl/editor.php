@@ -15,5 +15,12 @@
 </div>
 <div class="form-group">
 	<label><?php echo lang('page_content');?></label>
-	<textarea class="form-control" rows="25" name="content"><?php echo $page['content'];?></textarea>
+	<textarea class="form-control" rows="25" name="content" id="editor"><?php echo $page['content'];?></textarea>
 </div>
+
+<script src="/admin/ckeditor/ckeditor.js"></script>
+<script src="/admin/ckfinder/ckfinder.js"></script>
+<script>
+var editor = CKEDITOR.replace('editor',{height:400});
+CKFinder.setupCKEditor(editor,'/admin/ckfinder/') ;
+</script>

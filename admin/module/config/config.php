@@ -1,10 +1,10 @@
 <?php
 /**
-* SyDES :: box module for configure and manage sites
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class Config extends Module{
 	public $name = 'config';
 	public static $allowed4html = array('view', 'save', 'sitemanager_view', 'profile_view', 'modules_view', 'pages_view', 'site_update', 'site_delete', 'profile_update', 'module_install', 'module_uninstall', 'pages_update');
@@ -89,10 +89,10 @@ class Config extends Module{
 		foreach(glob('module/*') as $mod){
 			$mod = str_replace('module/', '', $mod);
 			if(!in_array($mod, $box)){
-				if(file_exists('module/' . $mod . '/lang/' . Admin::$lang . '.php')){
-					include 'module/' . $mod . '/lang/' . Admin::$lang . '.php';
+				if(file_exists('module/' . $mod . '/language/' . Admin::$lang . '.php')){
+					include 'module/' . $mod . '/language/' . Admin::$lang . '.php';
 				} else {
-					include "module/{$mod}/lang/en.php";
+					include "module/{$mod}/language/en.php";
 				}
 				$modules[$mod]['name'] = $l['module_name'];
 				$modules[$mod]['installed'] = in_array($mod, array_keys(Admin::$config['modules']));
@@ -117,11 +117,6 @@ class Config extends Module{
 		foreach($template->getLayouts() as $k => $v){
 			$layouts[$k] = $v['name'];
 		}
-		if (!issetTable('pages')){
-			include 'module/pages/pages.php';
-			$pages = new Pages();
-			$pages->install();
-		}
 		$types = Admin::$siteConfig['page_types'];
 		foreach($types as $k => $v){
 			if ($v['structure'] == 'tree') $tree[] = $k;
@@ -129,9 +124,9 @@ class Config extends Module{
 		$types['new'] = array('title' => '<span class="glyphicon glyphicon-plus"></span> ' . lang('create_new_pagetype'),'layout' => '','structure' => '','root' => '','meta' => array());
 		$tree = implode("','", $tree);
 		
-		$stmt = Admin::$db -> query("SELECT pages.id, pc.title FROM pages, pages_content pc WHERE pages.type IN ('$tree') AND pc.page_id = pages.id AND pc.locale = '" . Admin::$locale . "' ORDER BY pages.type, pages.position");
+		$stmt = Admin::$db -> query("SELECT pages.id, pc.title FROM pages, pages_content pc WHERE pages.type IN ('$tree') AND pc.page_id = pages.id AND pages.parent_id = 0 AND pc.locale = '" . Admin::$locale . "' ORDER BY pages.type, pages.position");
 		$pages = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-		array_unshift($pages, array('id' => 0, 'title' => lang('root')));
+		$pages[] = array('id' => 0, 'title' => lang('root'));
 		foreach($pages as $k){
 			$roots[$k['id']] = $k['title'];
 		}
@@ -151,7 +146,7 @@ class Config extends Module{
 		}
 		foreach($_POST['types'] as $type => $data){
 			if ($type != 'new'){
-				$data['meta'] = explode(' ', $data['meta']);
+				$data['meta'] = $data['meta'] ? explode(' ', $data['meta']) : array();
 				Admin::$siteConfig['page_types'][$type] = array_merge(Admin::$siteConfig['page_types'][$type], $data);
 			}
 		}
@@ -171,6 +166,7 @@ class Config extends Module{
 		if (!User::isMasterActive()){
 			throw new Exception('restricted');
 		}
+		Admin::$config['domains'] = array();
 		foreach($_POST['sites'] as $site => &$data){
 			$data['domains'] = trim($data['domains']);
 			$data['locales'] = trim($data['locales']);
@@ -232,10 +228,10 @@ class Config extends Module{
 			Admin::$config['admin']['username'] = $_POST['username'];
 		}
 		if (!empty($_POST['password'])){
-			Admin::$config['admin']['password'] = $_POST['password'];
+			Admin::$config['admin']['password'] = md5($_POST['password']);
 		}
 		if (!empty($_POST['newmastercode'])){
-			Admin::$config['admin']['mastercode'] = $_POST['newmastercode'];
+			Admin::$config['admin']['mastercode'] = md5($_POST['newmastercode']);
 		}
 		Admin::$config['admin']['autologin'] = isset($_POST['autologin']);
 		Admin::$config['admin']['admin_ip'] = !empty($_POST['admin_ip']) ? explode(' ', $_POST['admin_ip']) : array();
@@ -246,9 +242,9 @@ class Config extends Module{
 	
 	public function module_install(){
 		if (file_exists("module/{$_GET['module']}/{$_GET['module']}.php")){
-			foreach(glob("module/{$_GET['module']}/lang/*.php") as $lang){
+			foreach(glob("module/{$_GET['module']}/language/*.php") as $lang){
 				include $lang;
-				$lang = str_replace(array("module/{$_GET['module']}/lang/", '.php'), '', $lang);
+				$lang = str_replace(array("module/{$_GET['module']}/language/", '.php'), '', $lang);
 				Admin::$config['modules'][$_GET['module']]['name'][$lang] = $l['module_name'];
 			}
 			Admin::$config['modules'][$_GET['module']]['quick'] = false;
@@ -268,6 +264,8 @@ class Config extends Module{
 				
 			}
 		}
+		$this->dropTable($_GET['module']); // only in current site :(
+		
 		Admin::saveConf();
 		redirect('?mod=config&act=modules_view', lang('module_uninstalled'), 'success');
 	}

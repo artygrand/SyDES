@@ -8,29 +8,34 @@ Options -Indexes
 	Order allow,deny
 </FilesMatch>
 
-# SEO URL Settings
-RewriteEngine On
-RewriteBase /
+# SEF URL Settings
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
 
-#heplers redirecting
-RewriteRule ^sitemap.xml$ /index.php?helper=sitemap [L]
-RewriteRule ^robots.txt$ /index.php?helper=robots [L]
-RewriteRule ^rss/(.+)$ /index.php?helper=rss&stream=$1 [L]
-RewriteRule ^thumb/(\d+)_(\d+)/(.+)$ /index.php?helper=thumb&width=$1&height=$2&src=$3 [L]
+	#heplers redirecting
+	RewriteRule ^sitemap.xml$ /index.php?helper=sitemap [L]
+	RewriteRule ^robots.txt$ /index.php?helper=robots [L]
+	RewriteRule ^rss/(.+)$ /index.php?helper=rss&p=$1 [L]
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/$ $1 [NC,R=301,L]
+	RewriteCond %{REQUEST_URI} ^(/thumb/)
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^thumb/(\d+)_(\d+)/(.+)$ /index.php?helper=thumb&width=$1&height=$2&src=$3 [L]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?p=$1 [QSA]
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)/$ $1 [NC,R=301,L]
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php?p=$1 [QSA]
+</IfModule>
 
 ErrorDocument 404 /error
 ErrorDocument 403 /error
 
 <IfModule mod_php5.c>
 	php_flag magic_quotes_gpc 0
-	php_flag display_errors 1
+	php_flag register_globals off
 </IfModule>
 
 ## optimization below
@@ -41,10 +46,10 @@ ErrorDocument 403 /error
 
 <IfModule mod_headers.c>
 <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|js)$">
-#	Header set Cache-Control "max-age=604800, public"
+	Header set Cache-Control "max-age=604800, public"
 </FilesMatch>
 <FilesMatch "\.(x?html?)$">
-#	Header set Cache-Control "max-age=86400, private, must-revalidate"
+	Header set Cache-Control "max-age=86400, private, must-revalidate"
 </FilesMatch>
 </IfModule>
 
@@ -52,7 +57,7 @@ ErrorDocument 403 /error
 <filesMatch "\.(ico|pdf|flv|jpe?g|png|gif|js|css|swf)$">
 	Header unset ETag
 	FileETag None
-	Header unset Last-Modified
+#	Header unset Last-Modified
 </filesMatch>
 </ifModule>
 

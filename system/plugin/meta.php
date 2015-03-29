@@ -1,8 +1,13 @@
 <?php
 /**
-* Work with meta data for each page and global system settings
-* May use with other modules.
-*/
+ * Work with meta data for each page and global system settings
+ * May use with other modules.
+ *
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class Meta{
 	public $magic = array(
 		'image' => array('img','image','photo','preview','pic','picture', 'картинка'),
@@ -30,13 +35,11 @@ class Meta{
 
 	public function getPlugin($pageId){
 		if (!issetTable($this->table)){ // create table on first access
-			$cols = array('page_id' => array('type' => 'INTEGER NOT NULL'), 'key' => array('type' => 'TEXT'), 'value' => array('type' => 'TEXT'));
-			createTable($this->table, $cols);
+			Admin::$db -> exec("CREATE TABLE {$this->table} (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, page_id INTEGER NOT NULL, key TEXT, value TEXT, UNIQUE (page_id,key));");
 		}
 		$metaData = '
 		<div id="meta" class="form-group"><label class="help" title="' . lang('meta_tip') . '">' . lang('meta_data') . '</label>
 		' . $this->existingKeys() . '
-		<input type="text" value="" id="key" placeholder="' . lang('meta_key') . '" class="form-control">
 		<input type="text" value="" id="value" placeholder="' . lang('meta_value') . '" class="form-control">
 		<div class="text-center">
 			<button class="btn btn-primary btn-sm" type="button" onclick="meta_add(' . $pageId . ', \'' . $this->module . '\')"><span class="glyphicon glyphicon-arrow-down"></span> ' . lang('add') . '</button>
@@ -51,10 +54,13 @@ class Meta{
 
 	public function existingKeys(){
 		$stmt = Admin::$db->query("SELECT key FROM {$this->table} GROUP BY key ORDER BY key");
-		$keys = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		array_unshift($keys, array('key' => lang('exist_keys')));
-		foreach($keys as $k){
-			$ks[$k['key']] = $k['key'];
+		$keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
+		if ($keys){
+			foreach($keys as $k){
+				$ks[$k] = $k;
+			}
+		} else {
+			$ks['title'] = 'title';
 		}
 		return getSelect($ks, false, 'id="keys" class="form-control"');
 	}

@@ -1,18 +1,24 @@
 <?php
 /**
-* SyDES :: admin index file
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 session_start();
 
 require '../config.php';
 require SYS_DIR . 'common.php';
+require SYS_DIR . 'core.php';
 require SYS_DIR . 'admin.php';
 require SYS_DIR . 'module.php';
 require SYS_DIR . 'user.php';
 require 'hook.php';
+
+if (DEBUG){
+	ini_set('display_errors',1);
+	error_reporting(E_ALL);
+}
 
 $admin = new Admin();
 
@@ -39,9 +45,7 @@ if (!$user->hasPermission()) die(json_encode(array('error' => lang('unauthorized
 
 // continue to configure the instance
 $admin->setSite();
-Admin::$db = new PDO('sqlite:' . SITE_DIR . Admin::$site . '/database.db');
-Admin::$db->exec('SET NAMES "utf8"');
-Admin::$db->exec('SET time_zone = "'. date_default_timezone_get() .'"');
+Admin::connect2db(Admin::$site);
 Admin::$siteConfig = unserialize(file_get_contents(SITE_DIR . Admin::$site . '/config.db'));
 $admin->setLocale();
 

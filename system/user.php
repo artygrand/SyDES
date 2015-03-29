@@ -1,10 +1,10 @@
 <?php
 /**
-* SyDES :: user main class file
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 class User{
 	public function __construct(){
 		$this->username = Admin::$config['admin']['username'];

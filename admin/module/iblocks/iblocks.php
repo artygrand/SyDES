@@ -1,11 +1,10 @@
 <?php
 /**
-* SyDES :: box module for creating and editing infoblocks
-* @version 1.8✓
-* @copyright 2011-2013, ArtyGrand <artygrand.ru>
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*/
- 
+ * @package SyDES
+ *
+ * @copyright 2011-2014, ArtyGrand <artygrand.ru>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */ 
 class Iblocks extends Module{
 	public $name = 'iblocks';
 	public static $allowed4html = array('view', 'edit', 'save', 'delete');
@@ -13,7 +12,7 @@ class Iblocks extends Module{
 	public static $allowed4demo = array('view', 'edit');
 
 	function __construct(){
-		$this->dir = SYS_DIR . 'iblock/';
+		$this->dir = IBLOCK_DIR;
 		if (!isset($_GET['iblock'])){$_GET['iblock'] = '';}
 		$this->path = $this->dir . $_GET['iblock'] . '.iblock';
 	}

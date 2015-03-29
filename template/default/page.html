@@ -1,37 +1,75 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<!-- HTML5 Boilerplate -->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
 <head>
-	<meta http-equiv="Content-Language" content="ru">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>{meta:title}</title>
-	<meta name="generator" content="SyDES - CMS from ArtyGrand">
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Language" content="ru">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{meta:description}">
 	<meta name="keywords" content="{meta:keywords}">
+	<meta name="generator" content="SyDES - CMS from ArtyGrand">
 	<base href="{base}">
+
+	<link rel="stylesheet" href="vendor/reset-grid.min.css" media="all">
+	<link rel="stylesheet" href="vendor/shadowbox-3.0.3/shadowbox.css" media="all">
+	<link rel="stylesheet" href="vendor/nivo-slider/nivo-slider.css" media="all">
 	<link rel="stylesheet" href="template/default/style.css" media="all">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="template/default/script.js"></script>
-	<link rel="icon" href="templates/default/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="favicon.png">
+
+	<script src="vendor/modernizr-2.5.3-min.js"></script>
 </head>
+
 <body>
-<div class="wrapper">
-	<div class="header">
-		<a href="" class="logo">{meta:site_title}</a>
-		{iblock:menu}
-	</div>
-	<div class="main">
-		<h1>{title}</h1>
-		{box:left}
-		{box:right}
-		<div class="content">
+	<header>
+		<div class="wrapper group">
+			<div class="col span-3-12">
+				<a href="" class="logo"><img src="template/default/img/logo.png"></a>
+			</div>
+			<nav class="col span-9-12">
+				{iblock:menu}
+			</nav>
+		</div>
+	</header>
+
+	<section class="main">
+		<div class="wrapper">
+			<div class="breadcrumbs">
+				{iblock:breadcrumbs}
+			</div>
+			{box:left}
 			{box:top}
 			{content}
 			{box:bottom}
+			{box:right}
 		</div>
-	</div>
-</div>
-<div class="footer">
+	</section>
+
+	<footer>
+		<div class="wrapper group">
+			<div class="col span-1-2">
+				© SiteOwner, 2011&ndash;2014
+			</div>
+			<div class="col span-1-2 text-right">
+				Powered by <a href="http://sydes.ru" class="">SyDES</a>
+			</div>
+		</div>
+	</footer>
 	
-</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+	<!--[if (lt IE 9) & (!IEMobile)]>
+	<script src="vendor/selectivizr-min.js"></script>
+	<![endif]-->
+	<script src="vendor/shadowbox-3.0.3/shadowbox.js"></script>
+	<script src="vendor/nivo-slider/jquery.nivo.slider.pack.js"></script>
+	<script src="template/default/script.js"></script>
+	{iblock:counters}
 </body>
 </html>

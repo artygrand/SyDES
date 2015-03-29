@@ -1,0 +1,86 @@
+<?php
+/**
+* Infoblock: Menu
+* Shows a list of pages or random links
+* Usage:
+* {iblock:menu} = dynamic menu, shows a tree of all pages with status = 2
+* {iblock:menu?show=branch} = dynamic menu, shows only current branch of a tree
+* {iblock:menu?show=%type%} = dynamic menu, shows a tree of pages with specified type //TODO update admin
+* {iblock:menu?show=%id%} = %id% is id of previously created menu
+* {iblock:menu?max_level=%num%} = %num% - limiting nesting menu
+*/
+
+if (!isset($page['id'])){
+	$page['id'] = 0;
+	$page['parent_id'] = 0;
+	$page['fullpath'] = '';
+}
+if (!isset($show)){
+	$show = 'all';
+}
+if (!isset($max_level)){
+	$max_level = 10;
+}
+
+foreach(Core::$siteConfig['page_types'] as $k => $v){
+	if ($v['structure'] == 'tree'){
+		$tree_types[] = $k;
+	}
+}
+$tree_types = "'" . implode("','", $tree_types) . "'";
+
+if ($show == 'all'){
+	$pages = getPages(array("type IN ({$tree_types})", "status = 2"), 'position');
+} elseif ($show == 'branch'){
+	$locale = count(Core::$siteConfig['locales']) > 1 ? Core::$siteConfig['locale'] : '';
+	$fullpath = !empty($locale) ? str_replace_once($locale . '/', '', $page['fullpath']) : $page['fullpath'];
+	$root = $page['parent_id'] > 0 ? substr($fullpath, 0, strpos($fullpath, '/', 1)) : $fullpath;
+	$pages = getPages(array("type IN ({$tree_types})", "fullpath LIKE '/{$root}/%'", "status = 2"), 'position');
+} elseif (is_numeric($show)){
+	$stmt = Core::$db -> query("SELECT context FROM menu WHERE id = {$show}");
+	$pages = unserialize($stmt -> fetchColumn());
+} else {
+	$pages = getPages(array("type = '{$show}'", "status = 2"), 'position');
+}
+if (!$pages) return;
+
+
+if (!is_numeric($show)){
+	foreach($pages as $k => $child){
+		$pages[$k]['level'] = substr_count($child['fullpath'], '/');
+		if (!isset($prev_level)){
+			$prev_level = $pages[$k]['level'];
+		}
+	}
+} else {
+	$prev_level = 1;
+}
+
+$menu = '<ul class="dmenu" id="menu-' . $show . '">' . PHP_EOL;
+foreach($pages as $child){
+	if($prev_level != $child['level']){
+		if ($max_level < $child['level']){
+			continue;
+		}
+		if ($prev_level < $child['level']){
+			$menu = substr($menu, 0, -5); 
+			$menu .= '<ul>' . PHP_EOL;
+		} else {
+			$delta = ($prev_level - $child['level']) * 5;
+			$menu .= str_pad('', $delta, '</ul>') . PHP_EOL . '</li>' . PHP_EOL; 
+		}
+	}
+	$menu .= '<li';
+	
+	if ($child['fullpath'] == $page['fullpath']){
+		$menu .= ' class="active"';
+	} elseif ($child['fullpath'] and strpos($page['fullpath'], $child['fullpath']) === 0){
+		$menu .= ' class="opened"';
+	}
+	$menu .= '><a href="'. $child['fullpath'] . '">' . $child['title'] . '</a></li>';
+	$prev_level = $child['level'];
+}
+
+$delta = ($prev_level - 1) * 5;
+echo $menu, str_pad('', $delta, '</ul>'), PHP_EOL, '</ul>', PHP_EOL;
+?>

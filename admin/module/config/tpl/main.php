@@ -29,3 +29,4 @@
 		</div>
 	</div>
 </div>
+<script src="/admin/ckfinder/ckfinder.js"></script>
