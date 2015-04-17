@@ -80,8 +80,11 @@ $registry->load->language('common');
 $user = new User();
 $registry->user = $user;
 
-foreach(glob(DIR_PLUGIN . '*') as $plugin){
-	include $plugin;
+$plugins = glob(DIR_PLUGIN . '*');
+if ($plugins){
+	foreach($plugins as $plugin){
+		include $plugin;
+	}
 }
 
 if (!file_exists(DIR_SITE . 'config.php')){
