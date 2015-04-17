@@ -147,7 +147,8 @@ class SitesController extends Controller{
 			'maintenance_mode' => $config['maintenance_mode'],
 			'need_cache' => $config['need_cache'],
 			'template' => H::select('template', $config['template'], $templates, 'class="form-control"'),
-			'site' => $this->site
+			'site' => $this->site,
+			'sites' => 1,
 		));
 		$data['sidebar_right'] = H::saveButton(DIR_SITE . $this->site . '/config.php') . $this->user->getMastercodeInput();
 		$data['sidebar_left'] = $this->getSideMenu('config/sites', array('interface'));

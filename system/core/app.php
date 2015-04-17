@@ -265,7 +265,7 @@ final class App extends HasRegistry{
 
 		$this->trigger('after.' . str_replace('/', '.', $this->route));
 
-		if ($this->response->body === NULL and $this->response->data){
+		if ($this->response->body === NULL and $this->response->data and !IS_AJAX){
 			$section->render();
 		}
 		$this->response->flush();
