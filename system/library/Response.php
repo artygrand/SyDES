@@ -59,6 +59,7 @@ class Response{
 			$this->addHeader("Location: http://{$host}{$url}");
 		}
 		$this->flush();
+		die;
 	}
 
 	public function reload(){
