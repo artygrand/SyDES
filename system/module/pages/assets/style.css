@@ -1,0 +1,47 @@
+#pages-tree{padding:0;}
+#pages-tree  li{list-style:none;}
+
+#pages-tree ul{padding-left:20px;}
+
+#pages-tree.idle ul{padding:0;}
+#pages-tree.idle li li .pages-row{padding-left:20px;}
+#pages-tree.idle li li li .pages-row{padding-left:40px;}
+#pages-tree.idle li li li li .pages-row{padding-left:60px;}
+#pages-tree.idle li li li li li .pages-row{padding-left:80px;}
+#pages-tree.idle li li li li li li .pages-row{padding-left:100px;}
+
+
+.pages-row{border-bottom:1px solid #eee;padding:5px 0;}
+.pages-row:hover{background:#F5F5F5}
+.pages-row, .pages-header{display:table;width:100%;}
+.cell{display:table-cell;vertical-align:middle;height:30px;}
+.cell.id, th.id, td.id{width:40px;text-align:right;}
+.cell.status, th.status{width:120px;}
+.cell.actions, th.actions{width:150px;}
+.ids{display:none;}
+
+.pages-header{font-weight:bold;border-bottom:2px solid #eee;}
+.pages-header .title{padding-left:30px;}
+
+.type{display:inline-block;font-family:'Glyphicons Halflings';-webkit-font-smoothing:antialiased;position:relative;top:2px;color:#777;line-height:14px;}
+.type:before {content:"\e068";cursor:move;display:block;width:30px;text-align:center;}
+.idle .type:before {content:"\e022";cursor:auto;}
+.idle .type.open:before{content:"\e118";cursor:pointer;}
+.idle .type.closed:before{content:"\e117";cursor:pointer;}
+#page-1 .type:before{content:"\e021";cursor:auto;}
+
+
+.status-wrap{overflow:hidden;width:100px;}
+.status-wrap select{border:0;width:120px;cursor:pointer;background:transparent;font-size:12px;}
+.status-wrap select:focus {outline:none;}
+
+#parent{width:150px;}
+.tab-pane{padding-top: 15px;}
+
+.selectable .ui-selecting {background:#fafae9;}
+.selectable .ui-selected {background:#ffc;}
+
+.ordered-asc:hover, .ordered-desc:hover{text-decoration:none;}
+.ordered-asc:after, .ordered-desc:after{font-family:'Glyphicons Halflings';-webkit-font-smoothing:antialiased;position:relative;top:2px;left:5px;color:#777;line-height:14px;}
+.ordered-asc:after{content:"\e155";}
+.ordered-desc:after{content:"\e156";}

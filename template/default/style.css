@@ -1,0 +1,33 @@
+.dmenu ul{display:none;}
+.dmenu .opened>ul, .dmenu .active>ul{display:block;}
+.dmenu .active>a{font-weight:bold;}
+
+/* design */
+#section-top{background:#666;color:#fff;}
+#section-top a{color:#000;}
+header{background:#ccc;color:#333;}
+header  .row{padding-top:20px;padding-bottom:20px;}
+
+section .container{min-height:500px;}
+
+footer{background:#333;color:#eee;}
+footer .container{padding-top:20px;padding-bottom:20px;}
+footer .container:last-child{border-top:2px solid #666;}
+footer h3{margin:0 0 10px;padding-bottom:5px;border-bottom:2px solid #eee;}
+footer ul{padding-left:20px;}
+footer a{color:#eee;}
+footer a:hover{color:#999;text-decoration:none;}
+
+
+
+.menu-horizontal{margin:0;padding:0;}
+.menu-horizontal li{list-style:none;}
+.menu-horizontal a{display:block;padding:6px 12px;}
+.menu-horizontal a:hover{text-decoration:none;}
+.menu-horizontal .active a{font-weight:bold;}
+.menu-horizontal>li{display:inline-block;position:relative;}
+.menu-horizontal ul{display:none;padding:0;background:#ccc;}
+.menu-horizontal>li:hover ul{display:block;position:absolute;z-index:100;}
+.menu-horizontal ul a{white-space:nowrap;}
+
+
