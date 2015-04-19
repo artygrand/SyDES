@@ -39,12 +39,11 @@ if ($args['show'] == 'all'){
 		$stmt = $this->db->query("SELECT position FROM pages WHERE id = {$page['parent_id']}");
 		$pos = explode('#', $stmt->fetchColumn());
 	}
-
 	$pages = $this->pages_model->getList(array("position LIKE '#{$pos[1]}#%'",  "status = 2"), 'position');
 } elseif (is_numeric($args['show'])){
-	// TODO на конфиг переписать
-	$stmt = $this->db -> query("SELECT context FROM menu WHERE id = {$args['show']}");
-	$pages = unserialize($stmt -> fetchColumn());
+	$config = new Config('menu');
+	$menu = $config->get($args['show']);
+	$pages = $menu['items'];
 } else {
 	if ($args['show'] == 'main'){
 		$args['show'] = 'page';
@@ -57,16 +56,22 @@ if (!$pages) return;
 if (!is_numeric($args['show'])){
 	foreach($pages as $i => $p){
 		$pages[$i]['level'] = substr_count($p['position'],'#');
+		$pages[$i]['attr_title'] = $pages[$i]['title'];
+		if ($p['id'] == $page['id']){
+			$pages[$i]['attr'] = 'class="active"';
+		} elseif (strpos($page['position'], $p['position']) === 0){
+			$pages[$i]['attr'] = 'class="opened"';
+		}
+	}
+} else {
+	foreach($pages as $i => $p){
+		if ($p['fullpath'] == $page['fullpath']){
+			$pages[$i]['attr'] = 'class="active"';
+			break;
+		}
 	}
 }
 
-foreach($pages as $i => $p){
-	if ($p['id'] == $page['id']){
-		$pages[$i]['attr'] = 'class="active"';
-	} elseif (strpos($page['position'], $p['position']) === 0){
-		$pages[$i]['attr'] = 'class="opened"';
-	}
-}
 $class = $args['class'] ? ' class="' . $args['class'] .'"' : '';
 
-echo H::treeList($pages, function($item){return '<a href="' . $item['fullpath'] . '">' . $item['title'] . '</a>';}, 'id="menu-' . $args['show'] . '"' . $class, $args['max_level']);
+echo H::treeList($pages, function($item){return '<a href="' . $item['fullpath'] . '" title="' . $item['attr_title'] . '">' . $item['title'] . '</a>';}, 'id="menu-' . $args['show'] . '"' . $class, $args['max_level']);
