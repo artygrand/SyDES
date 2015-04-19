@@ -14,34 +14,8 @@
 	 </div>
 </div>
 
-<div>
-	<ul class="nav nav-tabs">
-<? $i = ' class="active"';
-foreach($locales as $loc){ ?>
-		<li<?=$i?>><a href="#tab-<?=$loc;?>" data-toggle="tab"><?=$loc;?></a></li>
-<? $i = '';
-} ?>
-		<li class="pull-right"><a href="#tab-meta" data-toggle="tab"><?=t('meta_data');?></a></li>
-	</ul>
+<?=H::tab($tabs, 'tab-' . $locale, 'top', 'class="page-tabs"');?>
 
-	<div class="tab-content">
-<? $i = ' active';
-foreach($locales as $loc){ ?>
-		<div class="tab-pane<?=$i?>" id="tab-<?=$loc;?>">
-			<div class="form-group">
-				<label><?=t('page_title');?></label>
-				<input type="text" name="title[<?=$loc;?>]" class="form-control" value="<?=isset($page['title'][$loc]) ? $page['title'][$loc] : '';?>">
-			</div>
-			<div class="form-group">
-				<label><?=t('page_content');?></label>
-				<textarea class="form-control ckeditor" rows="25" name="content[<?=$loc;?>]" id="editor_<?=$loc;?>"><?=isset($page['content'][$loc]) ? $page['content'][$loc] : '';?></textarea>
-			</div>
-		</div>
-<? $i = '';
-} ?>
-		<div class="tab-pane" id="tab-meta"></div>
-	</div>
-</div>
 
 <script>
 CKFinder.setupCKEditor(null,'/vendor/ckfinder/');

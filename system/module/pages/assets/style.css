@@ -45,3 +45,5 @@
 .ordered-asc:after, .ordered-desc:after{font-family:'Glyphicons Halflings';-webkit-font-smoothing:antialiased;position:relative;top:2px;left:5px;color:#777;line-height:14px;}
 .ordered-asc:after{content:"\e155";}
 .ordered-desc:after{content:"\e156";}
+
+.nav-tabs li:only-of-type{display:none;}

@@ -291,12 +291,38 @@ class PagesController extends Controller{
 			</ul>
 		</div>';
 
+		$tabs = array();
+		foreach($this->config_site['locales'] as $loc){
+			$title = isset($page['title'][$loc]) ? $page['title'][$loc] : '';
+			$content = isset($page['content'][$loc]) ? $page['content'][$loc] : '';
+			$tabs['tab-' . $loc] = array(
+				'title' => t('content') . ' ' . $loc,
+				'content' => '
+<div class="form-group">
+	<label>' .t('page_title') . '</label>
+	<input type="text" name="title[' . $loc . ']" class="form-control" value="' . $title . '">
+</div>
+<div class="form-group">
+	<label>' .t('page_content') . '</label>
+	<textarea class="form-control ckeditor" rows="25" name="content[' . $loc . ']" id="editor_' . $loc . '">' . $content . '</textarea>
+</div>
+',
+			);
+		}
+		if ($permanent){
+			$tabs['tab-meta'] = array(
+				'title' => t('meta_data'),
+				'content' => '',
+			);
+		}
+
 		$data['content'] =  $this->load->view('pages/editor', array(
 			'page' => $page,
 			'parents' => $this->pages_model->getParentSelect($this->type, $page['parent_id'], $id),
-			'locales' => $this->config_site['locales'],
+			'locale' => $this->locale,
 			'type' => $this->type,
 			'base' => '//' . $this->base . '/',
+			'tabs' => $tabs,
 		));
 
 		$data['sidebar_right'] = H::saveButton(DIR_SITE . $this->site . '/database.db', $button) . $right;
