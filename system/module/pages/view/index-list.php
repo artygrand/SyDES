@@ -28,9 +28,15 @@
 
 <? foreach($pages as $page => $data){ ?>
 		<tr class="selectitem s-<?=$data['status'];?>">
-			<td><span class="type"></span><a href="<?=$base;?><?=$data['fullpath'];?>" target="_blank"><?=$data['title'];?></a></td>
+			<td>
+			<span class="type"></span><a href="?route=pages/edit&type=<?=$type;?>&id=<?=$data['id'];?>"><?=$data['title'];?></a>
+			<a href="<?=$base;?><?=$data['fullpath'];?>" target="_blank" class="view-page"><span class="glyphicon glyphicon-new-window"></span></a>
+			</td>
 <? if ($show_category){ ?>
-			<td><a href="?route=pages/edit&id=<?=$data['parent_id'];?>"><?=$data['parent_title'];?></a></td>
+			<td>
+				<a href="?route=pages/edit&type=<?=$type;?>&id=<?=$data['parent_id'];?>"><?=$data['parent_title'];?></a>
+				<a href="<?=$base;?><?=$data['parent_path'];?>" target="_blank" class="view-page"><span class="glyphicon glyphicon-new-window"></span></a>
+			</td>
 <? } ?>
 <? foreach($show_meta as $sm){ ?>
 			<td><? if(isset($data[$sm])){echo $data[$sm];}?></td>

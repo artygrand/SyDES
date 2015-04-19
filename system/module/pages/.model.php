@@ -382,7 +382,7 @@ class PagesModel extends Model{
 		}
 		$root = $this->config_site['page_types'][$type]['root'];
 		$condition = $type == 'page' ? " AND (p1.type='page' OR p1.id = 0)" : '';
-		$stmt = $this->db->query("SELECT p1.id, pc.title, p1.position
+		$stmt = $this->db->query("SELECT p1.id, pc.title, p1.position, p1.path
 		FROM pages p1, pages p2 
 		LEFT JOIN pages_content pc ON pc.page_id = p1.id AND pc.locale = '{$this->locale}' 
 		WHERE p2.id = {$root} AND (p1.position LIKE p2.position || '#%' OR p1.id = {$root}){$condition}
@@ -426,15 +426,19 @@ class PagesModel extends Model{
 		return $listing;
 	}
 
-	public function getTitles($type){
+	public function getParents($type){
 		$pages = $this->getBranchData($type);
 		foreach($pages as $p){
+			$p['fullpath'] = $p['path'] == '/' ? $this->in_url : ($this->in_url ? $this->in_url . $p['path'] : substr($p['path'], 1));
 			if ($p['id'] == 0){
 				$p['title'] = t('root');
 			} elseif ($p['id'] == 1){
 				continue;;
 			}
-			$return[$p['id']] = $p['title'];
+			$return[$p['id']] = array(
+				'title' => $p['title'],
+				'fullpath' => $p['fullpath'],
+			);
 		}
 		return $return;
 	}

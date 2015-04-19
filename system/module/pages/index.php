@@ -145,10 +145,11 @@ class PagesController extends Controller{
 			}
 
 			if ($pages){
-				$parent_titles = $this->pages_model->getTitles($this->type);
+				$parents = $this->pages_model->getParents($this->type);
 				foreach($pages as $i => $p){
 					$pages[$i]['status_select'] = H::select('status', $pages[$i]['status'], $statuses, 'data-id="' . $pages[$i]['id'] . '" data-reload="1"');
-					$pages[$i]['parent_title'] = $parent_titles[$pages[$i]['parent_id']];
+					$pages[$i]['parent_title'] = $parents[$pages[$i]['parent_id']]['title'];
+					$pages[$i]['parent_path'] = $parents[$pages[$i]['parent_id']]['fullpath'];
 					$pages[$i]['title'] = empty($p['title']) ? t('no_translation') : $p['title'];
 				}
 

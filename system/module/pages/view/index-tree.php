@@ -9,7 +9,10 @@
 	echo H::treeList($pages, function($item)use($type, $base){
 		return '
 <div class="selectitem pages-row s-' . $item['status'] . '">
-	<div class="cell title"><span class="type"></span><a href="' . $base . $item['fullpath'] . '" target="_blank">' . $item['title'] . '</a></div>
+	<div class="cell title">
+		<span class="type"></span><a href="?route=pages/edit&type=' . $type . '&id=' . $item['id'] . '">' . $item['title'] . '</a>
+		<a href="' . $base . $item['fullpath'] . '" target="_blank" class="view-page"><span class="glyphicon glyphicon-new-window"></span></a>
+	</div>
 	<div class="cell status"><div class="status-wrap">' . $item['status_select'] . '</div></div>
 	<div class="cell actions">
 		<input type="checkbox" class="ids" name="id[]" value="' . $item['id'] . '">

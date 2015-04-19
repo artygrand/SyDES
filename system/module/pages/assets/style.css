@@ -47,3 +47,6 @@
 .ordered-desc:after{content:"\e156";}
 
 .nav-tabs li:only-of-type{display:none;}
+
+.view-page{display:none;color:#777;}
+.selectitem:hover .view-page{display:inline-block;margin-left:5px;}
