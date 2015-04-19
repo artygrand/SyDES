@@ -10,8 +10,8 @@ class ToolsController extends Controller{
 	public $name = 'tools';
 
 	public function index(){
-		$data['content'] = 'Тут возможно будут вещи слева <br><br> Так что TODO' . $this->load->view('tools/form');
-		$data['sidebar_left'] = 'импорт/экспорт <br><br> бекап и обновление <br><br> редиректы';
+		$data['content'] = 'Тут возможно будут вещи слева <br><br> Так что TODO';
+		$data['sidebar_left'] = $this->getSideMenu('tools');
 
 		$data['meta_title'] = t('module_' . $this->name);
 		$data['breadcrumbs'] = H::breadcrumb(array(
