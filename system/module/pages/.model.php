@@ -54,6 +54,9 @@ class PagesModel extends Model{
 		if ($meta){
 			$stmt = $this->db->prepare("INSERT INTO pages_meta (page_id, key, value) VALUES (:id, :key, :value)");
 			foreach($meta as $k => $v){
+				if ($v == ''){
+					continue;
+				}
 				$stmt->execute(array('id' => $id, 'key' => $k, 'value' => $v));
 			}
 		}
