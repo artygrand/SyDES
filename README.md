@@ -25,6 +25,8 @@ System requirements
 ------------
 Apache, PHP 5.3, PDO with sqlite driver, mod_rewrite, JSON.
 
+Upload check.php to the server to check the requirements
+
 Third-party software
 ------------
 + ckeditor

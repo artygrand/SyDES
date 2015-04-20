@@ -483,7 +483,6 @@ class PagesModel extends Model{
 				);
 			}
 		}
-		unset($update[0]); // home
 
 		$this->db->beginTransaction();
 		$stmt = $this->db->prepare("UPDATE pages SET path = :path WHERE id = :id");
@@ -626,7 +625,7 @@ class PagesModel extends Model{
 		$where = implode(' AND ', (array)$filter);
 
 		$stmt = $this->db->query("SELECT pages.*, pc.title, pc.content
-			FROM pages LEFT JOIN pages_content pc ON pc.page_id = pages.id AND pc.locale = '{$this->locale}'
+			FROM pages LEFT JOIN pages_content pc ON pc.page_id = pages.id AND pc.locale = '{$this->locale}' AND pc.title != ''
 			WHERE {$where}{$order}{$limit}");
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -635,6 +634,9 @@ class PagesModel extends Model{
 		}
 
 		foreach($data as $d){
+			if (!$d['title']){
+				continue;
+			}
 			$d['fullpath'] = $d['path'] == '/' ? $this->in_url : ($this->in_url ? $this->in_url . $d['path'] : substr($d['path'], 1));
 
 			$content = explode('<hr id="cut" />', htmlspecialchars_decode($d['content']), 2);
