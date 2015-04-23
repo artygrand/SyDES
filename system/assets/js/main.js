@@ -273,13 +273,24 @@ function BrowseServer(path, e, w){
 }
 
 function SetInput(fileUrl, data, allFiles){
-	var files = []
+	var files = [];
 	for (var file in allFiles){
 		files.push(allFiles[file]['url'])
 	}
+	files = array_unique(files);
 	data['selectActionData'].val(files.join()).change();
 }
 
 function SetInputCropped(fileUrl, data){
 	data['selectActionData'].val(fileUrl.split('/').splice(3, fileUrl.split('/').length - 4).join('/')).change()
+}
+
+function array_unique(arr){
+	var tmp_arr = new Array();
+	for (i = 0; i < arr.length; i++){
+		if (tmp_arr.indexOf(arr[i]) == "-1"){
+			tmp_arr.push(arr[i]);
+		}
+	}
+	return tmp_arr;
 }
