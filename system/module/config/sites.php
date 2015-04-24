@@ -166,7 +166,7 @@ class SitesController extends Controller{
 
 	public function save(){
 		if (!isset($this->request->post['name'], $this->request->post['locales'], $this->request->post['domains'])){
-			throw new Exception(t('error_page_not_found'));
+			throw new BaseException(t('error_page_not_found'));
 		}
 
 		if (!$this->user->isAdmin()){

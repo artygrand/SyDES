@@ -76,7 +76,7 @@ class PagesController extends Controller{
 			}
 		}
 
-		$this->addContextMenu('edit', t('edit'), ADMIN .'/?route=pages/edit&type=' . $this->type . '&id=' . $data['id']);
+		$this->addContextMenu('edit', t('edit'), ADMIN .'/?route=pages/edit&type=' . $data['type'] . '&id=' . $data['id']);
 		$this->response->data = array_reverse($data);
 	}
 
@@ -433,11 +433,10 @@ class PagesController extends Controller{
 		$id = $this->request->post['id'];
 		$this->pages_model->setStatus($id, $val);
 		
-		$data['success'] = t('saved');
+		$this->response->notify(t('saved'));
 		if ($this->request->get['reload'] == 1){
-			$data['reload'] = 1;
+			$this->response->reload();
 		}
-		$this->response->data = $data;
 	}
 
 	public function move(){

@@ -31,7 +31,8 @@ class PagesModel extends Model{
 		$stmt = $this->db->query("SELECT id FROM pages WHERE alias = '{$main['alias']}'{$and}"); 
 		$exists = $stmt->fetchColumn();
 		if ($exists){
-			return false;
+			$main['alias'] = $main['alias'] . '-2';
+			$main['path'] = $main['path'] . '-2';
 		}
 
 		if ($this->config_site['page_types'][$main['type']]['structure'] == 'tree'){
@@ -448,13 +449,13 @@ class PagesModel extends Model{
 			$stmt = $this->db->query("SELECT alias FROM pages WHERE id > 1 GROUP BY alias HAVING count(alias) > 1");
 			$duplicates = $stmt->fetchAll(PDO::FETCH_COLUMN);
 			if ($duplicates){
-				throw new Exception(sprintf(t('error_found_alias_duplicates'), implode(', ', $duplicates)));
+				throw new BaseException(sprintf(t('error_found_alias_duplicates'), implode(', ', $duplicates)));
 			}
 		} else {
 			$stmt = $this->db->query("SELECT alias FROM pages WHERE alias LIKE '%/%'");
 			$aliases = $stmt->fetchAll(PDO::FETCH_COLUMN);
 			if ($aliases){
-				throw new Exception(sprintf(t('error_found_alias_with_slash'), implode(', ', $aliases)));
+				throw new BaseException(sprintf(t('error_found_alias_with_slash'), implode(', ', $aliases)));
 			}
 		}
 	}

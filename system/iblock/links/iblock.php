@@ -8,7 +8,7 @@
 * {iblock:links?show=siblings} = shows a sibling pages
 * {iblock:links?limit=%num%} = %num% - limiting quantity
 * {iblock:links?class=%text%} = just classname for list
-* {iblock:links?sort=1} = for preserve sort order
+* {iblock:links?order=position} = for preserve sort order
 */
 
 $defaults = array(
@@ -27,12 +27,22 @@ if ($args['show'] == 'siblings'){
 	$parent = $page['id'];
 }
 
-$result = $this->pages_model->getList(array("parent_id = {$parent}", "id <> {$page['id']}", "status > 0", "type != 'trash'"), $args['order'], $args['limit']);
+if ($args['order'] == 'position'){
+	$args['order'] .= '+0';
+}
+
+$result = $this->pages_model->getList(array("parent_id = {$parent}", "status > 0", "type != 'trash'", "position NOT LIKE '#%'"), $args['order'], $args['limit']);
 if(!$result) return;
 ?>
 
 <ul class="<?=$args['class'];?>">
-<? foreach($result as $item){ ?>
-	<li><a href="<?=$item['fullpath'];?>"><?=$item['title'];?></a></li>
+<? foreach($result as $item){
+	$active = '';
+	if ($page['id'] == $item['id']){
+		$active = ' class="active"';
+		$item['fullpath'] = '#';
+	}
+?>
+	<li<?=$active;?>><a href="<?=$item['fullpath'];?>"><?=$item['title'];?></a></li>
 <? } ?>
 </ul>

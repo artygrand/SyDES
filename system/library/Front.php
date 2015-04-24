@@ -91,7 +91,7 @@ class Front extends HasRegistry{
 				$method = $matches[1][$i];
 				$arParams = array();
 				if ($matches[3][$i]){
-					$matches[3][$i] = str_replace(array('?', '&amp;'), array('', '&'), $matches[3][$i]);
+					$matches[3][$i] = str_replace(array('?', '&amp;', '&quot;', '#39;'), array('', '&', '"', "'"), $matches[3][$i]);
 					parse_str($matches[3][$i], $arParams);
 				}
 				$content = $this->$method($matches[2][$i], $arParams);

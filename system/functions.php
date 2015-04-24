@@ -40,7 +40,18 @@ function getip(){
 	return $ip;
 }
 
-function rus_date(){
+function t_date($locale){
+	$function = $locale . '_date';
+	$args = func_get_args();
+	unset($args[0]);
+	if (function_exists($function)){
+		return call_user_func_array($function, $args);
+	} else {
+		return call_user_func_array('date', $args);
+	}
+}
+
+function ru_date(){
 	$translate = array(
 	'am' => 'дп', 'pm' => 'пп', 'AM' => 'ДП', 'PM' => 'ПП',
 	'Monday' => 'Понедельник', 'Mon' => 'Пн', 'Tuesday' => 'Вторник', 'Tue' => 'Вт',

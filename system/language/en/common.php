@@ -227,5 +227,7 @@ array (
   'temporarily_stored' => 'All changes are stored temporarily. Click Save to make your changes permanent',
   'common_update_cms' => 'System update available for your version of SyDES. Do not forget to update.',
   'security_update_cms' => 'There is a security update available for your version of SyDES. Recommended update.',
+  'error_found_alias_duplicates' => 'Can\'t rebuild full path of the pages. Pages with identical slug were found. Change them and try again',
+  'error_found_alias_with_slash' => 'Can\'t rebuild full path of the pages. Pages with slashes in slug were found. Change them and try again',
 )
 ?>
