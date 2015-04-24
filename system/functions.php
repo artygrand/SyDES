@@ -40,7 +40,7 @@ function getip(){
 	return $ip;
 }
 
-function t_date($locale){
+function tDate($locale){
 	$function = $locale . '_date';
 	$args = func_get_args();
 	unset($args[0]);
