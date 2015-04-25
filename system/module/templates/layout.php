@@ -112,19 +112,19 @@ class LayoutController extends Controller{
 		$body = H::form(array(
 			'name' => array(
 				'label' => t('layout_name'),
-				'type' => 'text',
+				'type' => 'string',
 				'value' => '',
 				'attr' => 'class="form-control" placeholder="' . t('article') . '" required'
 			),
 			'key' => array(
 				'label' => t('layout_key'),
-				'type' => 'text',
+				'type' => 'string',
 				'value' => '',
 				'attr' => 'class="form-control" placeholder="article" required'
 			),
 			'html' => array(
 				'type' => 'hidden',
-				'value' => $layouts[$this->request->get['layout']]['html'],
+				'value' => str_replace('"', '&quot;', $layouts[$this->request->get['layout']]['html']),
 			),
 			'file' => array(
 				'type' => 'hidden',

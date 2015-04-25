@@ -24,7 +24,7 @@ $(document).ready(function(){
 	$('select.goto').change(function(){location.href = $(this).data('url') + $(this).val()})
 	$('.submit').click(function(){ajaxFormApply()})
 
-	$('#modal').on('show.bs.modal', function(e){
+	$('.modal').on('show.bs.modal', function(e){
 		var size = $(e.relatedTarget).data('size'), dialog = $(this).find('.modal-dialog')
 		dialog.removeClass('modal-sm modal-lg')
 		if (size){
@@ -32,8 +32,8 @@ $(document).ready(function(){
 		}
 		modalPosition()
 	})
-	$('#modal').on('loaded.bs.modal', function(e){modalPosition()})
-	$('#modal').on('hidden.bs.modal', function (e){$(this).removeData('bs.modal')})
+	$('.modal').on('loaded.bs.modal', function(e){modalPosition()})
+	$('.modal').on('hidden.bs.modal', function (e){$(this).removeData('bs.modal')})
 })
 var syd = [];
 syd.notify = function(m, s){
@@ -71,7 +71,16 @@ $(document).on('click', '.lazy.ckeditor', function(){
 })
 
 $(document).on('click', '.apply-modal', function(){
-	ajaxModalFormApply()
+	var form = $('form[name="modal-form"]');
+	if (form.length){
+		$.ajax({
+			url: form.prop('action'),
+			data: form.serialize(),
+			complete: function(){
+				location.reload()
+			}
+		})
+	}
 })
 
 $(document).on('click', '.skin-selector a', function(){
@@ -162,19 +171,6 @@ function ajaxFormApply(){
 		$.ajax({
 			url: form.prop('action'),
 			data: form.serialize()+'&act=apply'
-		})
-	}
-}
-
-function ajaxModalFormApply(){
-	var form = $('form[name="modal-form"]');
-	if (form.length){
-		$.ajax({
-			url: form.prop('action'),
-			data: form.serialize(),
-			complete: function(){
-				location.reload()
-			}
 		})
 	}
 }

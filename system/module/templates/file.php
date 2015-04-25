@@ -151,7 +151,7 @@ class FileController extends Controller{
 		$body = H::form(array(
 			'file' => array(
 				'label' => t('filename'),
-				'type' => 'text',
+				'type' => 'string',
 				'value' => $this->request->get['file'],
 				'attr' => 'class="form-control" placeholder="home.html" required'
 			),

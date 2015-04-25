@@ -135,7 +135,7 @@ class IblocksController extends Controller{
 		$body = H::form(array(
 			'iblock' => array(
 				'label' => t('iblock_name'),
-				'type' => 'text',
+				'type' => 'string',
 				'value' => $this->request->get['iblock'],
 				'attr' => 'class="form-control" placeholder="my_infoblock" required'
 			),
