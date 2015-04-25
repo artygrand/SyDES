@@ -10,14 +10,35 @@ class ModulesController extends Controller{
 	public $name = 'modules';
 	
 	public function index(){
-		$box_modules = array('common', 'config', 'constructors', 'iblocks', 'pages', 'search', 'templates', 'tools', 'user');
-		$all_modules = str_replace(DIR_MODULE, '', glob(DIR_MODULE . '*'));
-		$new = array_diff($all_modules, $box_modules);
 		$installed = array_keys($this->config_site['modules']);
 
-		foreach($new as $module){
+		$box_modules = array('common', 'config', 'constructors', 'iblocks', 'pages', 'search', 'templates', 'tools', 'user');
+		$all_modules = str_replace(DIR_MODULE, '', glob(DIR_MODULE . '*'));
+		$new_modules = array_diff($all_modules, $box_modules);
+		foreach($new_modules as $module){
 			$this->load->language('module_' . $module);
 			$modules[$module]['name'] = t('module_' . $module);
+			$modules[$module]['route'] = $module;
+			$modules[$module]['installed'] = in_array($module, $installed);
+		}
+
+		$box_constructors = array('index', 'menu');
+		$all_constructors = str_replace(array(DIR_MODULE . 'constructors/', '.php'), '', glob(DIR_MODULE . 'constructors/*.php'));
+		$new_constructors = array_diff($all_constructors, $box_constructors);
+		foreach($new_constructors as $module){
+			$this->load->language('module_' . $module);
+			$modules[$module]['name'] = t('module_constructors') . ': ' . t('module_' . $module);
+			$modules[$module]['route'] = 'constructors/' . $module;
+			$modules[$module]['installed'] = in_array($module, $installed);
+		}
+
+		$box_tools = array('index', 'import');
+		$all_tools = str_replace(array(DIR_MODULE . 'tools/', '.php'), '', glob(DIR_MODULE . 'tools/*.php'));
+		$new_tools = array_diff($all_tools, $box_tools);
+		foreach($new_tools as $module){
+			$this->load->language('module_' . $module);
+			$modules[$module]['name'] = t('module_tools') . ': ' . t('module_' . $module);
+			$modules[$module]['route'] = 'tools/' . $module;
 			$modules[$module]['installed'] = in_array($module, $installed);
 		}
 

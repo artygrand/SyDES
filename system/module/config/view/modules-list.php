@@ -10,14 +10,14 @@
 				<td>
 				<? if ($module['installed']){ ?>
 					<div class="btn-group pull-right btn-group-sm">
-						<a class="btn btn-default" href="?route=<?=$key;?>/config"><?=t('edit');?></a>
+						<a class="btn btn-default" href="?route=<?=$module['route'];?>/config"><?=t('edit');?></a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="?route=<?=$key;?>/uninstall"><?=t('uninstall');?></a></li>
+							<li><a href="?route=<?=$module['route'];?>/uninstall"><?=t('uninstall');?></a></li>
 						</ul>
 					</div>
 				<? } else { ?>
-					<a class="btn btn-sm btn-default pull-right" href="?route=<?=$key;?>/install"><?=t('install');?></a>
+					<a class="btn btn-sm btn-default pull-right" href="?route=<?=$module['route'];?>/install"><?=t('install');?></a>
 				<? } ?>
 				</td>
 			</tr>
