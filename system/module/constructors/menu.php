@@ -30,7 +30,7 @@ class MenuController extends Controller{
 		));
 
 		$this->response->data = $data;
-		$this->response->script[] = '/system/module/pages/assets/jquery.nestedSortable.js';
+		$this->response->script[] = '/system/assets/js/jquery.nestedSortable.js';
 	}
 
 	public function save(){

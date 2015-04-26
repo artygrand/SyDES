@@ -122,7 +122,7 @@ class PagesController extends Controller{
 					$pages[$i]['title'] = empty($p['title']) ? t('no_translation') : $p['title'];
 				}
 				$data['footer_left'] = '<a class="btn btn-primary btn-xs" id="sort-start">' . t('sort_pages') . '</a><a class="btn btn-primary btn-xs" id="sort-stop">' . t('save') . '</a>';
-				$this->response->script[] = '/system/module/pages/assets/jquery.nestedSortable.js';
+				$this->response->script[] = '/system/assets/js/jquery.nestedSortable.js';
 			}
 			$status2 = t('show_in_menu');
 
