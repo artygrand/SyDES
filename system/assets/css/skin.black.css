@@ -54,8 +54,10 @@ fieldset[disabled] .btn-primary.active{background-color:#2c313a;border-color:#21
 .close{color:#fff;opacity:.5}
 .close:hover{color:#fff;opacity:.9}
 
-#notify .success {background:#99ffcc;color:#0f4918;}
-#notify .danger {background:#ffcccc;color:#bf210e;}
+#notify .success {color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;}
+#notify .info {color:#31708f;background-color:#d9edf7;border-color:#bce8f1;}
+#notify .warning {color:#8a6d3b;background-color:#fcf8e3;border-color:#faebcc;}
+#notify .danger {color:#a94442;background-color:#f2dede;border-color:#ebccd1;}
 
 .s-0 .type, .s-0 select{color:#c0c0c0}
 .s-2 .type, .s-2 select{color:#ea4848;}

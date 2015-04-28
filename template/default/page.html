@@ -5,7 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{head}
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.css">
 	<link rel="stylesheet" href="{template}style.css" media="screen">
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 	<script src="{template}script.js"></script>
 
 	<!--[if lt IE 9]>
@@ -36,7 +40,7 @@
 					<a href="" class="logo"><img src="{template}img/logo.png"></a>
 				</div>
 				<nav class="col-sm-9">
-					{iblock:menu?show=main&class=menu-horizontal}
+					{iblock:menu?show=main&class=main-menu}
 				</nav>
 			</div>
 		</div>
@@ -84,14 +88,8 @@
 					</ul>
 				</div>
 				<div class="col-sm-3">
-					<h3>massa quis molestie</h3>
-					<ul>
-						<li><a href="#">Nullam id</a></li>
-						<li><a href="#">Nulla facilisi</a></li>
-						<li><a href="#">Praesent aliquet</a></li>
-						<li><a href="#">vitae convallis</a></li>
-						<li><a href="#">ornare felis</a></li>
-					</ul>
+					<h3>Last news</h3>
+					{iblock:pages?show=2&template=mini}
 				</div>
 			</div>
 		</div>
@@ -101,11 +99,12 @@
 					© SiteOwner, 2011–{year}
 				</div>
 				<div class="col-sm-6 text-right">
-					Powered by <a href="http://sydes.ru" class="">SyDES</a>
+					Powered by <a href="http://sydes.ru" target="_blanck">SyDES</a>
 				</div>
 			</div>
 		</div>
 	</footer>
 	{iblock:counters}
+	<a href="#" class="scrollup">Scroll</a>
 </body>
 </html>

@@ -8,21 +8,21 @@
 		<div class="tab-pane active" id="tab-fields">
 			<div class="row">
 				<div class="col-sm-8">
-					<div class="panel-group" id="form-holder">
-						<div class="well well-sm onempty"><?=t('empty');?></div>
+					<div class="panel-group ready" id="form-holder">
+						<div class="onempty">Нажмите на элемент формы или перетащите сюда, что бы добавить в форму.<br>Вы можете сортировать их в форме перетаскиванием и редактировать после клика.</div>
 					</div>
 				</div>
 				<div class="col-sm-4">
 					<div class="list-group insert-field">
-						<a href="#" class="list-group-item" data-type="string"><?=t('string');?></a>
-						<a href="#" class="list-group-item" data-type="textarea"><?=t('text');?></a>
-						<a href="#" class="list-group-item" data-type="email"><?=t('email');?></a>
-						<a href="#" class="list-group-item" data-type="phone"><?=t('phone');?></a>
-						<a href="#" class="list-group-item" data-type="file"><?=t('file');?></a>
-						<a href="#" class="list-group-item" data-type="number"><?=t('number');?></a>
-						<a href="#" class="list-group-item" data-type="listing"><?=t('listing');?></a>
-						<a href="#" class="list-group-item" data-type="hidden"><?=t('hidden_input');?></a>
-						<a href="#" class="list-group-item" data-type="date"><?=t('date');?></a>
+						<a href="#" class="list-group-item" data-type="string"><?=t('input_text');?></a>
+						<a href="#" class="list-group-item" data-type="textarea"><?=t('input_textarea');?></a>
+						<a href="#" class="list-group-item" data-type="email"><?=t('input_email');?></a>
+						<a href="#" class="list-group-item" data-type="phone"><?=t('input_phone');?></a>
+						<a href="#" class="list-group-item" data-type="file"><?=t('input_file');?></a>
+						<a href="#" class="list-group-item" data-type="number"><?=t('input_number');?></a>
+						<a href="#" class="list-group-item" data-type="listing"><?=t('input_listing');?></a>
+						<a href="#" class="list-group-item" data-type="date"><?=t('input_date');?></a>
+						<a href="#" class="list-group-item" data-type="hidden"><?=t('input_hidden');?></a>
 					</div>
 				</div>
 			</div>
@@ -133,12 +133,14 @@
 
 <style>
 .tab-pane{padding-top:15px;}
+.onempty{color:#666;text-align:center;padding-top:150px;}
 .onempty:not(:only-of-type){display:none;}
 .panel{position:relative;}
 .panel:hover .widget-tools{display:block;}
 .field-remove{cursor:pointer;}
 .panel-group .panel-heading{cursor:move;}
-#form-holder{min-height:375px;padding-bottom:50px;}
+#form-holder{min-height:375px;padding-bottom:50px;border:3px dashed transparent;}
+#form-holder.ready{border-color:#ddd;}
 </style>
 
 

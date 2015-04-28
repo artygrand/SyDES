@@ -23,8 +23,8 @@ class PagesController extends Controller{
 		$this->settings = $this->config_site['page_types'][$this->type];
 
 		if($this->section == 'admin'){
-			$this->response->style[] = '/system/module/pages/assets/style.css';
-			$this->response->script[] = '/system/module/pages/assets/script.js';
+			$this->response->style[] = '/system/module/pages/assets/pages.css';
+			$this->response->script[] = '/system/module/pages/assets/pages.js';
 
 			if (count($this->config_site['locales']) > 1){
 				$this->addContextMenu('locale', $this->locale);
@@ -78,6 +78,8 @@ class PagesController extends Controller{
 
 		$this->addContextMenu('edit', t('edit'), ADMIN .'/?route=pages/edit&type=' . $data['type'] . '&id=' . $data['id']);
 		$this->response->data = array_reverse($data);
+		
+		$this->response->addJsTranslations($this->load->language('front', false, $this->locale));
 	}
 
 	public function index(){

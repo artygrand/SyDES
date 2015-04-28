@@ -20,9 +20,11 @@
 .spoiler-title{cursor:pointer;font-weight:bold;}
 
 #notify {position:fixed;top:0;right:0;z-index:110;padding:0;}
-#notify li {width:250px;list-style:none;margin:5px;padding:10px;text-align:center;color:black;}
-#notify .success {background:#99ffcc;color:#0f4918;}
-#notify .danger {background:#ffcccc;color:#bf210e;}
+#notify li {width:250px;list-style:none;margin:5px;padding:10px;text-align:center;}
+#notify .success {color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;}
+#notify .info {color:#31708f;background-color:#d9edf7;border-color:#bce8f1;}
+#notify .warning {color:#8a6d3b;background-color:#fcf8e3;border-color:#faebcc;}
+#notify .danger {color:#a94442;background-color:#f2dede;border-color:#ebccd1;}
 
 .modal-dialog{margin:0;position:absolute;top:50%;left:50%;}
 .modal-body{overflow-y:auto;}

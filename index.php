@@ -44,6 +44,6 @@ $app->run($front);
 
 if ($app->config_site['need_cache'] and !IS_POST and !$user->is_editor and $app->route != 'common/error/e404'){
 	$dir = dirname($cache);
-	is_dir($dir) || @mkdir($dir) || die(t('cant_create_cache_folder'));
+	is_dir($dir) || @mkdir($dir) || die(t('error_cant_create_cache_folder'));
 	file_put_contents($cache, $registry->response->body); // cache this page
 }

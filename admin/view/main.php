@@ -26,6 +26,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/vendor/ckfinder/ckfinder.js"></script>
+	<script src="/system/assets/js/sydes.js"></script>
 	<script src="/system/assets/js/utils.min.js"></script>
 	<script src="/system/assets/js/main.js"></script>
 
@@ -33,6 +34,7 @@
 	<script src="<?=$file;?>"></script>
 <? } ?>
 
+	<?=$translations;?>
 </head>
 <body class="menu-<?=$menu_pos;?>">
 	<div id="menu" class="gradient">

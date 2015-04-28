@@ -30,22 +30,11 @@ $(document).ready(function(){
 		if (size){
 			dialog.addClass('modal-' + size)
 		}
-		modalPosition()
+		setTimeout(modalPosition, 10)
 	})
 	$('.modal').on('loaded.bs.modal', function(e){modalPosition()})
 	$('.modal').on('hidden.bs.modal', function (e){$(this).removeData('bs.modal')})
 })
-var syd = [];
-syd.notify = function(m, s){
-	if (m != null){
-		$('#notify').append($('<li class="'+s+'">'+m+'</li>').delay(4000).slideUp())
-	}
-}
-syd.alert = function(m, s){
-	if (m != null){
-		$('#alerts').append($('<div class="alert alert-'+s+' alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>'+m+'</div>'))
-	}
-}
 
 var editorBuffer = '';
 $(document).on('click', '.lazy.ckeditor', function(){

@@ -38,24 +38,29 @@ $(document).ready(function(){
 	$('#form-holder').sortable({
 		placeholder: 'panel ui-state-highlight',
 		forcePlaceholderSize: true,
+		cancel: '.onempty'
 	}).disableSelection();
 
 	var last_placeholder_index = 0;
 	$('.insert-field').sortable({
 		connectWith: '#form-holder',
+		activate: function(event, ui){
+			$('#form-holder').addClass('ready')
+		},
 		beforeStop: function(event, ui){
 			last_placeholder_index = $('#form-holder .ui-sortable-placeholder').index()
 		},
 		remove: function(event, ui){
 			var el = $('<div>').addClass('panel panel-default').html(field(ui.item.data('type')));
 			$('#form-holder > div').eq(last_placeholder_index - 2).after(el);
+			$('#form-holder').removeClass('ready')
 			return false;
 		}
 	}).disableSelection();
 
 	$('.insert-field a').click(function(){
 		var el = $('<div>').addClass('panel panel-default').html(field($(this).data('type')));
-		$('#form-holder').append(el);
+		$('#form-holder').append(el).removeClass('ready')
 	})
 	
 	$(document).on('click', '.field-remove', function(){
@@ -75,14 +80,3 @@ function getFields(fields){
 	}
 	return html;
 }
-
-
-/*
-https://github.com/twbs/bootstrap/issues/12354
-
-https://www.google.ru/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=bootstrap+modal+callback+on+apply&newwindow=1&safe=off&start=10
-
-http://habibillah.kalicode.com/posts/2013/12/21/creating-simple-jquery-modal-container-plugins-based-on-bootrap-and-bootstrap-modal/
-http://jsfiddle.net/yFLK6/13/
-*/
-

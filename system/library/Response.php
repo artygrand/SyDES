@@ -14,6 +14,7 @@ class Response{
 	public $script = array();
 	public $context = array();
 	public $headers = array();
+	public $translations = array();
 	public $body;
 	public $status = 200;
 	public $mime = 'html';
@@ -46,6 +47,10 @@ class Response{
 		$this->headers[] = $header;
 	}
 
+	public function addJsTranslations($array){
+		$this->translations = array_merge($this->translations, $array);
+	}
+
 	public function redirect($url = ''){
 		if ($this->alerts){
 			$_SESSION['alerts'] = $this->alerts;
@@ -72,8 +77,8 @@ class Response{
 				if (IS_AJAX){
 					$this->body['notify'] = $this->notify;
 				} else {
-					setcookie('notify.message', $this->notify['message'], time()+5);
-					setcookie('notify.status', $this->notify['status'], time()+5);
+					setcookie('notify.message', $this->notify['message'], time()+3);
+					setcookie('notify.status', $this->notify['status'], time()+3);
 				}
 			}
 

@@ -14,7 +14,7 @@ class Front extends HasRegistry{
 			$this->load->model('pages');
 		}
 		$response = $this->response;
-		$this->translate = $this->load->language('template', false, $this->locale);
+		$this->translate = $this->load->language('front', false, $this->locale);
 		$this->config = new Config('front');
 
 		$toolbar = '';
@@ -35,6 +35,7 @@ class Front extends HasRegistry{
 
 		$response->script[] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js';
 		$response->script[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js';
+		$response->script[] = '/system/assets/js/sydes.js';
 		$response->script[] = '/system/assets/js/front.js';
 		$response->style[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css';
 		$response->style[] = '/system/assets/css/front.css';
@@ -57,6 +58,9 @@ class Front extends HasRegistry{
 			foreach($response->script as $file){
 				$head[] = '<script src="' . $file . '"></script>';
 			}
+		}
+		if (!empty($response->translations)){
+			$head[] = '<script>syd.translations = ' . json_encode($response->translations) . '</script>';
 		}
 
 		$common = array(
@@ -93,6 +97,7 @@ class Front extends HasRegistry{
 				if ($matches[3][$i]){
 					$matches[3][$i] = str_replace(array('?', '&amp;', '&quot;', '#39;'), array('', '&', '"', "'"), $matches[3][$i]);
 					parse_str($matches[3][$i], $arParams);
+					$arParams = str_replace('"', '', $arParams);
 				}
 				$content = $this->$method($matches[2][$i], $arParams);
 				if ($this->user->is_editor and in_array($method, array('iblock', 'config'))){

@@ -43,7 +43,7 @@ $filter = array(
 );
 
 if ($args['filter']){
-	$part = explode('=', str_replace('"', '', $args['filter']));
+	$part = explode('=', $args['filter']);
 	$filter[] = "id IN (SELECT page_id FROM pages_meta WHERE key = '{$part[0]}' AND value = '{$part[1]}')";
 }
 

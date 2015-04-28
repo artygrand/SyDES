@@ -21,10 +21,8 @@
 			items: '.widget',
 			handle: '.panel-title',
 			cancel: '.widget-remove',
-			placeholder: 'widget-placeholder',
-			start: function(e, ui){
-				ui.placeholder.height(ui.item.height());
-			},
+			placeholder: 'ui-state-highlight',
+			forcePlaceholderSize: true,
 			stop: function(e, ui){
 				var column = []
 				$('.widgets-wrapper').each(function(){

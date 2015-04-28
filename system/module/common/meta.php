@@ -33,20 +33,18 @@ class MetaController extends Controller{
 		}
 
 		$types = array(
-			'string' => t('string'),
-			'textarea' => t('text'),
-			'html' => t('html_field'),
-			'image' => t('image'),
-			'file' => t('file'),
-			'folder' => t('folder'),
-			'date' => t('date'),
-			'yesNo' => t('yesNo'),
-			'select' => t('list_select'),
-			'checkbox' => t('list_checkbox'),
-			'radio' => t('list_radio'),
-			/*'reference' => t('reference'),
-			'video' => t('video'),
-			'map' => t('map'),
+			'string' => t('input_text'),
+			'textarea' => t('input_textarea'),
+			'html' => t('input_html'),
+			'image' => t('input_image'),
+			'file' => t('input_file'),
+			'folder' => t('input_folder'),
+			'date' => t('input_date'),
+			'yesNo' => t('input_yesNo'),
+			'listing' => t('input_listing'),
+			/*'reference' => t('input_reference'),
+			'video' => t('input_video'),
+			'map' => t('input_map'),
 			TODO later
 			*/
 		);
@@ -64,6 +62,12 @@ class MetaController extends Controller{
 		
 		$this->response->data = $data;
 		$this->response->script[] = '/system/module/common/assets/meta.js';
+		$this->response->script[] = '/system/module/common/assets/meta-settings.js';
+		$this->response->addJsTranslations(array(
+			'add' => t('add'),
+			'remove' => t('remove'),
+			'temporarily_stored' => t('temporarily_stored'),
+		));
 	}
 
 	public function save(){
@@ -194,14 +198,13 @@ class MetaController extends Controller{
 			}
 
 			switch ($field['type']){
-				case 'select':
-				case 'checkbox':
-				case 'radio':
-					$class = $field['type'] == 'select' ? array('form-control','input-sm') : array();
-					if ($field['type'] == 'checkbox'){
+				case 'listing':
+					$config = json_decode(htmlspecialchars_decode($field['config']), true);
+					$class = $config['display'] == 'select' ? array('form-control','input-sm') : array();
+					if ($config['display'] == 'checkbox'){
 						$item['value'] = explode(',', $item['value']);
 					}
-					$source = explode("\r\n", $field['config']);
+					$source = explode("\n", $config['source']);
 					if (strpos($source[0], '|') !== false){
 						foreach($source as $row){
 							$row = explode('|', $row);
@@ -209,7 +212,7 @@ class MetaController extends Controller{
 						}
 						$source = $option;
 					}
-					$input = H::$field['type'](
+					$input = H::$config['display'](
 						'meta[' . $item['key'] . ']',
 						$item['value'],
 						$source,
