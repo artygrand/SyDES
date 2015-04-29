@@ -602,7 +602,7 @@ class PagesModel extends Model{
 		mb_regex_encoding('UTF-8');
 		mb_internal_encoding('UTF-8');
 
-		$sql = "SELECT pages.path, pages.id, pc.title FROM pages, pages_content pc WHERE pages.id = pc.page_id AND pc.locale = '{$this->locale}' AND tolower(pc.title) LIKE :term ORDER BY pc.title LIMIT 20";
+		$sql = "SELECT pages.path, pages.id, pc.title FROM pages, pages_content pc WHERE pages.id = pc.page_id AND pc.locale = '{$this->locale}' AND tolower(pc.title) LIKE :term AND status > 0 ORDER BY pc.title LIMIT 20";
 		$this->db->sqliteCreateFunction('tolower', 'lower', 1);
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array('term' => '%' . lower($term) . '%'));
