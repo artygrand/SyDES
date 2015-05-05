@@ -99,7 +99,7 @@ class Admin extends HasRegistry{
 			}
 			$list['?route=pages&type=' . $type] = $data['title'] . '</a><a href="?route=pages/edit&type=' . $type . '" class="add-more" data-toggle="tooltip" data-placement="right" title="' . t('tip_add_more'). '">[+1]';
 		}
-		return H::listLinks($list, false, 'class="list-unstyled"');
+		return H::listLinks($list, '', 'class="list-unstyled"');
 	}
 
 	public function getModuleList(){
@@ -114,7 +114,7 @@ class Admin extends HasRegistry{
 				$list['?route=' . $module] .= '</a><a href="?route=' . $module . '/edit" class="add-more" data-toggle="tooltip" data-placement="right" title="' . t('tip_add_more'). '">[+1]';
 			}
 		}
-		return H::listLinks($list, false, 'class="list-unstyled"');
+		return H::listLinks($list, '', 'class="list-unstyled"');
 	}
 
 	public function getMenuSections(){
@@ -123,7 +123,7 @@ class Admin extends HasRegistry{
 			foreach ($this->config_site['menu_sections'] as $sect => $data){
 				$sections[] = array(
 					'title' => $data['title'],
-					'list' => H::listLinks($data['list'], false, 'class="list-unstyled"')
+					'list' => H::listLinks($data['list'], '', 'class="list-unstyled"')
 				);
 			}
 		}

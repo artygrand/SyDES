@@ -28,6 +28,7 @@ class SearchController extends Controller{
 			}
 
 			$implode = array();
+			$insert = array();
 			foreach ($words as $word){
 				$implode[] = "tolower(pc.title) LIKE ?";
 				$insert[] = '%' . lower($word) . '%';

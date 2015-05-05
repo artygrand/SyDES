@@ -20,6 +20,7 @@ class CommonController extends Controller{
 	}
 
 	public function getiblocks(){
+		$config = array();
 		foreach (glob(DIR_IBLOCK . '*/manifest.ini') as $iblock){
 			$ini = parse_ini_file($iblock, true);
 			$locale = isset($ini[$this->locale]['title']) ? $this->locale : 'en';
