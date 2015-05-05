@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * Infoblock: Breadcrumbs
 *
