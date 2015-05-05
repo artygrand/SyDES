@@ -98,7 +98,7 @@ class DashboardController extends Controller{
 					}
 					unset($columns[$i]);
 				}
-			} elseif($count < $this->request->get['q']){
+			} elseif ($count < $this->request->get['q']){
 				for($i = $count; $i < $this->request->get['q']; $i++){
 					$columns[$i] = array();
 				}

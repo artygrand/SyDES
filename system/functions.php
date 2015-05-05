@@ -95,7 +95,7 @@ function checkServer(){
 	$paths = array('cache', 'site', 'system/iblock', 'template/default', 'upload/images');
 	$wr = '';
 	foreach ($paths as $path){
-		if(!is_writable(DIR_ROOT . $path)){
+		if (!is_writable(DIR_ROOT . $path)){
 			$wr .= "<li>{$path}</li>";
 		}
 	}
@@ -120,7 +120,7 @@ function checkServer(){
 
 function convertToAscii($str, $wSlash = false){
 	$sl = $wSlash ? '/' : '';
-	if(preg_match('![^\w-\.' . $sl . ']!', $str)){
+	if (preg_match('![^\w-\.' . $sl . ']!', $str)){
 		$utf8 = array(
 			'à'=>'a', 'ô'=>'o', 'ď'=>'d', 'ḟ'=>'f', 'ë'=>'e', 'š'=>'s', 'ơ'=>'o',
 			'ß'=>'ss', 'ă'=>'a', 'ř'=>'r', 'ț'=>'t', 'ň'=>'n', 'ā'=>'a', 'ķ'=>'k',
@@ -190,7 +190,7 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 				'title' => str_replace($dir . '/', '', $filename)
 			);
 		} 
-		if($recursive == true and is_dir($filename)){
+		if ($recursive == true and is_dir($filename)){
 			if (!is_array($mask)){
 				$pages[$alias]['childs'] = globRecursive($filename, $mask, true, $del);
 				if (!$pages[$alias]['childs']){

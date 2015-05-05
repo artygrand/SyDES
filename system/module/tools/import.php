@@ -35,7 +35,7 @@ class ImportController extends Controller{
 			$maxId = $stmt->fetchColumn();
 			$stmt = $this->db->query("SELECT id, parent_id, alias, status, layout, strftime('%d.%m.%Y', cdate, 'unixepoch') as cdate, position FROM pages WHERE type = '{$_GET['type']}' ORDER BY position");
 			$rawPages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			if(!$rawPages){
+			if (!$rawPages){
 				$titles[0] = array('id','parent_id','alias','status','layout', 'cdate', 'position');
 				foreach ($this->config_site['locales'] as $loc){
 					$titles[0][] = "{$loc}_title";
@@ -119,7 +119,7 @@ class ImportController extends Controller{
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$meta = explode('.', $_FILES['file']['name']);
-		if(!is_uploaded_file($_FILES['file']['tmp_name']) or array_pop($meta) != 'csv'){
+		if (!is_uploaded_file($_FILES['file']['tmp_name']) or array_pop($meta) != 'csv'){
 			throw new BaseException(t('file_not_exist'));
 		}
 		$csv = file_get_contents($_FILES['file']['tmp_name']);
@@ -166,7 +166,7 @@ class ImportController extends Controller{
 				}
 				$tmp = array_slice($r, 7 + $beforeMeta);
 				foreach ($tmp as $i => $t){
-					if($t != ''){
+					if ($t != ''){
 						$raw['meta_upd'][$id.'_'.$i] = array(
 							'page_id' => $id,
 							'key' => $meta_keys[$i],

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('.type').each(function(){if($(this).parents('.pages-row').next('ul').length){$(this).addClass('open')}})
+	$('.type').each(function(){if ($(this).parents('.pages-row').next('ul').length){$(this).addClass('open')}})
 	if (localStorage['closed'] == undefined){localStorage['closed'] = '[]'}
 	var closed = JSON.parse(localStorage['closed'])
 	for(ul in closed){
@@ -57,7 +57,7 @@ $(document).ready(function(){
 			$('.ui-selected', this).each(function(){
 				$(this).find('.ids').prop('checked', 'checked');
 			});
-			if($('input:checked.ids').size()){
+			if ($('input:checked.ids').size()){
 				$('#batch').show()
 				$('#sort-start').hide()
 			} else {

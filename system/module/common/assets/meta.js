@@ -106,7 +106,7 @@
 }(this));
 
 $(document).on('change', '#meta-key', function(){
-	if(window.lastkey != $(this).val()){
+	if (window.lastkey != $(this).val()){
 		meta.load($(this).val());
 		window.lastkey = $(this).val()
 	}

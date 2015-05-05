@@ -104,7 +104,7 @@ class PagesModel extends Model{
 			$addition .= ', alias = :alias, path = :path';
 			$data['alias'] = $main['alias'];
 
-			if($this->use_alias){
+			if ($this->use_alias){
 				$data['path'] = '/' . $main['alias'];
 			} else {
 				$parent_path = $this->getValue($main['parent_id'], 'path');
@@ -366,7 +366,7 @@ class PagesModel extends Model{
 		$stmt = $this->db->query("SELECT position FROM pages WHERE parent_id = {$id} AND position LIKE '#%' ORDER BY position DESC LIMIT 1");
 		$path = $stmt->fetchColumn();
 		if ($id > 1){
-			if($path){
+			if ($path){
 				$pos = substr(strrchr($path, '#'), 1);
 			} else {
 				$pos = 999;
@@ -655,7 +655,7 @@ class PagesModel extends Model{
 
 	public function getListWithMeta($filter, $aOrder = 'id DESC', $aLimit = false, $skip = 0){
 		$pages = $this->getList($filter, $aOrder, $aLimit, $skip);
-		if(!$pages){
+		if (!$pages){
 			return false;
 		}
 		$ids = implode(',', array_keys($pages));

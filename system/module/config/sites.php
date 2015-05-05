@@ -47,7 +47,7 @@ class SitesController extends Controller{
 			$domain_arr = explode("\n", trim($this->request->post['domains']));
 			foreach ($domain_arr as $d){
 				$d = trim($d);
-				if($d){
+				if ($d){
 					$domains[] = $d;
 				}
 			}
@@ -181,7 +181,7 @@ class SitesController extends Controller{
 		$domain_arr = explode("\n", trim($this->request->post['domains']));
 		foreach ($domain_arr as $d){
 			$d = trim($d);
-			if($d){
+			if ($d){
 				$domains[] = $d;
 			}
 		}

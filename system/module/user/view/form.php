@@ -32,10 +32,10 @@ if (!empty($errors[0])){
 <?php } else { ?>
 			<div><input type="text" size="20" name="username" placeholder="<?=t('username');?>" required></div>
 			<div><input type="password" size="20" name="password" placeholder="<?=t('password');?>" required></div>
-			<?php if($signup){ ?>
+			<?php if ($signup){ ?>
 			<div><input type="text" size="20" name="mastercode" placeholder="<?=t('mastercode');?>" required></div>
 			<?php } ?>
-			<div class="two"><?php if($autologin){?>
+			<div class="two"><?php if ($autologin){?>
 			<label><input type="checkbox" name="remember"> <?=t('remember_me')?></label>
 			<?php } ?></div><div class="two last"><button type="submit"><?=$button;?></button></div>
 <?php } ?>

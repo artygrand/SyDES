@@ -40,7 +40,7 @@ class FileController extends Controller{
 			$script[] = $cdn . 'mode/xml/xml.min.js';
 			$script[] = $cdn . 'mode/htmlmixed/htmlmixed.min.js';
 			$mode = 'text/html';
-		} elseif($ext == '.php'){
+		} elseif ($ext == '.php'){
 			$script[] = $cdn . 'addon/edit/closebrackets.min.js';
 			$script[] = $cdn . 'mode/htmlmixed/htmlmixed.min.js';
 			$script[] = $cdn . 'mode/xml/xml.min.js';

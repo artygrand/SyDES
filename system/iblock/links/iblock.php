@@ -32,7 +32,7 @@ if ($args['order'] == 'position'){
 }
 
 $result = $this->pages_model->getList(array("parent_id = {$parent}", "status > 0", "type != 'trash'", "position NOT LIKE '#%'"), $args['order'], $args['limit']);
-if(!$result) return;
+if (!$result) return;
 ?>
 
 <ul class="<?=$args['class'];?>">

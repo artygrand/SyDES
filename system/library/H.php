@@ -145,7 +145,7 @@ class H{
 			if (isset($item['skip'])){
 				continue;
 			}
-			if($prev_level != $item['level']){
+			if ($prev_level != $item['level']){
 				if ($max_level < $item['level']){
 					continue;
 				}

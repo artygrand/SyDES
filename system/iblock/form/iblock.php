@@ -24,7 +24,7 @@ if (in_array($form['template'], array('modal', 'modal_sm', 'modal_lg'))){
 	$modal_size = '';
 	if ($form['template'] == 'modal_sm'){
 		$modal_size = 'modal-sm';
-	} elseif($form['template'] == 'modal_lg'){
+	} elseif ($form['template'] == 'modal_lg'){
 		$modal_size = 'modal-lg';
 	}
 }

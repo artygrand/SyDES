@@ -15,19 +15,19 @@ class TemplatesModel extends Model{
 		$this->template = isset($this->request->get['tpl']) ? $this->request->get['tpl'] : $this->config_site['template'];
 		$this->template_path = DIR_TEMPLATE . $this->template . '/';
 
-		if(!is_file($this->template_path . 'page.html')){
+		if (!is_file($this->template_path . 'page.html')){
 			throw new BaseException(sprintf(t('error_template_not_found'), $this->template));
 		}
 		$this->layout_db = $this->template_path . 'layouts.php';
 
 		if (isset($this->request->get['file']) and $this->request->get['file'] != 'clone'){
 			$ext = strrchr($this->request->get['file'], '.');
-			if(!$ext or !in_array($ext, array('.css', '.js', '.html', '.php'))){
+			if (!$ext or !in_array($ext, array('.css', '.js', '.html', '.php'))){
 				throw new BaseException(t('error_wrong_values_passed'));
 			}
 
 			$file = str_replace($ext, '', $this->request->get['file']);
-			if(strpos($file, '.') !== false){
+			if (strpos($file, '.') !== false){
 				throw new BaseException(t('error_wrong_values_passed'));
 			}
 		}

@@ -58,7 +58,7 @@ class Meta extends HasRegistry{
 	}
 
 	public function updateById($id, $value){
-		if($value == '') return;
+		if ($value == '') return;
 		$stmt = $this->db->prepare("UPDATE {$this->table} SET value = :value WHERE id = :id");
 		$stmt->execute(array('id' => $id, 'value' => $value));
 	}

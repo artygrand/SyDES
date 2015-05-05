@@ -57,7 +57,7 @@ class Response{
 			unset($this->alerts);
 		}
 
-		if(IS_AJAX){
+		if (IS_AJAX){
 			$this->body['redirect'] = $url;
 		} else {
 			$host = $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);

@@ -1,7 +1,7 @@
 <div class="row">
 <?php foreach ($columns as $column){ ?>
 	<div class="col-sm-<?=$col_sm;?>">
-	<?php if($column){ ?>
+	<?php if ($column){ ?>
 		<div class="widgets-wrapper">
 		<?php foreach ($column as $widget){ 
 			echo $widget;

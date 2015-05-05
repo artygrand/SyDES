@@ -90,7 +90,7 @@ class User{
 	}
 
 	public function isAdmin(){
-		if(isset($this->post['mastercode']) and md5($this->post['mastercode']) == $this->mastercode){
+		if (isset($this->post['mastercode']) and md5($this->post['mastercode']) == $this->mastercode){
 			$_SESSION['mastercode'] = 1;
 		}
 		return isset($_SESSION['mastercode']);

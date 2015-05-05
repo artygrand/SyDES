@@ -20,7 +20,7 @@
 		<td><select name="filter[parent_id]" class="form-control input-sm"><?=$parents;?></select></td>
 <?php } ?>
 <?php foreach ($show_meta as $sm){?>
-			<td><input type="text" name="filter[meta][<?=$sm;?>]" class="form-control input-sm" value="<?php if(isset($filter['meta'][$sm])){echo $filter['meta'][$sm];}?>"></td>
+			<td><input type="text" name="filter[meta][<?=$sm;?>]" class="form-control input-sm" value="<?php if (isset($filter['meta'][$sm])){echo $filter['meta'][$sm];}?>"></td>
 <?php } ?>
 		<td><?=H::select('filter[status]', $filter['status'], $statuses, 'class="form-control input-sm"');?></td>
 		<td><input type="submit" value="<?=t('filter');?>" class="btn btn-sm btn-default"> <a href="?route=pages&type=<?=$type;?>&filter=clear" class="btn btn-sm btn-default"><?=t('clear');?></a></td>
@@ -39,7 +39,7 @@
 			</td>
 <?php } ?>
 <?php foreach ($show_meta as $sm){ ?>
-			<td><?php if(isset($data[$sm])){echo $data[$sm];}?></td>
+			<td><?php if (isset($data[$sm])){echo $data[$sm];}?></td>
 <?php } ?>
 			<td><div class="status-wrap"><?=$data['status_select']?></div></td>
 			<td>

@@ -59,11 +59,11 @@ class SimpleImage{
 		}
 
 		$this->image_type = $image_info[2];
-		if($this->image_type == IMAGETYPE_JPEG ){
+		if ($this->image_type == IMAGETYPE_JPEG){
 			$this->image = imagecreatefromjpeg($filename);
-		} elseif( $this->image_type == IMAGETYPE_GIF ){
-			$this->image = imagecreatefromgif($filename);
-		} elseif( $this->image_type == IMAGETYPE_PNG ){
+		} elseif ($this->image_type == IMAGETYPE_GIF){
+			$this->image = imagecreatefromgif ($filename);
+		} elseif ($this->image_type == IMAGETYPE_PNG){
 			$this->image = imagecreatefrompng($filename);
 		}
 		
@@ -72,20 +72,20 @@ class SimpleImage{
 	}
 
 	public function save($filename, $image_type=IMAGETYPE_JPEG, $compression=75, $permissions=0777){
-		if( $image_type == IMAGETYPE_JPEG ) {
+		if ($image_type == IMAGETYPE_JPEG){
 			imagejpeg($this->image,$filename,$compression);
-		} elseif( $image_type == IMAGETYPE_GIF ) {
-			imagegif($this->image,$filename);
-		} elseif( $image_type == IMAGETYPE_PNG ) {
+		} elseif ($image_type == IMAGETYPE_GIF){
+			imagegif ($this->image,$filename);
+		} elseif ($image_type == IMAGETYPE_PNG){
 			imagepng($this->image,$filename);
 		}
-		if( $permissions != null) {
+		if ($permissions != null){
 			chmod($filename,$permissions);
 		}
 	}
 
 	public function r($thumb_width, $thumb_height){
-		if($thumb_width / $this->width < $thumb_height / $this->height){
+		if ($thumb_width / $this->width < $thumb_height / $this->height){
 			$new_width = $thumb_width;
 			$new_height = $this->height * ($thumb_width / $this->width);
 		} else {
@@ -114,7 +114,7 @@ class SimpleImage{
 		$this -> $what($width, $height);
 	}
 
-	public function destroy() {
+	public function destroy(){
 		imagedestroy($this->image);
 	}
 }

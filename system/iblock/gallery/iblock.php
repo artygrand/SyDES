@@ -24,7 +24,7 @@ if (!$args['folder']){
 	}
 	$args['folder'] = $page['folder'];
 }
-if(!is_dir('upload/images/' . $args['folder'])){
+if (!is_dir('upload/images/' . $args['folder'])){
 	return;
 }
 

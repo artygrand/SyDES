@@ -185,7 +185,7 @@ class FormController extends Controller{
 		$stmt->execute($settings);
 
 		foreach ($notices as $id => $notice){
-			if($id == 0){
+			if ($id == 0){
 				if ($notice['to'] == '' or $notice['subject'] == '' or $notice['subject'] == 'body'){
 					continue;
 				}

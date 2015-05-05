@@ -22,7 +22,7 @@ class PagesController extends Controller{
 
 		$this->settings = $this->config_site['page_types'][$this->type];
 
-		if($this->section == 'admin'){
+		if ($this->section == 'admin'){
 			$this->response->style[] = '/system/module/pages/assets/pages.css';
 			$this->response->script[] = '/system/module/pages/assets/pages.js';
 
@@ -405,7 +405,7 @@ class PagesController extends Controller{
 			$this->response->redirect('?route=pages&type=' . $this->type);
 		} elseif ($act == 'clear'){
 			$this->response->redirect('?route=pages/edit&type=' . $this->type . '&parent=' . $parent_id);
-		} elseif($act == 'apply'){
+		} elseif ($act == 'apply'){
 			// nothing
 		} else {
 			$this->response->redirect('?route=pages/edit&type=' . $this->type . '&id=' . $id);
@@ -428,7 +428,7 @@ class PagesController extends Controller{
 	}
 
 	public function setstatus(){
-		if(!isset($this->request->post['id'], $this->request->get['value']) or preg_match('![^\d,]!', $this->request->post['id'])){
+		if (!isset($this->request->post['id'], $this->request->get['value']) or preg_match('![^\d,]!', $this->request->post['id'])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$val = (int)$this->request->get['value'];
@@ -523,7 +523,7 @@ class PagesController extends Controller{
 	}
 
 	public function reorder(){
-		if(!isset($this->request->post['page'])){
+		if (!isset($this->request->post['page'])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 
@@ -537,7 +537,7 @@ class PagesController extends Controller{
 	}
 
 	public function find(){
-		if(!isset($this->request->post['term']) or !IS_AJAX){
+		if (!isset($this->request->post['term']) or !IS_AJAX){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$result = $this->pages_model->find($this->request->post['term']);

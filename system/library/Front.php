@@ -138,9 +138,9 @@ class Front extends HasRegistry{
 
 			if (is_file($tpl_override)){
 				include $tpl_override;
-			} elseif(is_file($tpl_original)){
+			} elseif (is_file($tpl_original)){
 				include $tpl_original;
-			} elseif($args['template'] != 'default'){
+			} elseif ($args['template'] != 'default'){
 				ob_end_clean();
 				return sprintf(t('error_iblock_template_not_found'), $args['template'], $iblock_name);
 			}
