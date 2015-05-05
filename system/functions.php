@@ -170,41 +170,6 @@ function convertToAscii($str, $wSlash = false){
 	return strtolower($str);
 }
 
-function globRecursive($dir, $mask, $recursive = false, $del = ''){
-	$pages = array();
-	foreach (glob($dir.'/*') as $filename){
-		if (is_array($mask)){
-			if (in_array(pathinfo($filename, PATHINFO_EXTENSION), $mask)){
-				static $file = 1;			
-				$pages[$file]['dir'] = pathinfo($filename, PATHINFO_DIRNAME);
-				$pages[$file]['title'] = pathinfo($filename, PATHINFO_BASENAME);
-				$pages[$file]['cyr_name'] = iconv('cp1251','utf-8//TRANSLIT', pathinfo($filename, PATHINFO_FILENAME));
-				$pages[$file]['ext'] = pathinfo($filename, PATHINFO_EXTENSION);
-				$file++;
-			}
-		} elseif (is_dir($filename)){
-			$del = !$del ? $dir . '/' : $del;
-			$alias = str_replace($del, '', $filename);
-			$pages[$alias] = array(
-				'fullpath' => $filename,
-				'title' => str_replace($dir . '/', '', $filename)
-			);
-		} 
-		if ($recursive == true && is_dir($filename)){
-			if (!is_array($mask)){
-				$pages[$alias]['childs'] = globRecursive($filename, $mask, true, $del);
-				if (!$pages[$alias]['childs']){
-					unset($pages[$alias]['childs']);
-				}
-			} else {
-				$temp = globRecursive($filename, $mask, true);
-				$pages = array_merge($pages, $temp);
-			}
-		}
-	}
-	return $pages;
-}
-
 function token($length){
 	$chars = array(
 		'A','B','C','D','E','F','G','H','J','K','L','M',
