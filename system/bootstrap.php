@@ -51,10 +51,10 @@ set_error_handler(function($errno, $errstr, $errfile, $errline){
 });
 
 class BaseException extends Exception{
-	public function __construct($message, $status = 'danger', $redirect = false){
+	public function __construct($message, $status = 'danger', $redirect = ''){
 		$response = Registry::getInstance()->response;
 		$response->alert($message, $status);
-		if ($redirect){
+		if (!empty($redirect)){
 			$response->redirect($redirect);
 		}
 		parent::__construct($message);

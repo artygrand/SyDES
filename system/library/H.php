@@ -23,11 +23,11 @@ class H{
 		return $html.'</select>';
 	}
 
-	public static function checkbox($name, $value, array $source, $attr = ''){
+	public static function checkbox($name, $value, array $source, $attr = array()){
 		return self::_optionElement('checkbox', $name, $source, $value, $attr);
 	}
 
-	public static function radio($name, $value, array $source, $attr = ''){
+	public static function radio($name, $value, array $source, $attr = array()){
 		return self::_optionElement('radio', $name, $source, $value, $attr);
 	}
 
@@ -166,7 +166,7 @@ class H{
 		return $html . PHP_EOL . str_pad('', $delta, '</ul></li>') . PHP_EOL . '</ul>';
 	}
 	
-	public static function listLinks($data, $current = false, $attr = ''){
+	public static function listLinks($data, $current = '', $attr = ''){
 		$html = '<ul' . self::attr($attr) . '>';
 		foreach ($data as $link => $title){
 			$active = $current == $link ? ' class="active"' : '';

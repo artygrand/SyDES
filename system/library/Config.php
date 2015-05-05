@@ -23,8 +23,8 @@ class Config extends HasRegistry{
 		}
 	}
 
-	public function get($key = false){
-		if ($key){
+	public function get($key = ''){
+		if (!empty($key)){
 			return isset($this->data[$key]) ? $this->data[$key] : false;
 		} else {
 			return $this->data;
