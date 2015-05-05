@@ -6,7 +6,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<?php foreach($layouts as $layout => $data){ ?>
+	<?php foreach ($layouts as $layout => $data){ ?>
 					<tr>
 						<td><?=$data['name'];?></td>
 						<td>
@@ -39,7 +39,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<?php foreach($modules as $module){ ?>
+	<?php foreach ($modules as $module){ ?>
 					<tr>
 						<td><?=$module[1];?></td>
 						<td><?=$module[2];?></td>
@@ -70,7 +70,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<?php foreach($files as $file => $name){ ?>
+	<?php foreach ($files as $file => $name){ ?>
 					<tr>
 						<td><?=$name;?></td>
 						<td>
@@ -103,7 +103,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<?php foreach($iblocks as $iblock){ ?>
+	<?php foreach ($iblocks as $iblock){ ?>
 					<tr>
 						<td>{iblock:<?=$iblock[1];?>?template=<?=$iblock[2];?>}</td>
 						<td>
@@ -125,7 +125,7 @@
 				<div class="input-group" style="width:100%;">
 					<span class="input-group-btn">
 						<select class="btn">
-						<?php foreach($iblock_list as $iblock){ ?>
+						<?php foreach ($iblock_list as $iblock){ ?>
 							<option value="iblock/<?=$iblock;?>/"><?=$iblock;?></option>
 						<?php } ?>
 						</select>

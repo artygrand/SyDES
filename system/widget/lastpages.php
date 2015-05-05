@@ -11,7 +11,7 @@ class LastpagesWidget extends Widget{
 	public function index(){
 		$pages = $this->load->model('pages', false);
 		$result = $pages->getList(array("type != 'trash'"), 'id DESC', 10);
-		foreach($result as $row){
+		foreach ($result as $row){
 			$rows[] = array(
 				H::link($row['title'], '//' . $this->base . '/' . $row['fullpath'], 'target="_blank"'),
 				tDate($this->locale, 'd M Y', $row['cdate']),

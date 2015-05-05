@@ -97,10 +97,10 @@ final class App extends HasRegistry{
 	public function parseUri(){
 		$domains = $this->cache->get('domains');
 		if (!$domains){
-			foreach(glob(DIR_SITE . 's*', GLOB_ONLYDIR) as $sitepath){
+			foreach (glob(DIR_SITE . 's*', GLOB_ONLYDIR) as $sitepath){
 				$site_domains = include $sitepath . '/domains.php';
 				$site = str_replace(DIR_SITE, '', $sitepath);
-				foreach($site_domains as $domain){
+				foreach ($site_domains as $domain){
 					$domains[$domain] = $site;
 				}
 			}
@@ -285,7 +285,7 @@ final class App extends HasRegistry{
 		}
 
 		$queue = new SplPriorityQueue();
-		foreach($this->events[$event] as $index => $action){
+		foreach ($this->events[$event] as $index => $action){
 			$queue->insert($index, $action["prio"]);
 		}
 

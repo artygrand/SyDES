@@ -6,7 +6,7 @@
 		</tr>
 	</thead>
 	<tbody>
-<?php foreach($pages as $page => $data){ ?>
+<?php foreach ($pages as $page => $data){ ?>
 		<tr class="selectitem s-<?=$data['status'];?>">
 			<td><span class="type"></span><a href="<?=$base;?><?=$data['fullpath'];?>" target="_blank"><?=$data['title'];?></a></td>
 			<td>

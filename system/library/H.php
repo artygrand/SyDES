@@ -141,7 +141,7 @@ class H{
 		$prev_level = $cur['level'];
 		$html = '<ul ' . $attr . '>';
 		
-		foreach($data as $item){
+		foreach ($data as $item){
 			if (isset($item['skip'])){
 				continue;
 			}
@@ -179,15 +179,15 @@ class H{
 		$html = '<table' . self::attr($attr) . '>';
 		if ($header){
 			$html .= '<thead><tr>';
-			foreach($header as $col){
+			foreach ($header as $col){
 				$html .= '<th>'.$col.'</th>';
 			}
 			$html .= '</tr></thead>';
 		}
 		$html .= '<tbody>';
-		foreach($rows as $row){
+		foreach ($rows as $row){
 			$html .= '<tr>';
-			foreach($row as $col){
+			foreach ($row as $col){
 				$html .= '<td>'.$col.'</td>';
 			}
 			$html .= '</tr>';
@@ -246,7 +246,7 @@ class H{
 
 	public static function form($data){
 		$form = '';
-		foreach($data as $name => $input){
+		foreach ($data as $name => $input){
 			$piece = isset($input['label']) ? '<label>' . $input['label'] . '</label>' : '';
 
 			$type = $input['type'];
@@ -308,7 +308,7 @@ class H{
 			return ' ' . $attr;
 		}
 		$str = ' ';
-		foreach($attr as $key => $values){
+		foreach ($attr as $key => $values){
 			if (is_string($values)){
 				$str .= $key . '="' . $values . '" ';
 			} else {

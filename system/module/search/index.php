@@ -23,7 +23,7 @@ class SearchController extends Controller{
 			$query = implode(' ', $words);
 
 			$stemmer = new Lingua_Stem_Ru();
-			foreach($words as $i => $word){
+			foreach ($words as $i => $word){
 				$words[$i] = $stemmer->stem_word($word);
 			}
 

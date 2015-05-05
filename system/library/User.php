@@ -14,7 +14,7 @@ class User{
 	}
 
 	public function set(array $user){
-		foreach($user as $k => $v){
+		foreach ($user as $k => $v){
 			$this->$k = $v;
 		}
 	}

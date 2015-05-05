@@ -43,8 +43,8 @@ class DashboardController extends Controller{
 		$widgets = $this->config->get('widgets');
 		$exists = str_replace(array(DIR_WIDGET, '.php'), '', glob(DIR_WIDGET . '*.php'));
 
-		foreach($widgets as $i => $column){
-			foreach($column as $j => $widget){
+		foreach ($widgets as $i => $column){
+			foreach ($column as $j => $widget){
 				if (in_array($widget, $exists)){
 					$widgets[$i][$j] = $this->loadWidget($widget);
 					$used[] = $widget;
@@ -64,7 +64,7 @@ class DashboardController extends Controller{
 		}
 		if ($unused){
 			$this->addContextMenu('widgets', t('add_widget'));
-			foreach($unused as $widget => $name){
+			foreach ($unused as $widget => $name){
 				$this->addToContextMenu('widgets', array('title' => $name, 'link' => '?route=dashboard/add&widget=' . $widget));
 			}
 		}
@@ -93,7 +93,7 @@ class DashboardController extends Controller{
 
 			if ($count > $this->request->get['q']){
 				for($i = $this->request->get['q']; $i < $count; $i++){
-					foreach($columns[$i] as $widget){
+					foreach ($columns[$i] as $widget){
 						$columns[0][] = $widget;
 					}
 					unset($columns[$i]);
@@ -161,7 +161,7 @@ class DashboardController extends Controller{
 	}
 	
 	private function getWidgetNames($widgets){
-		foreach($widgets as $widget){
+		foreach ($widgets as $widget){
 			$translate = $this->load->language('widget_' . $widget, false);
 			$arr[$widget] = $translate['widget_' . $widget];
 		}

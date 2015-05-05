@@ -16,7 +16,7 @@ class LogsController extends Controller{
 		$lines = file($logs[$skip], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$lines = array_reverse($lines);
 		$str = '<table class="table table-hover table-condensed">';
-		foreach($lines as $line){
+		foreach ($lines as $line){
 			$line = explode('|', $line);
 			$str .= '<tr><td>' . implode('</td><td>', $line) . '</td></tr>';
 		}

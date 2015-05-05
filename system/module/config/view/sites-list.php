@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </div>
-<?php foreach($sites as $key => $site){ ?>
+<?php foreach ($sites as $key => $site){ ?>
 <div class="col-sm-6">
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -39,7 +39,7 @@
 				</div>
 				<div class="col-sm-9">
 					<?php $types = array();
-					foreach($site['config']['page_types'] as $key => $type){
+					foreach ($site['config']['page_types'] as $key => $type){
 						if ($key == 'trash') continue;
 						$types[] = $type['title'];
 					}
@@ -52,7 +52,7 @@
 				</div>
 				<div class="col-sm-9">
 					<?php $mods = array();
-					foreach($site['config']['modules'] as $mod => $data){
+					foreach ($site['config']['modules'] as $mod => $data){
 						$mods[] = $mod;
 					}
 					echo implode(', ', $mods);

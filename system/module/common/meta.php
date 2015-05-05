@@ -23,7 +23,7 @@ class MetaController extends Controller{
 		} else {
 			$stmt = $this->db->query("SELECT key FROM {$this->table} GROUP BY key ORDER BY key");
 			$keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
-			foreach($keys as $key){
+			foreach ($keys as $key){
 				$meta[$key] = array(
 					'title' => '',
 					'type' => 'string',
@@ -74,7 +74,7 @@ class MetaController extends Controller{
 		$config = $this->config_admin;
 		$types = $this->request->post['metatype'];
 		if ($types['new_type']['key'][0] != ''){
-			foreach($types['new_type']['key'] as $i => $key){
+			foreach ($types['new_type']['key'] as $i => $key){
 				if ($key == '') continue;
 				$types[$key] = array(
 					'title' => $types['new_type']['title'][$i],
@@ -111,7 +111,7 @@ class MetaController extends Controller{
 		));
 
 		$meta = array();
-		foreach($permanent as $key){
+		foreach ($permanent as $key){
 			$meta[] = array(
 				'id' => 0,
 				'key' => $key,
@@ -183,7 +183,7 @@ class MetaController extends Controller{
 			'swf' => 'flash',
 		);
 
-		foreach($meta as $item){
+		foreach ($meta as $item){
 			if (isset($this->config_admin['meta'][$item['key']])){
 				$field = $this->config_admin['meta'][$item['key']];
 			} else {
@@ -206,7 +206,7 @@ class MetaController extends Controller{
 					}
 					$source = explode("\n", $config['source']);
 					if (strpos($source[0], '|') !== false){
-						foreach($source as $row){
+						foreach ($source as $row){
 							$row = explode('|', $row);
 							$option[$row[0]] = $row[1];
 						}

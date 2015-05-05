@@ -26,7 +26,7 @@ class SitemapController extends Controller{
 <?xml-stylesheet type="text/xsl" href="/system/module/common/assets/xml-sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-			foreach($pages as $page){
+			foreach ($pages as $page){
 				$page['path'] = $page['path'] == '/' ? $in_url : ($in_url ? $in_url . $page['path'] : substr($page['path'], 1));
 				$sitemap .= '
 	<url>

@@ -10,7 +10,7 @@ class ThumbController{
 	public $name = 'thumb';
 	public static $front = array('index');
 
-	public function index($filename){
+	public function index(){
 		if (empty($_GET['src']) or empty($_GET['width']) or empty($_GET['height']) or empty($_GET['act'])){
 			die;
 		}

@@ -36,7 +36,7 @@ if(!$result) return;
 ?>
 
 <ul class="<?=$args['class'];?>">
-<?php foreach($result as $item){
+<?php foreach ($result as $item){
 	$active = '';
 	if ($page['id'] == $item['id']){
 		$active = ' class="active"';

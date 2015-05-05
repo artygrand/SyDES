@@ -11,7 +11,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach($menus as $id => $menu){ ?>
+	<?php foreach ($menus as $id => $menu){ ?>
 			<tr>
 				<td><?=$menu['title'];?></td>
 				<td>{iblock:menu?show=<?=$id;?>}</td>

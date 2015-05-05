@@ -36,13 +36,13 @@ class TemplatesModel extends Model{
 	public function createLayouts(){
 		$layouts = $this->getLayouts();
 		$used = array();
-		foreach($layouts as $layout){
+		foreach ($layouts as $layout){
 			$used[] = $layout['file'];
 		}
 		$files = $this->getFiles('html');
 		$need = array_diff($files,$used);
 		if ($need){
-			foreach($need as $file){
+			foreach ($need as $file){
 				$name = str_replace('.html', '', $file);
 				if (!isset($layouts[$name])){
 					$layouts[$name] = array('name' => $name, 'file' => $file, 'html' => '{content}');
@@ -59,8 +59,8 @@ class TemplatesModel extends Model{
 	}
 
 	public function getFiles($exts = array('html','css','js')){
-		foreach((array)$exts as $ext){
-			foreach(glob($this->template_path . '*.' . $ext) as $file){
+		foreach ((array)$exts as $ext){
+			foreach (glob($this->template_path . '*.' . $ext) as $file){
 				$file = str_replace($this->template_path, '', $file);
 				$files[$file] = $file;
 			}
@@ -70,7 +70,7 @@ class TemplatesModel extends Model{
 
 	public function getIblocks(){
 		$pre = '';
-		foreach(glob(DIR_IBLOCK . '*') as $file){
+		foreach (glob(DIR_IBLOCK . '*') as $file){
 			$pre .= str_replace(DIR_IBLOCK, '{iblock:', $file) . '}' . PHP_EOL;
 		}
 		if ($pre){
@@ -87,7 +87,7 @@ class TemplatesModel extends Model{
 		if (!$search){
 			return $files;
 		}
-		foreach($search as $file){
+		foreach ($search as $file){
 			preg_match($preg, $file, $files[]);
 		}
 		return $files;

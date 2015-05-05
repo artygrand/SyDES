@@ -18,7 +18,7 @@ class Config extends HasRegistry{
 		if (!$data){
 			return;
 		}
-		foreach($data as $d){
+		foreach ($data as $d){
 			$this->data[$d['key']] = json_decode($d['value'], true);
 		}
 	}
@@ -29,7 +29,6 @@ class Config extends HasRegistry{
 		} else {
 			return $this->data;
 		}
-		return $this;
 	}
 
 	public function set($key, $value = 'e#eq'){
@@ -53,7 +52,7 @@ class Config extends HasRegistry{
 	public function save(){
 		$this->db->exec("DELETE FROM config WHERE module = '{$this->module}'");
 		$stmt = $this->db->prepare("INSERT INTO config (module, key, value) VALUES ('{$this->module}', :key, :value)");
-		foreach($this->data as $key => $value){
+		foreach ($this->data as $key => $value){
 			$stmt->execute(array('key' => $key, 'value' => json_encode($value)));
 		}
 	}

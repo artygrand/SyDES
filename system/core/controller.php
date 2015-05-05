@@ -23,7 +23,7 @@ abstract class Controller extends HasRegistry{
 
 	protected function execSqlFiles($files){
 		$this->db->beginTransaction();
-		foreach((array)$files as $file){
+		foreach ((array)$files as $file){
 			$data = preg_split('/;(\s*)/', file_get_contents($file));
 			foreach ($data as $row){
 				$row = trim($row);
@@ -37,7 +37,7 @@ abstract class Controller extends HasRegistry{
 
 	protected function createTableByArray($table, $structure){
 		$a = 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT';
-		foreach($structure as $name => $col){
+		foreach ($structure as $name => $col){
 			$a .= ", {$name} {$col['def']}";
 		}
 		$a .= ", status INTEGER NOT NULL default '1'";
@@ -78,7 +78,7 @@ abstract class Controller extends HasRegistry{
 
 		$this->load->language('module_' . $module);
 		$links['?route=' . $module] = t('module_' . $module);
-		foreach($modules as $mod){
+		foreach ($modules as $mod){
 			$this->load->language('module_' . $mod);
 			$links['?route=' . $module . '/' . $mod] = t('module_' . $mod);
 		}

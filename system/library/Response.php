@@ -97,7 +97,7 @@ class Response{
 			header('HTTP/1.0 '.$this->status . ' ' . App::$STATUS_CODE[$this->status]);
 			header('Content-type: ' . App::$MIME_TYPE[$this->mime]);
 
-			foreach($this->headers as $h){
+			foreach ($this->headers as $h){
 				header($h, true);
 			}
 

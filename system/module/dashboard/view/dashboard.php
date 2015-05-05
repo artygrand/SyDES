@@ -1,9 +1,9 @@
 <div class="row">
-<?php foreach($columns as $column){ ?>
+<?php foreach ($columns as $column){ ?>
 	<div class="col-sm-<?=$col_sm;?>">
 	<?php if($column){ ?>
 		<div class="widgets-wrapper">
-		<?php foreach($column as $widget){ 
+		<?php foreach ($column as $widget){ 
 			echo $widget;
 		} ?>
 		</div>

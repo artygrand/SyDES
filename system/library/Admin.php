@@ -93,7 +93,7 @@ class Admin extends HasRegistry{
 
 	public function getPagesList(){
 		$list = array();
-		foreach($this->config_site['page_types'] as $type => $data){
+		foreach ($this->config_site['page_types'] as $type => $data){
 			if (isset($data['hidden'])){
 				continue;
 			}
@@ -104,7 +104,7 @@ class Admin extends HasRegistry{
 
 	public function getModuleList(){
 		$list = array();
-		foreach($this->config_site['modules'] as $module => $data){
+		foreach ($this->config_site['modules'] as $module => $data){
 			if (!$data['in_menu']){
 				continue;
 			}
@@ -120,7 +120,7 @@ class Admin extends HasRegistry{
 	public function getMenuSections(){
 		$sections = array();
 		if (isset($this->config_site['menu_sections'])){
-			foreach($this->config_site['menu_sections'] as $sect => $data){
+			foreach ($this->config_site['menu_sections'] as $sect => $data){
 				$sections[] = array(
 					'title' => $data['title'],
 					'list' => H::listLinks($data['list'], false, 'class="list-unstyled"')
@@ -140,10 +140,10 @@ class Admin extends HasRegistry{
 		);
 
 		$menu = array();
-		foreach($this->response->context as $key => $data){
+		foreach ($this->response->context as $key => $data){
 			$menu[$key]['title'] = $data['title'];
 			$menu[$key]['link'] = $data['link'];
-			foreach($data['children'] as $child){
+			foreach ($data['children'] as $child){
 				$modal = '';
 				if ($child['modal']){
 					$size = '';

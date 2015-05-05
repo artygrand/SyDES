@@ -31,7 +31,7 @@ class SetupController extends Controller{
 		$stmt = $this->db->query("SELECT key FROM pages_meta GROUP BY key ORDER BY key");
 		$keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
 		$columns = array('category' => t('category'));
-		foreach($keys as $key){
+		foreach ($keys as $key){
 			$columns[$key] = $key;
 		}
 
@@ -96,7 +96,7 @@ class SetupController extends Controller{
 
 		$stmt = $this->db->query("SELECT key FROM pages_meta pm, pages p WHERE p.id = pm.page_id AND p.type = '{$this->type}' OR pm.page_id = 0 GROUP BY key ORDER BY key");
 		$keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
-		foreach($keys as $key){
+		foreach ($keys as $key){
 			$columns[$key] = $key;
 		}
 

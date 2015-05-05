@@ -13,7 +13,7 @@ class ConstructorsController extends Controller{
 		
 		$modules = str_replace(array(DIR_MODULE . 'constructors/', '.php'), '', glob(DIR_MODULE . 'constructors/*.php'));
 		$modules = array_diff($modules, array('index'));
-		foreach($modules as $module){
+		foreach ($modules as $module){
 			$result = $this->run($module);
 			if (!empty($result)){
 				$constructors[] = $result;

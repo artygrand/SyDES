@@ -3,7 +3,7 @@
 	<div class="btn-group">
 		<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=t('add');?> <span class="caret"></span></button>
 		<ul class="dropdown-menu dropdown-menu-right">
-<?php foreach($types as $type => $name){ ?>
+<?php foreach ($types as $type => $name){ ?>
 			<li><a href="<?=ADMIN;?>/?route=pages/edit&type=<?=$type;?>"><?=$name;?></a></li>
 <?php } ?>
 		</ul>
@@ -12,14 +12,14 @@
 
 	<span class="divider"></span>
 
-<?php foreach($menu as $item){ ?>
+<?php foreach ($menu as $item){ ?>
 	<?php if ($item['link']){ ?>
 		<a href="<?=$item['link'];?>"><?=$item['title'];?></a>
 	<?php } else { ?>
 		<div class="btn-group">
 			<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=$item['title']?> <span class="caret"></span></button>
 			<ul class="dropdown-menu dropdown-menu-right">
-			<?php foreach($item['children'] as $child){ ?>
+			<?php foreach ($item['children'] as $child){ ?>
 				<li><?=$child?></li>
 			<?php } ?>
 			</ul>

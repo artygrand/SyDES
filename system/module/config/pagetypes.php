@@ -35,7 +35,7 @@ class PagetypesController extends Controller{
 
 	public function edit(){
 		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		foreach($layout_db as $k => $l){
+		foreach ($layout_db as $k => $l){
 			$layouts[$k] = $l['name'];
 		}
 
@@ -53,7 +53,7 @@ class PagetypesController extends Controller{
 			ORDER BY p.position");
 			$pages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			if ($pages){
-				foreach($pages as $page){
+				foreach ($pages as $page){
 					$roots[$page['id']] = $page['title'];
 				}
 			}
@@ -108,7 +108,7 @@ class PagetypesController extends Controller{
 					'cdate' => time(),
 				);
 				$content = array();
-				foreach($this->config_site['locales'] as $loc){
+				foreach ($this->config_site['locales'] as $loc){
 					$content[$loc] = array(
 						'title' => $this->request->post['title'],
 						'content' => '',
@@ -161,7 +161,7 @@ class PagetypesController extends Controller{
 		$pages = $stmt->fetchAll(PDO::FETCH_COLUMN);
 		if ($pages){
 			$this->db->beginTransaction();
-			foreach($pages as $id){
+			foreach ($pages as $id){
 				$this->db->exec("DELETE FROM pages WHERE id = {$id}");
 				$this->db->exec("DELETE FROM pages_content WHERE page_id = {$id}");
 				$this->db->exec("DELETE FROM pages_meta WHERE page_id = {$id}");

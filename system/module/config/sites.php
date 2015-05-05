@@ -12,7 +12,7 @@ class SitesController extends Controller{
 	public function index(){
 		$sites_data = array();
 		$sites = str_replace(DIR_SITE, '', glob(DIR_SITE . 's*'));
-		foreach($sites as $site){
+		foreach ($sites as $site){
 			$sites_data[$site]['config'] = include DIR_SITE . $site . '/config.php';
 			$sites_data[$site]['domain'] = include DIR_SITE . $site . '/domains.php';
 		}
@@ -45,7 +45,7 @@ class SitesController extends Controller{
 			}
 
 			$domain_arr = explode("\n", trim($this->request->post['domains']));
-			foreach($domain_arr as $d){
+			foreach ($domain_arr as $d){
 				$d = trim($d);
 				if($d){
 					$domains[] = $d;
@@ -101,7 +101,7 @@ class SitesController extends Controller{
 			$app->connect2db();
 			$this->execSqlFiles(DIR_MODULE . 'config/install.sql');
 			$this->db->exec("INSERT INTO pages VALUES ('1','0','','/','#1000','2','page','page', " . time() . ")");
-			foreach($config['locales'] as $locale){
+			foreach ($config['locales'] as $locale){
 				$this->db->exec("INSERT INTO `pages_content` VALUES ('1','{$locale}','Home','This is homepage content for locale {$locale}.')");
 			}
 			$this->response->redirect('?route=config/sites');
@@ -179,7 +179,7 @@ class SitesController extends Controller{
 		$dir = DIR_SITE . $this->request->post['site'];
 
 		$domain_arr = explode("\n", trim($this->request->post['domains']));
-		foreach($domain_arr as $d){
+		foreach ($domain_arr as $d){
 			$d = trim($d);
 			if($d){
 				$domains[] = $d;

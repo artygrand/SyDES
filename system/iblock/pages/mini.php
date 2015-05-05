@@ -1,4 +1,4 @@
-<?php foreach($result as $item){ ?>
+<?php foreach ($result as $item){ ?>
 <div class="media">
 	<div class="media-left">
 		<a href="<?=$item['fullpath'];?>">

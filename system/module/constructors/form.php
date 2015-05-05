@@ -70,7 +70,7 @@ class FormController extends Controller{
 
 		$stmt = $this->db->query("SELECT form_id, count(id) as count FROM form_results GROUP BY form_id");
 		$counts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		foreach($counts as $count){
+		foreach ($counts as $count){
 			$results[$count['form_id']] = $count['count'];
 		}
 		if (empty($results)){
@@ -167,7 +167,7 @@ class FormController extends Controller{
 		$settings = $this->request->post['settings'];
 		if (isset($this->request->post['fields'])){
 			$fields = $this->request->post['fields'];
-			foreach($fields as $i => $field){
+			foreach ($fields as $i => $field){
 				$fields[$i]['required'] = isset($field['required']) ? 1 : 0;
 			}
 			$settings['fields'] = json_encode($fields);
@@ -184,7 +184,7 @@ class FormController extends Controller{
 			fields = :fields, form_attr = :form_attr, status = :status WHERE id = :id");
 		$stmt->execute($settings);
 
-		foreach($notices as $id => $notice){
+		foreach ($notices as $id => $notice){
 			if($id == 0){
 				if ($notice['to'] == '' or $notice['subject'] == '' or $notice['subject'] == 'body'){
 					continue;

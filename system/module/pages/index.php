@@ -28,7 +28,7 @@ class PagesController extends Controller{
 
 			if (count($this->config_site['locales']) > 1){
 				$this->addContextMenu('locale', $this->locale);
-				foreach($this->config_site['locales'] as $locale){
+				foreach ($this->config_site['locales'] as $locale){
 					$this->addToContextMenu('locale', array(
 						'title' => $locale,
 						'link' => '?type=' . $this->type . '&locale=' . $locale
@@ -67,7 +67,7 @@ class PagesController extends Controller{
 		$meta = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		if ($meta){
-			foreach($meta as $m){
+			foreach ($meta as $m){
 				if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $this->locale){
 					$data[substr($m['key'], 3)] = $m['value']; // en_metakey to metakey
 				} else {
@@ -91,7 +91,7 @@ class PagesController extends Controller{
 			$orderby = 'cdate';
 			$order = 'desc';
 
-			foreach(array('skip', 'limit', 'orderby', 'order') as $item){
+			foreach (array('skip', 'limit', 'orderby', 'order') as $item){
 				if (isset($this->request->get[$item])){
 					$$item = $this->request->get[$item];
 					setcookie("{$this->type}_{$item}", $$item, time()+3600);
@@ -117,7 +117,7 @@ class PagesController extends Controller{
 		if ($this->settings['structure'] == 'tree'){
 			$statuses = array('2'=>t('in_menu'), '1'=>t('visible'), '0'=>t('hidden'));
 			if ($pages){
-				foreach($pages as $i => $p){
+				foreach ($pages as $i => $p){
 					$pages[$i]['level'] = substr_count($p['position'],'#');
 					$pages[$i]['attr'] = 'id="page-' . $p['id'] . '"';
 					$pages[$i]['status_select'] = H::select('status', $pages[$i]['status'], $statuses, 'data-id="' . $pages[$i]['id'] . '" data-reload="1"');
@@ -148,7 +148,7 @@ class PagesController extends Controller{
 
 			if ($pages){
 				$parents = $this->pages_model->getParents($this->type);
-				foreach($pages as $i => $p){
+				foreach ($pages as $i => $p){
 					$pages[$i]['status_select'] = H::select('status', $pages[$i]['status'], $statuses, 'data-id="' . $pages[$i]['id'] . '" data-reload="1"');
 					$pages[$i]['parent_title'] = $parents[$pages[$i]['parent_id']]['title'];
 					$pages[$i]['parent_path'] = $parents[$pages[$i]['parent_id']]['fullpath'];
@@ -205,7 +205,7 @@ class PagesController extends Controller{
 			$batch['setstatus&value=0&reload=1'] = t('hide');
 			$batch['move&to=trash'] = t('delete');
 		}
-		foreach($this->config_site['page_types'] as $type => $ty){
+		foreach ($this->config_site['page_types'] as $type => $ty){
 			if ($type == $this->type){
 				continue;
 			}
@@ -269,7 +269,7 @@ class PagesController extends Controller{
 			unset($page['path']);
 		}
 		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		foreach($layout_db as $k => $v){
+		foreach ($layout_db as $k => $v){
 			$layouts[$k] = $v['name'];
 		}
 		$permanent = isset($this->settings['form']['meta'][$page['parent_id']]) ? "'" . implode("','", $this->settings['form']['meta'][$page['parent_id']]) . "'" : '';
@@ -295,7 +295,7 @@ class PagesController extends Controller{
 		</div>';
 
 		$tabs = array();
-		foreach($this->config_site['locales'] as $loc){
+		foreach ($this->config_site['locales'] as $loc){
 			$title = isset($page['title'][$loc]) ? $page['title'][$loc] : '';
 			$content = isset($page['content'][$loc]) ? $page['content'][$loc] : '';
 			$tabs['tab-' . $loc] = array(
@@ -355,7 +355,7 @@ class PagesController extends Controller{
 		$parent_id = (int)$this->request->post['parent_id'];
 		$act = $this->request->post['act'];
 
-		foreach($this->config_site['locales'] as $loc){
+		foreach ($this->config_site['locales'] as $loc){
 			$content[$loc] = array(
 				'title' => $this->request->post['title'][$loc],
 				'content' => $this->request->post['content'][$loc],
@@ -418,7 +418,7 @@ class PagesController extends Controller{
 		}
 		
 		$ids = array_unique(explode(',', $this->request->get['id']));
-		foreach($ids as $id){
+		foreach ($ids as $id){
 			$this->pages_model->delete($id);
 		}
 
@@ -453,10 +453,10 @@ class PagesController extends Controller{
 		}
 
 		if ($this->settings['structure'] == 'tree'){
-			foreach($ids as $id){
+			foreach ($ids as $id){
 				$children = $this->pages_model->getChildren($id);
 				if ($children){
-					foreach($children as $child){
+					foreach ($children as $child){
 						$target = $this->config_site['page_types'][$child['type']];
 						if ($target['structure'] == 'tree'){
 							$ids[] = $child['id'];
@@ -470,7 +470,7 @@ class PagesController extends Controller{
 		$ids = array_unique($ids);
 
 		$target = $this->config_site['page_types'][$this->request->get['to']];
-		foreach($ids as $id){
+		foreach ($ids as $id){
 			if ($target['structure'] == 'tree'){
 				$position = $this->pages_model->getLastChildPos($target['root']) + 1;
 				$position = $this->pages_model->getValue($target['root'], 'position') . '#' . $position;

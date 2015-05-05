@@ -172,7 +172,7 @@ function convertToAscii($str, $wSlash = false){
 
 function globRecursive($dir, $mask, $recursive = false, $del = ''){
 	$pages = array();
-	foreach(glob($dir.'/*') as $filename){
+	foreach (glob($dir.'/*') as $filename){
 		if (is_array($mask)){
 			if (in_array(pathinfo($filename, PATHINFO_EXTENSION), $mask)){
 				static $file = 1;			

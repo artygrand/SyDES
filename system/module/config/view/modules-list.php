@@ -4,7 +4,7 @@
 	</div>
 	<table class="table table-hover table-condensed va-middle">
 		<tbody>
-	<?php foreach($modules as $key => $module){ ?>
+	<?php foreach ($modules as $key => $module){ ?>
 			<tr>
 				<td><?=$module['name'];?></td>
 				<td>

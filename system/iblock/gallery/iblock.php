@@ -40,7 +40,7 @@ $files = array_slice($files, $skip, $args['perpage']);
 ?>
 
 <div class="gallery">
-<?php foreach($files as $img){ ?>
+<?php foreach ($files as $img){ ?>
 	<a href="<?=$img;?>" rel="lightbox[<?=$args['folder'];?>]"><img src="/cache/img/<?=$args['width'];?>_<?=$args['height'];?>_c/<?=$img;?>" alt=""></a>
 <?php } ?>
 </div>

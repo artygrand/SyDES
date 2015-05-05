@@ -23,7 +23,7 @@ if (!isset($page['id'])){
 }
 
 if ($args['show'] == 'all'){
-	foreach($this->config_site['page_types'] as $k => $v){
+	foreach ($this->config_site['page_types'] as $k => $v){
 		if ($v['structure'] == 'tree'){
 			$tree_types[] = $k;
 		}
@@ -54,7 +54,7 @@ if ($args['show'] == 'all'){
 if (!$pages) return;
 
 if (!is_numeric($args['show'])){
-	foreach($pages as $i => $p){
+	foreach ($pages as $i => $p){
 		$pages[$i]['level'] = substr_count($p['position'],'#');
 		$pages[$i]['attr_title'] = $pages[$i]['title'];
 		if ($p['id'] == $page['id']){
@@ -64,7 +64,7 @@ if (!is_numeric($args['show'])){
 		}
 	}
 } else {
-	foreach($pages as $i => $p){
+	foreach ($pages as $i => $p){
 		if ($p['fullpath'] == $page['fullpath']){
 			$pages[$i]['attr'] = 'class="active"';
 			break;

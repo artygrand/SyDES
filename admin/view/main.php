@@ -17,7 +17,7 @@
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-<?php foreach($styles as $file){ ?>
+<?php foreach ($styles as $file){ ?>
 	<link href="<?=$file;?>" rel="stylesheet" media="screen">
 <?php } ?>
 
@@ -30,7 +30,7 @@
 	<script src="/system/assets/js/utils.min.js"></script>
 	<script src="/system/assets/js/main.js"></script>
 
-<?php foreach($scripts as $file){ ?>
+<?php foreach ($scripts as $file){ ?>
 	<script src="<?=$file;?>"></script>
 <?php } ?>
 
@@ -50,7 +50,7 @@
 			<div><?=t('modules');?></div>
 			<?=$modules;?>
 		</div>
-<?php foreach($menu_sections as $section){ ?>
+<?php foreach ($menu_sections as $section){ ?>
 		<div class="menu-section">
 			<div><?=$section['title'];?></div>
 			<?=$section['list'];?>
@@ -76,14 +76,14 @@
 			<div class="col-sm-7"><?=$breadcrumbs;?></div>
 			<div class="col-sm-5 text-right">
 				<div class="context-menu">
-				<?php foreach($context_menu as $item){ ?>
+				<?php foreach ($context_menu as $item){ ?>
 					<?php if ($item['link']){ ?>
 					<a href="<?=$item['link'];?>"><?=$item['title'];?></a>
 					<?php } else { ?>
 					<div class="btn-group">
 						<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=$item['title']?> <span class="caret"></span></button>
 						<ul class="dropdown-menu dropdown-menu-right">
-						<?php foreach($item['children'] as $child){ ?>
+						<?php foreach ($item['children'] as $child){ ?>
 							<li><?=$child?></li>
 						<?php } ?>
 						</ul>
@@ -95,7 +95,7 @@
 		</div>
 
 		<div id="alerts">
-		<?php foreach($alerts as $a){ ?>
+		<?php foreach ($alerts as $a){ ?>
 			<div class="alert alert-<?=$a['status']?> alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button><?=$a['message']?></div>
 		<?php } ?>
 		</div>

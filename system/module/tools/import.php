@@ -37,7 +37,7 @@ class ImportController extends Controller{
 			$rawPages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			if(!$rawPages){
 				$titles[0] = array('id','parent_id','alias','status','layout', 'cdate', 'position');
-				foreach($this->config_site['locales'] as $loc){
+				foreach ($this->config_site['locales'] as $loc){
 					$titles[0][] = "{$loc}_title";
 					$titles[0][] = "{$loc}_content";
 				}
@@ -48,35 +48,35 @@ class ImportController extends Controller{
 				$rawMetaData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt = $this->db->query("SELECT * FROM pages_content WHERE page_id IN (SELECT id FROM pages WHERE type = '{$_GET['type']}')");
 				$rawPagesContent = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				foreach($this->config_site['locales'] as $loc){
+				foreach ($this->config_site['locales'] as $loc){
 					$rawDataContentTitle[]['key'] = $loc . '_title';
 					$rawDataContentTitle[]['key'] = $loc . '_content';
 				}
 
 				// set a title row
 				$titles[0] = array_keys($rawPages[0]);
-				foreach($rawDataContentTitle as $title){
+				foreach ($rawDataContentTitle as $title){
 					$titles[0][] = $title['key'];
 				}
-				foreach($rawMetaTitles as $title){
+				foreach ($rawMetaTitles as $title){
 					$titles[0][] = $title;
 				}
 
 				// set a data rows
-				foreach($rawPagesContent as $data){
+				foreach ($rawPagesContent as $data){
 					$truDataContent[$data['page_id']][$data['locale'].'_title'] = $data['title'];
 					$truDataContent[$data['page_id']][$data['locale'].'_content'] = $data['content'];
 				}
 
-				foreach($rawMetaData as $meta){
+				foreach ($rawMetaData as $meta){
 					$truDataMeta[$meta['page_id']][$meta['key']] = $meta['value'];
 				}
 
-				foreach($rawPages as &$data){
-					foreach($rawDataContentTitle as $title){
+				foreach ($rawPages as &$data){
+					foreach ($rawDataContentTitle as $title){
 						$data[$title['key']] = $truDataContent[$data['id']][$title['key']];
 					}
-					foreach($rawMetaTitles as $title){
+					foreach ($rawMetaTitles as $title){
 						$data[$title['key']] = $truDataMeta[$data['id']][$title];
 					}
 				}
@@ -93,7 +93,7 @@ class ImportController extends Controller{
 			} else {
 				$stmt = $this->db->query("PRAGMA table_info({$_GET['table']})");
 				$rawData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				foreach($rawData as $data){
+				foreach ($rawData as $data){
 					$titles[0][] = $data['name'];
 				}
 			}
@@ -102,7 +102,7 @@ class ImportController extends Controller{
 		$this->response->mime = 'csv';
 		$this->response->addHeader("Content-Disposition: attachment;filename=syd_{$t}_" . date("Ymd") . ".{$_POST['encoding']}.csv");
 		$t = '';
-		foreach($titles as $row){
+		foreach ($titles as $row){
 			$t .= '"' . implode('";"', str_replace('"', '""', $row)) . '"' . PHP_EOL;
 		}
 		if ($_POST['encoding'] == 'cp1251'){
@@ -135,7 +135,7 @@ class ImportController extends Controller{
 		set_time_limit(0);
 
 		$arr = explode(PHP_EOL, $csv);
-		foreach($arr as $r){
+		foreach ($arr as $r){
 			$rows[] = str_getcsv($r, ';', '"');
 		}
 		unset($arr, $csv);
@@ -144,7 +144,7 @@ class ImportController extends Controller{
 		if ($_GET['table'] == 'pages'){
 			$beforeMeta = count($this->config_site['locales'])*2;
 			$meta_keys = array_slice($headers, 7 + $beforeMeta);
-			foreach($rows as $r){
+			foreach ($rows as $r){
 				if (!is_numeric($r[0])){
 					continue;
 				}
@@ -152,7 +152,7 @@ class ImportController extends Controller{
 				$raw['main'][$id] = array_slice($r, 0, 7);
 				$raw['main'][$id][5] = strtotime($raw['main'][$id][5]);
 				$tmp = array_chunk(array_slice($r, 7, $beforeMeta), 2);
-				foreach($tmp as $i => $t){
+				foreach ($tmp as $i => $t){
 					if ($t[0] == ''){
 						continue;
 					}
@@ -165,7 +165,7 @@ class ImportController extends Controller{
 					
 				}
 				$tmp = array_slice($r, 7 + $beforeMeta);
-				foreach($tmp as $i => $t){
+				foreach ($tmp as $i => $t){
 					if($t != ''){
 						$raw['meta_upd'][$id.'_'.$i] = array(
 							'page_id' => $id,
@@ -191,27 +191,27 @@ class ImportController extends Controller{
 			$this->db->beginTransaction();
 			if (isset($raw['main'])){
 				$stmt = $this->db->prepare("INSERT OR REPLACE INTO pages (id, parent_id, alias, status, layout, cdate, position, type) VALUES (?,?,?,?,?,?,?,'{$_GET['type']}')");
-				foreach($raw['main'] as $data){
+				foreach ($raw['main'] as $data){
 					$stmt->execute($data);
 				}
 			}
 
 			if (isset($raw['content'])){
 				$stmt = $this->db->prepare("INSERT OR REPLACE INTO pages_content (page_id, locale, title, content) VALUES (:page_id, :locale, :title, :content)");
-				foreach($raw['content'] as $data){
+				foreach ($raw['content'] as $data){
 					$stmt->execute($data);
 				}
 			}
 
 			if (isset($raw['meta_upd'])){
 				$stmt = $this->db->prepare("INSERT OR REPLACE INTO pages_meta (page_id, key, value) VALUES (:page_id, :key, :value)");
-				foreach($raw['meta_upd'] as $data){
+				foreach ($raw['meta_upd'] as $data){
 					$stmt->execute($data);
 				}
 			}
 			if (isset($raw['meta_del'])){
 				$stmt = $this->db->prepare("DELETE FROM pages_meta WHERE page_id = :page_id AND key = :key");
-				foreach($raw['meta_del'] as $data){
+				foreach ($raw['meta_del'] as $data){
 					$stmt->execute($data);
 				}
 			}
@@ -245,7 +245,7 @@ class ImportController extends Controller{
 
 	private function getTables(){
 		$tables[0] = t('select_table');
-		foreach($this->config_site['page_types'] as $type => $data){
+		foreach ($this->config_site['page_types'] as $type => $data){
 			if ($type == 'trash'){
 				continue;
 			}
@@ -256,7 +256,7 @@ class ImportController extends Controller{
 		$stmt = $this->db->query("SELECT name FROM sqlite_master WHERE name NOT IN ({$skip}) AND name NOT LIKE 'sqlite_%'");
 		$raw = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		if ($raw){
-			foreach($raw as $row){
+			foreach ($raw as $row){
 				$tables[$row['name']] = $row['name'];
 			}
 		}

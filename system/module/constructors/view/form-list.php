@@ -12,7 +12,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach($forms as $form){ ?>
+	<?php foreach ($forms as $form){ ?>
 			<tr>
 				<td><?=$form['name'];?></td>
 				<td>{iblock:form?show=<?=$form['id'];?>}</td>

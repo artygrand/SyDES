@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </div>
-<?php foreach($types as $key => $type){
+<?php foreach ($types as $key => $type){
 if (isset($type['hidden'])) continue; ?>
 <div class="col-sm-6">
 	<div class="panel panel-default">

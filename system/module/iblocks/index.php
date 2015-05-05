@@ -117,7 +117,7 @@ class IblocksController extends Controller{
 		$this->confirm(sprintf(t('confirm_want_to_delete'), t('iblock') . ' ' . $this->request->get['iblock']), $url);
 
 		if (file_exists(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')){
-			foreach(glob(DIR_IBLOCK . $this->request->get['iblock'] . '/*') as $path){
+			foreach (glob(DIR_IBLOCK . $this->request->get['iblock'] . '/*') as $path){
 				unlink($path);
 			}
 			rmdir(DIR_IBLOCK . $this->request->get['iblock']);
@@ -150,7 +150,7 @@ class IblocksController extends Controller{
 	}
 
 	private function getIblocks(){
-		foreach(glob(DIR_IBLOCK . '*') as $file){
+		foreach (glob(DIR_IBLOCK . '*') as $file){
 			$files[] = str_replace(DIR_IBLOCK, '', $file);
 		}
 		return $files;

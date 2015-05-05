@@ -82,7 +82,7 @@ $registry->user = $user;
 
 $plugins = glob(DIR_PLUGIN . '*');
 if ($plugins){
-	foreach($plugins as $plugin){
+	foreach ($plugins as $plugin){
 		include $plugin;
 	}
 }

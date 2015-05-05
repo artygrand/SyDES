@@ -11,7 +11,7 @@ if (count($this->config_site['locales']) == 1) return;
 
 $links = array();
 if (isset($args['root']) or !isset($page['id'])){
-	foreach($this->config_site['locales'] as $lang){
+	foreach ($this->config_site['locales'] as $lang){
 		$links[] = array(
 			'lang' => $lang,
 			'path' => $lang
@@ -20,7 +20,7 @@ if (isset($args['root']) or !isset($page['id'])){
 } else {
 	$stmt = $this->db->query("SELECT locale FROM pages_content WHERE page_id = {$page['id']}");
 	$langs = $stmt->fetchAll(PDO::FETCH_COLUMN);
-	foreach($langs as $lang){
+	foreach ($langs as $lang){
 		$path = $page['id'] == 1 ? '' : $page['path'];
 		$links[] = array(
 			'lang' => $lang,

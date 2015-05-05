@@ -22,7 +22,7 @@ $crumbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if(!$crumbs) return;
 
 $arr = array();
-foreach($crumbs as $crumb){
+foreach ($crumbs as $crumb){
 	$fullpath = $crumb['path'] == '/' ? $this->pages_model->in_url : ($this->pages_model->in_url ? $this->pages_model->in_url . $crumb['path'] : substr($crumb['path'], 1));
 	$arr[] = '<a href="' . $fullpath . '">' . $crumb['title'] . '</a>';
 }

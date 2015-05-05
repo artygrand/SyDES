@@ -48,13 +48,13 @@ class PagesModel extends Model{
 		$id = $this->db->lastInsertId();
 
 		$stmt = $this->db->prepare("INSERT INTO pages_content VALUES (:id, :locale, :title, :content)");
-		foreach($content as $l => $c){
+		foreach ($content as $l => $c){
 			$stmt->execute(array('id' => $id, 'locale' => $l, 'title' => $c['title'], 'content' => $c['content']));
 		}
 
 		if ($meta){
 			$stmt = $this->db->prepare("INSERT INTO pages_meta (page_id, key, value) VALUES (:id, :key, :value)");
-			foreach($meta as $k => $v){
+			foreach ($meta as $k => $v){
 				if ($v == ''){
 					continue;
 				}
@@ -75,7 +75,7 @@ class PagesModel extends Model{
 			return false;
 		}
 
-		foreach($page as $locale){
+		foreach ($page as $locale){
 			$titles[$locale['locale']] = $locale['title'];
 			$contents[$locale['locale']] = $locale['content'];
 		}
@@ -120,7 +120,7 @@ class PagesModel extends Model{
 		$stmt->execute($data);
 
 		$stmt = $this->db->prepare("INSERT OR REPLACE INTO pages_content VALUES (:id, :locale, :title, :content)");
-		foreach($content as $l => $c){
+		foreach ($content as $l => $c){
 			$stmt->execute(array('id' => $id, 'locale' => $l, 'title' => $c['title'], 'content' => $c['content']));
 		}
 	}
@@ -138,7 +138,7 @@ class PagesModel extends Model{
 		$filter_page = $filter_meta = $filter_content = $filter_meta_tables = $meta_cols = $meta_table = $meta_group = '';
 		$show_meta = $this->config_site['page_types'][$type]['structure'] == 'list' ? $this->config_site['page_types'][$type]['list']['meta'] : false;
 		if ($show_meta){
-			foreach($show_meta as $i => $m){
+			foreach ($show_meta as $i => $m){
 				$show_meta[$i] = ",\n MAX(CASE WHEN m.key='{$m}' THEN m.value ELSE NULL END) as '{$m}'";
 			}
 			$meta_cols = implode('', $show_meta);
@@ -149,7 +149,7 @@ class PagesModel extends Model{
 		$data = array('locale' => $this->locale);
 		if (isset($filter['page'])){
 			$filter_page = array();
-			foreach($filter['page'] as $key => $search){
+			foreach ($filter['page'] as $key => $search){
 				$filter_page[] = "p.{$key} {$search['condition']} :{$key}";
 				$data[$key] = $search['value'];
 			}
@@ -165,7 +165,7 @@ class PagesModel extends Model{
 		if (isset($filter['meta'])){
 			$i = 0;
 			$filter_meta = array();
-			foreach($filter['meta'] as $key => $search){
+			foreach ($filter['meta'] as $key => $search){
 				$int = (is_numeric($search['value']) or is_array($search['value'])) ? '+0' : '';
 				$filter_meta_tables .= "\nINNER JOIN pages_meta m{$i} ON p.id = m{$i}.page_id";
 				if ($search['condition'] == 'BETWEEN'){
@@ -174,7 +174,7 @@ class PagesModel extends Model{
 					$data[$key . '1'] = (int)$search['value'][1];
 					
 				} elseif ($search['condition'] == 'IN'){
-					foreach($search['value'] as $j => $val){
+					foreach ($search['value'] as $j => $val){
 						$vals[] = ':' .$key . $j;
 						$data[$key . $j] = (int)$val;
 					}
@@ -196,7 +196,7 @@ class PagesModel extends Model{
 			// for pagination
 			$total_sql = "SELECT count(*) FROM pages p\nLEFT JOIN pages_content pc ON p.id = pc.page_id AND pc.locale = :locale" . $filter_meta_tables . "\nWHERE " . $filter_page . $filter_content . $filter_meta;
 			$stmt = $this->db->prepare($total_sql);
-			foreach($data as $param => $value){
+			foreach ($data as $param => $value){
 				if (is_numeric($value)){
 					$stmt->bindValue(':' . $param, $value, PDO::PARAM_INT);
 				} else {
@@ -216,7 +216,7 @@ class PagesModel extends Model{
 		$filter_meta_tables . $meta_table . "\nWHERE " . $filter_page . $filter_content . $filter_meta . $meta_group . $end;
 
 		$stmt = $this->db->prepare($sql);
-		foreach($data as $param => $value){
+		foreach ($data as $param => $value){
 			if (is_numeric($value)){
 				$stmt->bindValue(':' . $param, $value, PDO::PARAM_INT);
 			} else {
@@ -231,7 +231,7 @@ class PagesModel extends Model{
 			return false;
 		}
 
-		foreach($page as $i => $p){
+		foreach ($page as $i => $p){
 			$page[$i]['fullpath'] = $p['path'] == '/' ? $this->in_url : ($this->in_url ? $this->in_url . $p['path'] : substr($p['path'], 1));
 		}
 
@@ -252,9 +252,9 @@ class PagesModel extends Model{
 			$get = unserialize($this->request->cookie[$type . '_filter']);
 		}
 
-		foreach($get as $key => $value){
+		foreach ($get as $key => $value){
 			if ($key == 'meta'){
-				foreach($value as $k => $meta){
+				foreach ($value as $k => $meta){
 					if (!empty($meta) or $meta === '0'){
 						$filter['meta'][$k] = $this->parseFilter($meta);
 					}
@@ -429,7 +429,7 @@ class PagesModel extends Model{
 
 	public function getParents($type){
 		$pages = $this->getBranchData($type);
-		foreach($pages as $p){
+		foreach ($pages as $p){
 			$p['fullpath'] = $p['path'] == '/' ? $this->in_url : ($this->in_url ? $this->in_url . $p['path'] : substr($p['path'], 1));
 			if ($p['id'] == 0){
 				$p['title'] = t('root');
@@ -466,7 +466,7 @@ class PagesModel extends Model{
 
 		unset($pages[0]); // root
 		if ($this->use_alias){
-			foreach($pages as $page){
+			foreach ($pages as $page){
 				$update[] = array(
 					'id' => $page['id'],
 					'path' => '/' . $page['alias']
@@ -474,7 +474,7 @@ class PagesModel extends Model{
 			}
 		} else {
 			$source[0] = array('path' => '');
-			foreach($pages as $page){
+			foreach ($pages as $page){
 				$source[$page['id']] = $page;
 				$path = $source[$page['parent_id']]['path'] . '/' . $page['alias'];
 				$source[$page['id']]['path'] = $path;
@@ -487,7 +487,7 @@ class PagesModel extends Model{
 
 		$this->db->beginTransaction();
 		$stmt = $this->db->prepare("UPDATE pages SET path = :path WHERE id = :id");
-		foreach($update as $data){
+		foreach ($update as $data){
 			$stmt->execute($data);
 		}
 		$this->db->commit();
@@ -509,12 +509,12 @@ class PagesModel extends Model{
 		}
 		$last[$first] = 999;
 
-		foreach($this->config_site['page_types'] as $type => $data){
+		foreach ($this->config_site['page_types'] as $type => $data){
 			if ($data['root'] == 0 or $data['structure'] == 'list') continue;
 			$roots[$data['root']] = 1;
 		}
 
-		foreach($pages as $id => $parent_id){
+		foreach ($pages as $id => $parent_id){
 			$sorted[$id] = array(
 				'position' => $sorted[$parent_id]['position'] . '#' . ++$last[$parent_id],
 				'parent_id' => $parent_id,
@@ -532,7 +532,7 @@ class PagesModel extends Model{
 
 		$this->db->beginTransaction();
 		$stmt = $this->db->prepare("UPDATE pages SET position = :position, parent_id = :parent_id WHERE id = :id");
-		foreach($sorted as $page){
+		foreach ($sorted as $page){
 			$stmt->execute($page);
 		}
 		$this->db->commit();
@@ -568,7 +568,7 @@ class PagesModel extends Model{
 		$level = count($path) - 1;
 		$stmt = $this->db->query("UPDATE pages SET position = :new_position WHERE position = :position");
 		$this->db->beginTransaction();
-		foreach($pages as $page){
+		foreach ($pages as $page){
 			$positions = explode('#', $page['position']);
 			$positions[$level] = $positions[$level] + $delta;
 			$page['new_position'] = implode('#', $positions);
@@ -586,7 +586,7 @@ class PagesModel extends Model{
 
 		$stmt = $this->db->query("UPDATE pages SET position = :new WHERE position = :old");
 		$this->db->beginTransaction();
-		foreach($pages as $page){
+		foreach ($pages as $page){
 			$position = str_replace_once($old, $new, $page['position']);
 			$stmt->execute(array('old' => $page['position'], 'new' => $position));
 		}
@@ -608,7 +608,7 @@ class PagesModel extends Model{
 		$stmt->execute(array('term' => '%' . lower($term) . '%'));
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		foreach($result as $item){
+		foreach ($result as $item){
 			$out[] = array(
 				'label' => $item['title'],
 				'value' => $item['title'],
@@ -634,7 +634,7 @@ class PagesModel extends Model{
 			return false;
 		}
 
-		foreach($data as $d){
+		foreach ($data as $d){
 			if (!$d['title']){
 				continue;
 			}
@@ -663,7 +663,7 @@ class PagesModel extends Model{
 		$meta = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		if ($meta){
-			foreach($meta as $m){
+			foreach ($meta as $m){
 				if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $this->locale){
 					$pages[$m['page_id']][ substr($m['key'], 3)] = $m['value'];
 				} else {

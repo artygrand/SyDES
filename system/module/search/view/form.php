@@ -10,7 +10,7 @@
 <?php if ($result){ ?>
 
 	<p class="lead"><?php printf(t('search_found'), pluralize(count($result), t('match'), t('matches'), t('matches2'))); ?></p>
-	<?php foreach($result as $item){
+	<?php foreach ($result as $item){
 		$fullpath = $locale ? $locale . $item['path'] : substr($item['path'], 1);
 	?>
 		<p><a href="<?=$fullpath;?>"><?=$item['title'];?></a></p>

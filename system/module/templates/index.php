@@ -28,7 +28,7 @@ class TemplatesController extends Controller{
 		$templates = glob(DIR_TEMPLATE . '*');
 		if (count($templates) > 1){
 			$templates = str_replace(DIR_TEMPLATE, '', $templates);
-			foreach($templates as $t){
+			foreach ($templates as $t){
 				$links['?route=templates&tpl=' . $t] = $t;
 			}
 			$data['sidebar_left'] = H::listLinks($links, '?route=templates&tpl=' . $model->template, 'class="nav nav-tabs-left"');

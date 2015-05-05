@@ -26,7 +26,7 @@ class ConfigController extends Controller{
 	public function save(){
 		$input = $this->request->post['config'];
 		if ($input['new_key']['key'][0] != ''){
-			foreach($input['new_key']['key'] as $i => $key){
+			foreach ($input['new_key']['key'] as $i => $key){
 				if ($key == '' or $input['new_key']['value'][$i] == '') continue;
 				$input[$key] = $input['new_key']['value'][$i];
 			}

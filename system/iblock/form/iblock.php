@@ -30,7 +30,7 @@ if (in_array($form['template'], array('modal', 'modal_sm', 'modal_lg'))){
 }
 
 $fields_html = '';
-foreach($fields as $field){
+foreach ($fields as $field){
 	$fields_html .= '';
 }
 

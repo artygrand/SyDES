@@ -50,12 +50,12 @@ class Front extends HasRegistry{
 		$head[] = '<base href="http://' . $this->base . '/">';
 
 		if (!empty($response->style)){
-			foreach($response->style as $file){
+			foreach ($response->style as $file){
 				$head[] = '<link rel="stylesheet" href="' . $file . '" media="screen">';
 			}
 		}
 		if (!empty($response->script)){
-			foreach($response->script as $file){
+			foreach ($response->script as $file){
 				$head[] = '<script src="' . $file . '"></script>';
 			}
 		}
@@ -72,7 +72,7 @@ class Front extends HasRegistry{
 		);
 
 		$alerts = '<div id="alerts">';
-		foreach($response->alerts as $a){
+		foreach ($response->alerts as $a){
 			$alerts .= '<div class="alert alert-' . $a['status'] . ' alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' . $a['message'] . '</div>';
 		}
 		$alerts .= '</div>';
@@ -80,7 +80,7 @@ class Front extends HasRegistry{
 
 		$replace_arr = array_merge($common, $response->data);
 
-		foreach($replace_arr as $key => $val){
+		foreach ($replace_arr as $key => $val){
 			$find[] = '{' . $key . '}';
 			$replace[] = $val;
 		}
@@ -159,7 +159,7 @@ class Front extends HasRegistry{
 
 	public function getToolbar(){
 		$types = array();
-		foreach($this->config_site['page_types'] as $type => $data){
+		foreach ($this->config_site['page_types'] as $type => $data){
 			if (isset($data['hidden'])){
 				continue;
 			}
@@ -167,10 +167,10 @@ class Front extends HasRegistry{
 		}
 
 		$menu = array();
-		foreach($this->response->context as $key => $data){
+		foreach ($this->response->context as $key => $data){
 			$menu[$key]['title'] = $data['title'];
 			$menu[$key]['link'] = $data['link'];
-			foreach($data['children'] as $child){
+			foreach ($data['children'] as $child){
 				$modal = '';
 				if ($child['modal']){
 					$size = '';

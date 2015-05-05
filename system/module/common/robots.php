@@ -20,7 +20,7 @@ Disallow: /search
 Host: {$this->base}";
 
 	if (count($this->config_site['locales']) > 1){
-		foreach($this->config_site['locales'] as $locale){
+		foreach ($this->config_site['locales'] as $locale){
 			$text .= "\nSitemap: http://{$this->base}/{$locale}/sitemap.xml";
 		}
 	} else {

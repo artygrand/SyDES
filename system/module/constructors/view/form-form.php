@@ -78,7 +78,7 @@
 
 
 		<div class="tab-pane form-horizontal" id="tab-notice">
-<?php foreach($notices as $notice){ ?>
+<?php foreach ($notices as $notice){ ?>
 			<div class="notice-block">
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><?=t('to');?></label>

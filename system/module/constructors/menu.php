@@ -79,7 +79,7 @@ class MenuController extends Controller{
 	}
 
 	public function save(){
-		foreach($this->request->post['item']['level'] as $id => $level){
+		foreach ($this->request->post['item']['level'] as $id => $level){
 			$items[$id] = array(
 				'level' => $level,
 				'title' => $this->request->post['item']['title'][$id],
