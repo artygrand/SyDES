@@ -113,10 +113,10 @@ $(document).on('change', '#meta-key', function(){
 }).on('keyup', '#meta-key', function(){
 	meta.load($(this).val());
 	window.lastkey = $(this).val()
-}).on('change', '[name^="meta\["]', function(){
+}).on('change', '[name^="meta["]', function(){
 	var value, key, id = $(this).parents('.meta-field').data('id'), name = $(this).attr('name')
 	if (id == 0){
-		var name1 = name.replace(/\[(.+?)\]/, function(d,c){key = c})
+		var name = name.replace(/\[(.+?)\]/, function(d,c){key = c})
 	}
 	if ($(this).is('[type="checkbox"]')){
 		value = $('[name="' + name + '"]:checked').map(function(){return this.value;}).get().join(',')

@@ -10,12 +10,12 @@
 		</tr>
 	</thead>
 	<tbody>
-<? foreach($data as $key => $value){ ?>
+<?php foreach($data as $key => $value){ ?>
 		<tr>
 			<td>{config:<?=$key;?>}</td>
 			<td><input type="text" class="form-control input-sm" name="config[<?=$key;?>]" value="<?=$value;?>"></td>
 		</tr>
-<? } ?>
+<?php } ?>
 		<tr>
 			<td><input type="text" class="form-control input-sm" name="config[new_key][key][]"></td>
 			<td><input type="text" class="form-control input-sm" name="config[new_key][value][]"></td>

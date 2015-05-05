@@ -17,9 +17,9 @@
 	<div class="col-sm-6">
 		<label><?=t('skin');?></label>
 		<div class="skin-selector">
-<? foreach ($skins as $skin){ ?>
+<?php foreach ($skins as $skin){ ?>
 		<a href="#" style="background:<?=$skin;?>" title="<?=$skin;?>"><?=$skin;?></a>
-<? } ?>
+<?php } ?>
 
 		</div>
 	</div>

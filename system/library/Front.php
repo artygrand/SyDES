@@ -130,12 +130,12 @@ class Front extends HasRegistry{
 			return;
 		}
 
-		$tpl_override = DIR_TEMPLATE . $this->config_site['template'] . '/iblock/' . $iblock_name . '/' . $args['template'] . '.php';
-		$tpl_original = DIR_IBLOCK . $iblock_name . '/' . $args['template'] . '.php';
-
 		ob_start();
 		$out = include DIR_IBLOCK . $iblock_name . '/iblock.php';
 		if ($out !== NULL){
+			$tpl_override = DIR_TEMPLATE . $this->config_site['template'] . '/iblock/' . $iblock_name . '/' . $args['template'] . '.php';
+			$tpl_original = DIR_IBLOCK . $iblock_name . '/' . $args['template'] . '.php';
+
 			if (is_file($tpl_override)){
 				include $tpl_override;
 			} elseif(is_file($tpl_original)){

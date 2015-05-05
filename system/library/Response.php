@@ -47,7 +47,7 @@ class Response{
 		$this->headers[] = $header;
 	}
 
-	public function addJsTranslations($array){
+	public function addJsL10n($array){
 		$this->translations = array_merge($this->translations, $array);
 	}
 

@@ -3,29 +3,29 @@
 	<div class="btn-group">
 		<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=t('add');?> <span class="caret"></span></button>
 		<ul class="dropdown-menu dropdown-menu-right">
-<? foreach($types as $type => $name){ ?>
+<?php foreach($types as $type => $name){ ?>
 			<li><a href="<?=ADMIN;?>/?route=pages/edit&type=<?=$type;?>"><?=$name;?></a></li>
-<? } ?>
+<?php } ?>
 		</ul>
 	</div>
 	<a href="<?=ADMIN;?>/?route=common/clearcache&return=<?=$request_uri;?>"><?=t('clear_cache');?></a>
 
 	<span class="divider"></span>
 
-<? foreach($menu as $item){ ?>
-	<? if ($item['link']){ ?>
+<?php foreach($menu as $item){ ?>
+	<?php if ($item['link']){ ?>
 		<a href="<?=$item['link'];?>"><?=$item['title'];?></a>
-	<? } else { ?>
+	<?php } else { ?>
 		<div class="btn-group">
 			<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=$item['title']?> <span class="caret"></span></button>
 			<ul class="dropdown-menu dropdown-menu-right">
-			<? foreach($item['children'] as $child){ ?>
+			<?php foreach($item['children'] as $child){ ?>
 				<li><?=$child?></li>
-			<? } ?>
+			<?php } ?>
 			</ul>
 		</div>
-	<? } ?>
-<? } ?>
+	<?php } ?>
+<?php } ?>
 
 	<a href="<?=ADMIN;?>/?route=user/logout" class="pull-right"><?=t('exit');?></a>
 </div>

@@ -60,6 +60,7 @@ class SitesController extends Controller{
 				'maintenance_mode' => $this->request->post['maintenance_mode'],
 				'need_cache' => $this->request->post['need_cache'],
 				'use_alias_as_path' => $this->request->post['use_alias_as_path'],
+				'check_updates' => $this->request->post['check_updates'],
 				'page_types' => array(
 					'page' => array(
 						'title' => t('pages'),
@@ -117,6 +118,7 @@ class SitesController extends Controller{
 				'template' => H::select('template', '', $templates, 'class="form-control"'),
 				'site' => 'new',
 				'sites' => str_replace(DIR_SITE, '', glob(DIR_SITE . 's*')),
+				'check_updates' => 1,
 			));
 			$data['sidebar_right'] = H::saveButton() . $this->user->getMastercodeInput();
 			$data['sidebar_left'] = $this->getSideMenu('config/sites', array('interface'));
@@ -149,6 +151,7 @@ class SitesController extends Controller{
 			'template' => H::select('template', $config['template'], $templates, 'class="form-control"'),
 			'site' => $this->site,
 			'sites' => 1,
+			'check_updates' => $config['check_updates'],
 		));
 		$data['sidebar_right'] = H::saveButton(DIR_SITE . $this->site . '/config.php') . $this->user->getMastercodeInput();
 		$data['sidebar_left'] = $this->getSideMenu('config/sites', array('interface'));
@@ -191,7 +194,8 @@ class SitesController extends Controller{
 			'locales' => $locales,
 			'maintenance_mode' => $this->request->post['maintenance_mode'],
 			'need_cache' => $this->request->post['need_cache'],
-			'use_alias_as_path' => $this->request->post['use_alias_as_path']
+			'use_alias_as_path' => $this->request->post['use_alias_as_path'],
+			'check_updates' => $this->request->post['check_updates'],
 		);
 		$use_alias_old = $this->config_site['use_alias_as_path'];
 		$this->config_site = array_merge($this->config_site, $config);

@@ -1,4 +1,4 @@
-<? return 
+<?php return 
 array (
   'tip_to_site' => 'Перейти на сайт',
   'content' => 'Контент',
@@ -104,6 +104,7 @@ array (
   'maintenance_mode' => 'Режим обслуживания',
   'need_cache' => 'Включить кэширование',
   'use_alias_as_path' => 'Использовать алиасы, как полный адрес страницы',
+  'check_updates' => 'Проверять обновления системы',
   'create_new_site' => 'Создать новый сайт',
   'domains' => 'Домены',
   'site_works' => 'Сайт работает',
@@ -236,5 +237,6 @@ array (
   'input_phone' => 'Телефон',
   'input_number' => 'Число',
   'input_hidden' => 'Скрытое поле',
-)
-?>
+  'token' => 'Маркер',
+  'select_in_sidebar' => 'Выберите в сайдбаре',
+);

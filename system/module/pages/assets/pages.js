@@ -42,11 +42,13 @@ $(document).ready(function(){
 		}
 	})
 	$('#filter').submit(function(){
-		var action=$(this).attr('action'), data = decodeURIComponent($("#filters :input").serialize()), filter = data.replace(/[^&]+=\.?(?:&|$)/g, '').replace(/&$/, '')
-		location.href = action+'&'+filter
+		var action = $(this).attr('action'),
+			data = decodeURIComponent($("#filters :input").serialize()),
+			filter = data.replace(/[^&]+=\.?(?:&|$)/g, '').replace(/&$/, '');
+		location.href = action + '&' + filter;
 		return false;
 	})
-	
+
 	$('.selectable').selectable({
 		filter:'.selectitem',
 		cancel:'.type,a,input,textarea,button,select,option',

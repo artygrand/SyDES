@@ -2,7 +2,7 @@ $(document).ready(function(){
 	if ($('.menu-top').length){
 		header_height = $('#menu').height();
 		$('#menu').css('height', '50px');
-		if (getCookie('menu') != 'click'){
+		if (syd.cookie('menu') != 'click'){
 			$('#menu').hoverIntent(makeTall, makeShort)
 		}
 		$('#menu').click(function(){
@@ -18,7 +18,7 @@ $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	$("[data-toggle=popover]").popover({html: true});
 
-	syd.notify(getCookie('notify.message'), getCookie('notify.status'));
+	syd.notify(syd.cookie('notify.message'), syd.cookie('notify.status'));
 
 	$('#checkall').click(function(){$('.ids').prop('checked', $(this).prop('checked'))})
 	$('select.goto').change(function(){location.href = $(this).data('url') + $(this).val()})
@@ -59,6 +59,10 @@ $(document).on('click', '.lazy.ckeditor', function(){
 	editorBuffer = editor.getData();
 })
 
+$(document).on('click', '[data-dismiss="widget"]', function(){
+	$(this).parents('.widget').remove();
+})
+
 $(document).on('click', '.apply-modal', function(){
 	var form = $('form[name="modal-form"]');
 	if (form.length){
@@ -75,7 +79,7 @@ $(document).on('click', '.apply-modal', function(){
 $(document).on('click', '.skin-selector a', function(){
 	var skin = $(this).attr('title')
 	$('#skin').attr('href', 'assets/css/skin.' + skin + '.css')
-	setCookie('skin', skin, 7)
+	syd.cookie('skin', skin, 7)
 	return false
 })
 
@@ -87,7 +91,7 @@ $(document).ajaxSend(function(e, xhr, settings){
 	$('html').css('cursor', 'wait');
 	settings.data += '&token='+token
 }).ajaxSuccess(function(e, xhr, settings){
-	if (getCookie('debug') == '1'){
+	if (syd.cookie('debug') == '1'){
 		console.log(xhr.responseText)
 	}
 	if (xhr.getResponseHeader('Content-Type') == 'application/json'){
@@ -111,8 +115,7 @@ $(document).ajaxSend(function(e, xhr, settings){
 
 $(document).on('submit', 'form', function( event ){
 	if (!$(this).find('input[name="token"]').length){
-		event.preventDefault();
-		$(this).append('<input type="hidden" name="token" value="'+token+'">').submit();
+		$(this).append('<input type="hidden" name="token" value="'+token+'">');
 	}
 });
 
@@ -128,25 +131,6 @@ if (isIE || isSafari){
 
 function makeTall(){$('#menu').animate({"height": header_height}, 150)}
 function makeShort(){$('#menu').animate({"height": 50}, 150)}
-
-function setCookie(n, v, x){
-	var d = new Date();
-	d.setDate(d.getDate() + x);
-	var e = escape(v) + ((x == null) ? "" : "; expires=" + d.toUTCString());
-	document.cookie = n + "=" + e;
-}
-
-function getCookie(n){
-	var i, x, y, arr = document.cookie.split(';');
-	for (i = 0; i < arr.length; i++){
-		x = arr[i].substr(0, arr[i].indexOf('='));
-		y = arr[i].substr(arr[i].indexOf('=') + 1);
-		x = x.replace(/^\s+|\s+$/g, '');
-		if (x == n){
-			return decodeURI(y.replace(/\+/g, ' '))
-		}
-	}
-}
 
 function ajaxFormApply(){
 	if (window.codemirror) window.codemirror.save();

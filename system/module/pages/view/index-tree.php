@@ -5,7 +5,7 @@
 	<div class="cell actions"><?=t('actions')?></div>
 </div>
 
-<? if ($pages){
+<?php if ($pages){
 	echo H::treeList($pages, function($item)use($type, $base){
 		return '
 <div class="selectitem pages-row s-' . $item['status'] . '">

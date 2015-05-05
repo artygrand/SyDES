@@ -20,8 +20,7 @@
 	<!-- you shall not pass -->
 		<form action="" method="post">
 			<div class="text">S<span class="red">y</span>DES</div>
-<?
-$errors = checkServer();
+<?php $errors = checkServer();
 if (!empty($errors[0])){
 	echo t('server_not_supported');
 	echo "<ul>{$errors[0]}</ul>";
@@ -30,16 +29,16 @@ if (!empty($errors[0])){
 	echo "<ul>{$errors[1]}</ul>";
 	?>
 	<div><button type="submit"><?=t('refresh_page')?></button></div>
-<? } else { ?>
+<?php } else { ?>
 			<div><input type="text" size="20" name="username" placeholder="<?=t('username');?>" required></div>
 			<div><input type="password" size="20" name="password" placeholder="<?=t('password');?>" required></div>
-			<?if($signup){?>
+			<?php if($signup){ ?>
 			<div><input type="text" size="20" name="mastercode" placeholder="<?=t('mastercode');?>" required></div>
-			<?}?>
-			<div class="two"><?if($autologin){?>
+			<?php } ?>
+			<div class="two"><?php if($autologin){?>
 			<label><input type="checkbox" name="remember"> <?=t('remember_me')?></label>
-			<?}?></div><div class="two last"><button type="submit"><?=$button;?></button></div>
-<? } ?>
+			<?php } ?></div><div class="two last"><button type="submit"><?=$button;?></button></div>
+<?php } ?>
 		</form>
 	<body>
 </html>

@@ -33,7 +33,7 @@ $(document).ready(function(){
 				break
 			default:
 		}
-	}).on('dt.append.row', function(){
+	}).on('append.dt.row', function(){
 		showSettingButtons()
 	})
 

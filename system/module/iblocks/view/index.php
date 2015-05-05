@@ -4,7 +4,7 @@
 	</div>
 	<table class="table table-hover table-condensed va-middle">
 		<tbody>
-	<? foreach($iblocks as $iblock){ ?>
+	<?php foreach($iblocks as $iblock){ ?>
 			<tr>
 				<td>{iblock:<?=$iblock;?>}</td>
 				<td>
@@ -19,7 +19,7 @@
 					</div>
 				</td>
 			</tr>
-	<? } ?>
+	<?php } ?>
 		</tbody>
 	</table>
 	<div class="panel-footer">

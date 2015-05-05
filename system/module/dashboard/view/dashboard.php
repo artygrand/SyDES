@@ -1,17 +1,17 @@
 <div class="row">
-<? foreach($columns as $column){ ?>
+<?php foreach($columns as $column){ ?>
 	<div class="col-sm-<?=$col_sm;?>">
-	<? if($column){ ?>
+	<?php if($column){ ?>
 		<div class="widgets-wrapper">
-		<? foreach($column as $widget){ 
+		<?php foreach($column as $widget){ 
 			echo $widget;
 		} ?>
 		</div>
-	<? } else { ?>
+	<?php } else { ?>
 		<div class="widgets-wrapper empty"></div>
-	<? } ?>
+	<?php } ?>
 	</div>
-<? } ?>
+<?php } ?>
 </div>
 
 <script>
@@ -19,8 +19,7 @@
 		$('.widgets-wrapper').sortable({
 			connectWith: '.widgets-wrapper',
 			items: '.widget',
-			handle: '.panel-title',
-			cancel: '.widget-remove',
+			handle: '.panel-heading',
 			placeholder: 'ui-state-highlight',
 			forcePlaceholderSize: true,
 			stop: function(e, ui){

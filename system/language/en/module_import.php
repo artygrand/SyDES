@@ -1,4 +1,4 @@
-<? return array (
+<?php return array (
   'module_import' => 'Export/Import',
   'export' => 'Export',
   'import' => 'Import',
@@ -7,5 +7,4 @@
   'upload_csv' => 'Upload CSV file',
   'csv_tip' => 'When you add new pages, start with id = %d.
 You can delete this cell..',
-)
-?>
+);

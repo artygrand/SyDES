@@ -55,5 +55,44 @@ syd.t = function(str){
 	};
 };
 
+/**
+ * Sets and gets cookies
+ * @param key
+ * @param value
+ *   If passed, then assign a value to the key
+ * @param days
+ *   If passed value, then specify the period
+ */
+syd.cookie = function(key, value, days){
+	if (arguments.length > 1){
+		var d = new Date();
+		d.setDate(d.getDate() + days);
+		var e = escape(value) + ((days == null) ? '' : '; expires=' + d.toUTCString());
+		document.cookie = key + '=' + e;
+	} else {
+		var i, x, y, arr = document.cookie.split(';');
+		for (i = 0; i < arr.length; i++){
+			x = arr[i].substr(0, arr[i].indexOf('='));
+			y = arr[i].substr(arr[i].indexOf('=') + 1);
+			x = x.replace(/^\s+|\s+$/g, '');
+			if (x == key){
+				return decodeURI(y.replace(/\+/g, ' '))
+			}
+		}
+	};
+};
+
+/**
+ * Creates a random string of a certain length
+ * @param length
+ */
+syd.token = function(length){
+	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz',
+		string = '';
+	for (var i=0; i<length; i++){
+		string += chars.charAt(Math.floor(Math.random() * chars.length));
+	}
+	return string;
+};
 
 })(jQuery);

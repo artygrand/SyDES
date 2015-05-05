@@ -6,7 +6,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<? foreach($layouts as $layout => $data){ ?>
+	<?php foreach($layouts as $layout => $data){ ?>
 					<tr>
 						<td><?=$data['name'];?></td>
 						<td>
@@ -21,7 +21,7 @@
 							</div>
 						</td>
 					</tr>
-	<? } ?>
+	<?php } ?>
 				</tbody>
 			</table>
 			<div class="panel-footer">
@@ -32,14 +32,14 @@
 			</div>
 		</div>
 
-<? if ($modules){ ?>
+<?php if ($modules){ ?>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title"><?=t('module_template_override');?></h4>
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<? foreach($modules as $module){ ?>
+	<?php foreach($modules as $module){ ?>
 					<tr>
 						<td><?=$module[1];?></td>
 						<td><?=$module[2];?></td>
@@ -55,11 +55,11 @@
 							</div>
 						</td>
 					</tr>
-	<? } ?>
+	<?php } ?>
 				</tbody>
 			</table>
 		</div>
-<? } ?>
+<?php } ?>
 	</div>
 
 
@@ -70,7 +70,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<? foreach($files as $file => $name){ ?>
+	<?php foreach($files as $file => $name){ ?>
 					<tr>
 						<td><?=$name;?></td>
 						<td>
@@ -85,7 +85,7 @@
 							</div>
 						</td>
 					</tr>
-	<? } ?>
+	<?php } ?>
 				</tbody>
 			</table>
 			<div class="panel-footer">
@@ -103,7 +103,7 @@
 			</div>
 			<table class="table table-hover table-condensed va-middle">
 				<tbody>
-	<? foreach($iblocks as $iblock){ ?>
+	<?php foreach($iblocks as $iblock){ ?>
 					<tr>
 						<td>{iblock:<?=$iblock[1];?>?template=<?=$iblock[2];?>}</td>
 						<td>
@@ -118,16 +118,16 @@
 							</div>
 						</td>
 					</tr>
-	<? } ?>
+	<?php } ?>
 				</tbody>
 			</table>
 			<div class="panel-footer">
 				<div class="input-group" style="width:100%;">
 					<span class="input-group-btn">
 						<select class="btn">
-						<? foreach($iblock_list as $iblock){ ?>
+						<?php foreach($iblock_list as $iblock){ ?>
 							<option value="iblock/<?=$iblock;?>/"><?=$iblock;?></option>
-						<? } ?>
+						<?php } ?>
 						</select>
 					</span>
 					<input type="text" name="file" class="form-control" data-toggle="tooltip" title="<?=t('template_name')?>"  placeholder="flat">

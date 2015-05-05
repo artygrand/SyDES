@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </div>
-<? foreach($types as $key => $type){
+<?php foreach($types as $key => $type){
 if (isset($type['hidden'])) continue; ?>
 <div class="col-sm-6">
 	<div class="panel panel-default">
@@ -43,12 +43,12 @@ if (isset($type['hidden'])) continue; ?>
 			</div>
 		</div>
 		<div class="panel-footer">
-			<? if ($key != 'page'){ ?>
+			<?php if ($key != 'page'){ ?>
 			<a href="?route=config/pagetypes/delete&type=<?=$key;?>" class="btn btn-xs btn-danger pull-right"><?=t('delete');?></a>
-			<? } ?>
+			<?php } ?>
 			<a href="?route=config/pagetypes/edit&type=<?=$key;?>" class="btn btn-xs btn-default"><?=t('edit');?></a>
 		</div>
 	</div>
 </div>
-<? } ?>
+<?php } ?>
 </div>

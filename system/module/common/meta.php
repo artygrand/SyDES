@@ -63,7 +63,7 @@ class MetaController extends Controller{
 		$this->response->data = $data;
 		$this->response->script[] = '/system/module/common/assets/meta.js';
 		$this->response->script[] = '/system/module/common/assets/meta-settings.js';
-		$this->response->addJsTranslations(array(
+		$this->response->addJsL10n(array(
 			'add' => t('add'),
 			'remove' => t('remove'),
 			'temporarily_stored' => t('temporarily_stored'),

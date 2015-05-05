@@ -1,4 +1,4 @@
-<? foreach($result as $item){ ?>
+<?php foreach($result as $item){ ?>
 <div class="media">
 	<div class="media-left">
 		<a href="<?=$item['fullpath'];?>">
@@ -12,10 +12,8 @@
 		<a href="<?=$item['fullpath'];?>" class="btn btn-sm btn-primary">More...</a>
 	</div>
 </div>
-<? } ?>
+<?php } ?>
 
-<?
-if ($args['show_pagination']){
+<?php if ($args['show_pagination']){
 	echo H::pagination($page['fullpath'], $count, $skip, $args['limit']);
-}
-?>
+} ?>

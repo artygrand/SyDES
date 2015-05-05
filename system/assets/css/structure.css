@@ -75,10 +75,13 @@ html, body{height:100%;}
 .hover-content:hover .hover-info{display:none;}
 .hover-content:hover .hover-link{display:inline;}
 
+.panel-group .panel-heading{cursor:pointer;}
+
 .widgets-wrapper.empty{border:3px dashed #ddd;min-height:150px;}
 .widget{position:relative;}
-.widget .panel-title{cursor:move;}
+.widget .panel-heading{cursor:move;}
 .widget-tools{display:none;position:absolute;right:10px;top:10px;}
+.widget-tools span{cursor:pointer;}
 .widget:hover .widget-tools{display:block;}
 
 .nav-tabs-right {border-left: 1px solid #ddd;min-height:300px;}
@@ -92,13 +95,11 @@ html, body{height:100%;}
 .nav-tabs-right>li.active>a, .nav-tabs-right>li.active>a:hover, .nav-tabs-right>li.active>a:focus {border-left-color: rgba(0, 0, 0, 0);}
 .nav-tabs-left>li.active>a, .nav-tabs-left>li.active>a:hover, .nav-tabs-left>li.active>a:focus {border-right-color: rgba(0, 0, 0, 0);}
 
-.panel-group .panel-heading{cursor:pointer;}
-
 .checkbox, .radio {padding:6px 0 7px;margin:0;}
 
 .no-content{text-align:center;padding:250px 0 0;}
 .no-content a{display:block;margin:20px auto 0;width:100px;}
-.no-content .glyphicon{font-size:64px;color:#ccc;}
+.no-content .glyphicon{font-size:64px;color:#ccc;display:block;}
 
 .form-confirm{margin-top:30px;}
 .form-confirm .btn{width:100px;text-align:center;}

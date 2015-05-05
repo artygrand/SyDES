@@ -31,9 +31,7 @@ class Widget extends HasRegistry{
 	<div class="panel panel-default widget widget-' . $this->name . '" data-widget="' . $this->name . '">
 	<div class="widget-tools">' . $tools . '</div>';
 		if ($this->title){
-			$html .= '<div class="panel-heading">
-				<h4 class="panel-title">' . $this->title . '</h4>
-			</div>';
+			$html .= '<div class="panel-heading">' . $this->title . '</div>';
 		}
 		if ($this->wrap_body){
 			$html .= '<div class="panel-body">' . $this->content . '</div>';

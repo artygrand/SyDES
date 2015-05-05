@@ -203,8 +203,6 @@ final class App extends HasRegistry{
 
 	public function action($route){
 		$parts = explode('/', $route);
-		$count = count($parts);
-
 		if (!$parts[0] or !is_dir(DIR_MODULE . $parts[0])){
 			throw new BaseException(t('error_module_not_found'));
 		} else {
@@ -304,9 +302,12 @@ final class App extends HasRegistry{
 	}
 
 	public function checkUpdate(){
+		if (!$this->config_site['check_updates']){
+			return;
+		}
 		$update_checked = $this->cache->get('update');
 		if (!$update_checked){
-			$need = file_get_contents('http://sydes.ru/update/?version=' . VERSION);
+			$need = file_get_contents('http://sydes.ru/update/?version=' . VERSION . '&site=' . md5($_SERVER['HTTP_HOST']));
 			$update_text = 0;
 			if ($need == 1){
 				$update_text = t('common_update_cms');

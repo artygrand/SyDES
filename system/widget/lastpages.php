@@ -14,7 +14,7 @@ class LastpagesWidget extends Widget{
 		foreach($result as $row){
 			$rows[] = array(
 				H::link($row['title'], '//' . $this->base . '/' . $row['fullpath'], 'target="_blank"'),
-				date('d M Y', $row['cdate']),
+				tDate($this->locale, 'd M Y', $row['cdate']),
 				H::link(t('edit'), '?route=pages/edit&type=' . $row['type'] . '&id=' . $row['id'], 'class="btn btn-default btn-xs"')
 			);
 		}

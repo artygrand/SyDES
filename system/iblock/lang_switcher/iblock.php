@@ -28,4 +28,3 @@ if (isset($args['root']) or !isset($page['id'])){
 		);
 	}
 }
-?>

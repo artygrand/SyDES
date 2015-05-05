@@ -10,7 +10,7 @@ class ToolsController extends Controller{
 	public $name = 'tools';
 
 	public function index(){
-		$data['content'] = 'Тут возможно будут вещи слева <br><br> Так что TODO';
+		$data['content'] = t('select_in_sidebar');
 		$data['sidebar_left'] = $this->getSideMenu('tools');
 
 		$data['meta_title'] = t('module_' . $this->name);
@@ -19,10 +19,5 @@ class ToolsController extends Controller{
 		));
 
 		$this->response->data = $data;
-		$this->addToContextMenu('setup', array(
-			'title' => t('module'),
-			'link' => '?route=' . $this->name . '/config',
-		));
-		$this->response->script[] = 'assets/js/dtable.js';
 	}
 }

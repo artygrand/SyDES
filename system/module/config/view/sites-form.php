@@ -36,12 +36,16 @@
 					<label><?=t('use_alias_as_path');?></label>
 					<?=H::yesNo('use_alias_as_path', $use_alias_as_path);?>
 				</div>
+				<div class="form-group">
+					<label><?=t('check_updates');?></label>
+					<?=H::yesNo('check_updates', $check_updates);?>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<? if (!$sites){ ?>
+<?php if (!$sites){ ?>
 <script>
 $('a').attr('href', '#')
 </script>
-<? } ?>
+<?php } ?>

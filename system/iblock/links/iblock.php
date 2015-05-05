@@ -36,7 +36,7 @@ if(!$result) return;
 ?>
 
 <ul class="<?=$args['class'];?>">
-<? foreach($result as $item){
+<?php foreach($result as $item){
 	$active = '';
 	if ($page['id'] == $item['id']){
 		$active = ' class="active"';
@@ -44,5 +44,5 @@ if(!$result) return;
 	}
 ?>
 	<li<?=$active;?>><a href="<?=$item['fullpath'];?>"><?=$item['title'];?></a></li>
-<? } ?>
+<?php } ?>
 </ul>

@@ -17,9 +17,9 @@
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-<? foreach($styles as $file){ ?>
+<?php foreach($styles as $file){ ?>
 	<link href="<?=$file;?>" rel="stylesheet" media="screen">
-<? } ?>
+<?php } ?>
 
 	<script>var token = '<?=$token;?>'</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -30,9 +30,9 @@
 	<script src="/system/assets/js/utils.min.js"></script>
 	<script src="/system/assets/js/main.js"></script>
 
-<? foreach($scripts as $file){ ?>
+<?php foreach($scripts as $file){ ?>
 	<script src="<?=$file;?>"></script>
-<? } ?>
+<?php } ?>
 
 	<?=$translations;?>
 </head>
@@ -50,12 +50,12 @@
 			<div><?=t('modules');?></div>
 			<?=$modules;?>
 		</div>
-<? foreach($menu_sections as $section){ ?>
+<?php foreach($menu_sections as $section){ ?>
 		<div class="menu-section">
 			<div><?=$section['title'];?></div>
 			<?=$section['list'];?>
 		</div>
-<? } ?>
+<?php } ?>
 		<div class="menu-section">
 			<div><?=t('system');?></div>
 			<ul class="list-unstyled">
@@ -76,36 +76,36 @@
 			<div class="col-sm-7"><?=$breadcrumbs;?></div>
 			<div class="col-sm-5 text-right">
 				<div class="context-menu">
-				<? foreach($context_menu as $item){ ?>
-					<? if ($item['link']){ ?>
+				<?php foreach($context_menu as $item){ ?>
+					<?php if ($item['link']){ ?>
 					<a href="<?=$item['link'];?>"><?=$item['title'];?></a>
-					<? } else { ?>
+					<?php } else { ?>
 					<div class="btn-group">
 						<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=$item['title']?> <span class="caret"></span></button>
 						<ul class="dropdown-menu dropdown-menu-right">
-						<? foreach($item['children'] as $child){ ?>
+						<?php foreach($item['children'] as $child){ ?>
 							<li><?=$child?></li>
-						<? } ?>
+						<?php } ?>
 						</ul>
 					</div>
-					<? } ?>
-				<? } ?>
+					<?php } ?>
+				<?php } ?>
 				</div>
 			</div>
 		</div>
 
 		<div id="alerts">
-		<? foreach($alerts as $a){ ?>
+		<?php foreach($alerts as $a){ ?>
 			<div class="alert alert-<?=$a['status']?> alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button><?=$a['message']?></div>
-		<? } ?>
+		<?php } ?>
 		</div>
 
 		<div class="row" id="workarea">
-		<? if ($form_url){ ?><form name="main-form" method="post" enctype="multipart/form-data" action="<?=$form_url;?>"><? } ?>
-			<? if ($sidebar_left){ ?><div class="col-sm-3 col-lg-2 sidebar-left"><?=$sidebar_left;?></div><? } ?>
-			<? if ($content){ ?><div class="col-sm-<?=$col_sm;?> col-lg-<?=$col_lg;?> content"><?=$content;?></div><? } ?>
-			<? if ($sidebar_right){ ?><div class="col-sm-3 col-lg-2 sidebar-right"><?=$sidebar_right;?></div><? } ?>
-		<? if ($form_url){ ?></form><? } ?>
+		<?php if ($form_url){ ?><form name="main-form" method="post" enctype="multipart/form-data" action="<?=$form_url;?>"><?php } ?>
+			<?php if ($sidebar_left){ ?><div class="col-sm-3 col-lg-2 sidebar-left"><?=$sidebar_left;?></div><?php } ?>
+			<?php if ($content){ ?><div class="col-sm-<?=$col_sm;?> col-lg-<?=$col_lg;?> content"><?=$content;?></div><?php } ?>
+			<?php if ($sidebar_right){ ?><div class="col-sm-3 col-lg-2 sidebar-right"><?=$sidebar_right;?></div><?php } ?>
+		<?php if ($form_url){ ?></form><?php } ?>
 		</div>
 	</div>
 	<div id="footer" class="container-fluid">

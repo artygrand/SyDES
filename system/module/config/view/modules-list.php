@@ -4,11 +4,11 @@
 	</div>
 	<table class="table table-hover table-condensed va-middle">
 		<tbody>
-	<? foreach($modules as $key => $module){ ?>
+	<?php foreach($modules as $key => $module){ ?>
 			<tr>
 				<td><?=$module['name'];?></td>
 				<td>
-				<? if ($module['installed']){ ?>
+				<?php if ($module['installed']){ ?>
 					<div class="btn-group pull-right btn-group-sm">
 						<a class="btn btn-default" href="?route=<?=$module['route'];?>/config"><?=t('edit');?></a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
@@ -16,12 +16,12 @@
 							<li><a href="?route=<?=$module['route'];?>/uninstall"><?=t('uninstall');?></a></li>
 						</ul>
 					</div>
-				<? } else { ?>
+				<?php } else { ?>
 					<a class="btn btn-sm btn-default pull-right" href="?route=<?=$module['route'];?>/install"><?=t('install');?></a>
-				<? } ?>
+				<?php } ?>
 				</td>
 			</tr>
-	<? } ?>
+	<?php } ?>
 		</tbody>
 	</table>
 </div>

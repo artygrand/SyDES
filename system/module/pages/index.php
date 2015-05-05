@@ -79,7 +79,7 @@ class PagesController extends Controller{
 		$this->addContextMenu('edit', t('edit'), ADMIN .'/?route=pages/edit&type=' . $data['type'] . '&id=' . $data['id']);
 		$this->response->data = array_reverse($data);
 		
-		$this->response->addJsTranslations($this->load->language('front', false, $this->locale));
+		$this->response->addJsL10n($this->load->language('front', false, $this->locale));
 	}
 
 	public function index(){

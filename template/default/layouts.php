@@ -1,4 +1,4 @@
-<? return array (
+<?php return array (
   'page' => 
   array (
     'name' => 'Page',
@@ -19,4 +19,4 @@
 	</div>
 </div>',
   ),
-) ?>
+);

@@ -12,7 +12,7 @@
 		</tr>
 		</thead>
 		<tbody>
-<? foreach($meta as $key => $data){ ?>
+<?php foreach($meta as $key => $data){ ?>
 		<tr>
 			<td><?=$key;?></td>
 			<td><input type="text" class="form-control input-sm" name="metatype[<?=$key;?>][title]" value="<?=$data['title'];?>"></td>
@@ -22,7 +22,7 @@
 				<input type="hidden" name="metatype[<?=$key;?>][config]" value="<?=$data['config'];?>">
 			</td>
 		</tr>
-<? } ?>
+<?php } ?>
 		<tr>
 			<td><input type="text" class="form-control input-sm" name="metatype[new_type][key][]"></td>
 			<td><input type="text" class="form-control input-sm" name="metatype[new_type][title][]"></td>

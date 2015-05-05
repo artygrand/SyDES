@@ -1,4 +1,3 @@
-<? return array (
+<?php return array (
   'module_sample' => 'Пример модуля',
-)
-?>
+);

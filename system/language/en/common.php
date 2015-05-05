@@ -1,4 +1,4 @@
-<? return 
+<?php return 
 array (
   'tip_to_site' => 'Go to site',
   'content' => 'Content',
@@ -104,6 +104,7 @@ array (
   'maintenance_mode' => 'Maintenance mode',
   'need_cache' => 'Need for cache?',
   'use_alias_as_path' => 'Use alias as full path of page',
+  'check_updates' => 'Check for cms updates',
   'create_new_site' => 'Create new site',
   'domains' => 'Domains',
   'site_works' => 'Site works',
@@ -236,5 +237,6 @@ array (
   'input_phone' => 'Phone',
   'input_number' => 'Number',
   'input_hidden' => 'Hidden field',
-)
-?>
+  'token' => 'Token',
+  'select_in_sidebar' => 'Select in sidebar',
+);

@@ -7,17 +7,17 @@
 	</div>
 </form>
 
-<? if ($result){ ?>
+<?php if ($result){ ?>
 
-	<p class="lead"><? printf(t('search_found'), pluralize(count($result), t('match'), t('matches'), t('matches2'))); ?></p>
-	<? foreach($result as $item){
+	<p class="lead"><?php printf(t('search_found'), pluralize(count($result), t('match'), t('matches'), t('matches2'))); ?></p>
+	<?php foreach($result as $item){
 		$fullpath = $locale ? $locale . $item['path'] : substr($item['path'], 1);
 	?>
 		<p><a href="<?=$fullpath;?>"><?=$item['title'];?></a></p>
-	<? } ?>
+	<?php } ?>
 
-<? } else { ?>
+<?php } else { ?>
 
 	<p class="lead"><?=t('search_not_found');?></p>
 	
-<? } ?>
+<?php } ?>

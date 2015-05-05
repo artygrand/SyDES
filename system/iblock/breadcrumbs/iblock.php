@@ -1,6 +1,6 @@
 <?
-/*
-* Breadcrumbs infoblock
+/**
+* Infoblock: Breadcrumbs
 *
 * @author ArtyGrand
 * @since 1.6

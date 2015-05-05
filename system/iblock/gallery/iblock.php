@@ -1,13 +1,13 @@
 <?php
-/*
+/**
 * Infoblock: Simple gallery
 * Shows list of images from folder, 
 * works with lightbox/shadowbox(lightbox[gal])
 *
 * Usage:
 * {iblock:gallery?folder=%dir/subdir%} = dir in /upload/images folder
-* {iblock:links?perpage=%num%} = limited with paginator
-* {iblock:links?width=%num%&height=%num%} = sizes of preview
+* {iblock:gallery?perpage=%num%} = limited with paginator
+* {iblock:gallery?width=%num%&height=%num%} = sizes of preview
 */
 
 $defaults = array(
@@ -40,9 +40,9 @@ $files = array_slice($files, $skip, $args['perpage']);
 ?>
 
 <div class="gallery">
-<? foreach($files as $img){ ?>
+<?php foreach($files as $img){ ?>
 	<a href="<?=$img;?>" rel="lightbox[<?=$args['folder'];?>]"><img src="/cache/img/<?=$args['width'];?>_<?=$args['height'];?>_c/<?=$img;?>" alt=""></a>
-<? } ?>
+<?php } ?>
 </div>
 
 <?=H::pagination($page['fullpath'], $count, $skip, $args['perpage']);?>

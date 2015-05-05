@@ -1,4 +1,4 @@
-<? foreach($result as $item){ ?>
+<?php foreach($result as $item){ ?>
 <div class="media">
 	<div class="media-left">
 		<a href="<?=$item['fullpath'];?>">
@@ -10,4 +10,4 @@
 		<a href="<?=$item['fullpath'];?>"><?=$item['title'];?></a>
 	</div>
 </div>
-<? } ?>
+<?php } ?>

@@ -1,4 +1,3 @@
-<? return array (
+<?php return array (
   'widget_lastpages' => 'Last pages',
-)
-?>
+);

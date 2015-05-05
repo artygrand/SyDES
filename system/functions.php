@@ -22,7 +22,7 @@ function t($text, $dl = array()){
 }
 
 function arr2file($array, $filename){
-	$string = '<? return ' . var_export($array, true) . ' ?>';
+	$string = '<?php return ' . var_export($array, true) . ';';
 	file_put_contents($filename, $string, LOCK_EX);
 	chmod($filename, 0777);
 }
