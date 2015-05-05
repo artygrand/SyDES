@@ -104,7 +104,7 @@ class H{
 			} elseif ($thisPage < $pages - $links - 1){
 				$from = $thisPage - ($links - 1);
 				$to = $thisPage + ($links + 1);
-			} elseif ($thisPage > $pages - $links - 2){
+			} else {
 				$from = $pages - ($links * 2);
 				$to = $pages;
 			}
@@ -175,9 +175,9 @@ class H{
 		return $html.'</ul>';
 	}
 
-	public static function table($rows, $header = '', $attr = ''){
+	public static function table($rows, $header = array(), $attr = ''){
 		$html = '<table' . self::attr($attr) . '>';
-		if ($header){
+		if (!empty($header)){
 			$html .= '<thead><tr>';
 			foreach ($header as $col){
 				$html .= '<th>'.$col.'</th>';

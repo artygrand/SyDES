@@ -9,6 +9,11 @@
 class User{
 	public $is_editor = false;
 	public $post;
+	public $username;
+	public $password;
+	public $token;
+	public $autologin;
+	public $mastercode;
 
 	public function __construct(){
 		$this->post = Registry::getInstance()->request->post;
