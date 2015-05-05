@@ -6,13 +6,6 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-/**
-  * @property object $request
-  * @property object $response
-  * @property object $db
-  * @property array $config_site
-  * @property string $site
-  */
 class SetupController extends Controller{
 	public $name = 'setup';
 	public $type = 'page';

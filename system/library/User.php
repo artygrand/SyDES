@@ -8,6 +8,7 @@
 
 class User{
 	public $is_editor = false;
+	public $post;
 
 	public function __construct(){
 		$this->post = Registry::getInstance()->request->post;

@@ -6,18 +6,6 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-/**
-  * @property object $load
-  * @property object $request
-  * @property object $response
-  * @property object $pages_model
-  * @property object $db
-  * @property array $config_site
-  * @property string $locale  
-  * @property string $value
-  * @property string $base
-  * @property string $site
-  */
 class PagesController extends Controller{
 	public static $front = array('view');
 	public $name = 'pages';
