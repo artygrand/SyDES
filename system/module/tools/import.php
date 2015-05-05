@@ -10,6 +10,7 @@ class ImportController extends Controller{
 	public $name = 'import';
 
 	public function index(){
+		$data = array();
 		$data['sidebar_left'] = $this->getSideMenu('tools/import');
 		$data['sidebar_right'] = ' ';
 		$data['content'] = $this->load->view('tools/import', array('select' => H::select('table', false, $this->getTables(), 'class="form-control"')));
@@ -35,6 +36,7 @@ class ImportController extends Controller{
 			$maxId = $stmt->fetchColumn();
 			$stmt = $this->db->query("SELECT id, parent_id, alias, status, layout, strftime('%d.%m.%Y', cdate, 'unixepoch') as cdate, position FROM pages WHERE type = '{$_GET['type']}' ORDER BY position");
 			$rawPages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$titles = array();
 			if (!$rawPages){
 				$titles[0] = array('id','parent_id','alias','status','layout', 'cdate', 'position');
 				foreach ($this->config_site['locales'] as $loc){
@@ -48,6 +50,7 @@ class ImportController extends Controller{
 				$rawMetaData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt = $this->db->query("SELECT * FROM pages_content WHERE page_id IN (SELECT id FROM pages WHERE type = '{$_GET['type']}')");
 				$rawPagesContent = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$rawDataContentTitle = array();
 				foreach ($this->config_site['locales'] as $loc){
 					$rawDataContentTitle[]['key'] = $loc . '_title';
 					$rawDataContentTitle[]['key'] = $loc . '_content';
@@ -63,11 +66,13 @@ class ImportController extends Controller{
 				}
 
 				// set a data rows
+				$truDataContent = array();
 				foreach ($rawPagesContent as $data){
 					$truDataContent[$data['page_id']][$data['locale'].'_title'] = $data['title'];
 					$truDataContent[$data['page_id']][$data['locale'].'_content'] = $data['content'];
 				}
 
+				$truDataMeta = array();
 				foreach ($rawMetaData as $meta){
 					$truDataMeta[$meta['page_id']][$meta['key']] = $meta['value'];
 				}
@@ -135,6 +140,7 @@ class ImportController extends Controller{
 		set_time_limit(0);
 
 		$arr = explode(PHP_EOL, $csv);
+		$rows = array();
 		foreach ($arr as $r){
 			$rows[] = str_getcsv($r, ';', '"');
 		}
@@ -144,6 +150,8 @@ class ImportController extends Controller{
 		if ($_GET['table'] == 'pages'){
 			$beforeMeta = count($this->config_site['locales'])*2;
 			$meta_keys = array_slice($headers, 7 + $beforeMeta);
+			$raw = array();
+			$pages = array();
 			foreach ($rows as $r){
 				if (!is_numeric($r[0])){
 					continue;
@@ -244,7 +252,9 @@ class ImportController extends Controller{
 	}
 
 	private function getTables(){
-		$tables[0] = t('select_table');
+		$tables = array(
+			'0' => t('select_table')
+		);
 		foreach ($this->config_site['page_types'] as $type => $data){
 			if ($type == 'trash'){
 				continue;

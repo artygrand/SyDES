@@ -11,7 +11,7 @@ class MetaController extends Controller{
 	private $meta;
 	private $table;
 
-	function __construct(){
+	public function __construct(){
 		parent::__construct();
 		$this->table = $this->request->get['module'] . '_meta';
 		$this->meta = new Meta($this->request->get['module']);
@@ -23,6 +23,7 @@ class MetaController extends Controller{
 		} else {
 			$stmt = $this->db->query("SELECT key FROM {$this->table} GROUP BY key ORDER BY key");
 			$keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
+			$meta = array();
 			foreach ($keys as $key){
 				$meta[$key] = array(
 					'title' => '',
@@ -49,6 +50,7 @@ class MetaController extends Controller{
 			*/
 		);
 
+		$data = array();
 		$data['content'] = $this->load->view('common/meta-settings', array(
 			'meta' => $meta,
 			'types' => $types,
@@ -183,6 +185,7 @@ class MetaController extends Controller{
 			'swf' => 'flash',
 		);
 
+		$out = array();
 		foreach ($meta as $item){
 			if (isset($this->config_admin['meta'][$item['key']])){
 				$field = $this->config_admin['meta'][$item['key']];
@@ -206,6 +209,7 @@ class MetaController extends Controller{
 					}
 					$source = explode("\n", $config['source']);
 					if (strpos($source[0], '|') !== false){
+						$option = array();
 						foreach ($source as $row){
 							$row = explode('|', $row);
 							$option[$row[0]] = $row[1];

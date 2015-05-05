@@ -43,6 +43,7 @@ class DashboardController extends Controller{
 		$widgets = $this->config->get('widgets');
 		$exists = str_replace(array(DIR_WIDGET, '.php'), '', glob(DIR_WIDGET . '*.php'));
 
+		$used = array();
 		foreach ($widgets as $i => $column){
 			foreach ($column as $j => $widget){
 				if (in_array($widget, $exists)){
@@ -56,19 +57,20 @@ class DashboardController extends Controller{
 
 		if (isset($used)){
 			$unused = array_diff($exists, $used);
-			if ($unused){
+			if (!empty($unused)){
 				$unused = $this->getWidgetNames($unused);
 			}
 		} else {
 			$unused = $this->getWidgetNames($exists);
 		}
-		if ($unused){
+		if (!empty($unused){
 			$this->addContextMenu('widgets', t('add_widget'));
 			foreach ($unused as $widget => $name){
 				$this->addToContextMenu('widgets', array('title' => $name, 'link' => '?route=dashboard/add&widget=' . $widget));
 			}
 		}
 
+		$data = array();
 		$data['content'] = $this->load->view('dashboard/dashboard', array(
 			'col_sm' => 12 / count($widgets),
 			'columns' => $widgets,
@@ -161,6 +163,7 @@ class DashboardController extends Controller{
 	}
 	
 	private function getWidgetNames($widgets){
+		$arr = array();
 		foreach ($widgets as $widget){
 			$translate = $this->load->language('widget_' . $widget, false);
 			$arr[$widget] = $translate['widget_' . $widget];
