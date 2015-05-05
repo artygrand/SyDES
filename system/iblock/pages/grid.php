@@ -16,7 +16,7 @@ foreach ($result as $item){
 		</div>
 	</div>
 </div>
-<?
+<?php
 	if ($i%$args['columns'] == 0){
 		echo '<div class="clearfix"></div>';
 	}
@@ -25,7 +25,7 @@ foreach ($result as $item){
 ?>
 </div>
 
-<?
+<?php
 if ($args['show_pagination']){
 	echo H::pagination($page['fullpath'], $count, $skip, $args['limit']);
 }
