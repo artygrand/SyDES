@@ -63,7 +63,7 @@ class DashboardController extends Controller{
 		} else {
 			$unused = $this->getWidgetNames($exists);
 		}
-		if (!empty($unused){
+		if (!empty($unused)){
 			$this->addContextMenu('widgets', t('add_widget'));
 			foreach ($unused as $widget => $name){
 				$this->addToContextMenu('widgets', array('title' => $name, 'link' => '?route=dashboard/add&widget=' . $widget));
