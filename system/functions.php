@@ -206,31 +206,31 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 }
 
 function token($length){
-    $chars = array(
-        'A','B','C','D','E','F','G','H','J','K','L','M',
-        'N','P','Q','R','S','T','U','V','W','X','Y','Z',
-        'a','b','c','d','e','f','g','h','i','j','k','m',
-        'n','o','p','q','r','s','t','u','v','w','x','y','z',
-        '1','2','3','4','5','6','7','8','9');
-    if ($length < 0 or $length > 58) return null;
-    shuffle($chars);
-    return implode('', array_slice($chars, 0, $length));
+	$chars = array(
+		'A','B','C','D','E','F','G','H','J','K','L','M',
+		'N','P','Q','R','S','T','U','V','W','X','Y','Z',
+		'a','b','c','d','e','f','g','h','i','j','k','m',
+		'n','o','p','q','r','s','t','u','v','w','x','y','z',
+		'1','2','3','4','5','6','7','8','9');
+	if ($length < 0 or $length > 58) return null;
+	shuffle($chars);
+	return implode('', array_slice($chars, 0, $length));
 }
 
 function pluralize($num, $str1, $str2, $str3){
-    $val = $num % 100;
-    if ($val > 10 && $val < 20) return "$num $str3";
-    else {
-        $val = $num % 10;
-        if ($val == 1) return "$num $str1";
-        elseif ($val > 1 && $val < 5) return "$num $str2";
-        else return "$num $str3";
-    }
+	$val = $num % 100;
+	if ($val > 10 && $val < 20) return "$num $str3";
+	else {
+		$val = $num % 10;
+		if ($val == 1) return "$num $str1";
+		elseif ($val > 1 && $val < 5) return "$num $str2";
+		else return "$num $str3";
+	}
 }
 
 function str_replace_once($search, $replace, $text){
-   $pos = strpos($text, $search); 
-   return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text; 
+	$pos = strpos($text, $search); 
+	return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text; 
 }
 function lower($string){
 	return mb_strtolower($string, "UTF-8");

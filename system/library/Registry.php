@@ -7,7 +7,7 @@
  */
 
 class Registry{
-    protected $registry;
+	protected $registry;
 	private static $instance;
 
 	private function __construct(){}

@@ -26,9 +26,9 @@ spl_autoload_register(function($class){
 
 set_error_handler(function($errno, $errstr, $errfile, $errline){
 	global $registry;
-    if (!(error_reporting() & $errno)){
-        return;
-    }
+	if (!(error_reporting() & $errno)){
+		return;
+	}
 	switch ($errno){
 		case E_NOTICE:
 		case E_USER_NOTICE:

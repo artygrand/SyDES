@@ -15,24 +15,24 @@ class Cache{
 			$data = unserialize(file_get_contents($files[0]));
 			foreach ($files as $file){
 				$time = substr(strrchr($file, '.'), 1);
-      			if ($time < time()){
+				if ($time < time()){
 					if (file_exists($file)){
 						unlink($file);
 					}
-      			}
-    		}
-			return $data;			
+				}
+			}
+			return $data;
 		}
 	}
 
-  	public function set($key, $value, $expire = false){
+	public function set($key, $value, $expire = false){
 		if (!$expire){
 			$expire = $this->expire;
 		}
-    	$this->clear($key);
+		$this->clear($key);
 		$file = DIR_CACHE . 'cache.' . preg_replace('/[^\w\.-]/', '', $key) . '.' . (time() + $expire);
 		file_put_contents($file, serialize($value), LOCK_EX);
-  	}
+	}
 
 	public function clear($key = false){
 		if ($key){
@@ -45,11 +45,11 @@ class Cache{
 		}
 
 		if ($files){
-    		foreach ($files as $file){
-      			if (file_exists($file)){
+			foreach ($files as $file){
+				if (file_exists($file)){
 					unlink($file);
 				}
-    		}
+			}
 		}
-  	}
+	}
 }

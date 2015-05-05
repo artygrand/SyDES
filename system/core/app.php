@@ -7,7 +7,7 @@
  */
 
 final class App extends HasRegistry{
-    protected $events = array();
+	protected $events = array();
 	public static $STATUS_CODE = array(
 		100 => 'Continue',
 		101 => 'Switching Protocols',
