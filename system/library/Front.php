@@ -100,12 +100,12 @@ class Front extends HasRegistry{
 					$arParams = str_replace('"', '', $arParams);
 				}
 				$content = $this->$method($matches[2][$i], $arParams);
-				if ($this->user->is_editor and in_array($method, array('iblock', 'config'))){
+				if ($this->user->is_editor && in_array($method, array('iblock', 'config'))){
 					if (!$content){
 						$content = '&nbsp;';
 					}
 					$tools = '<span data-module="' . $method . '" data-item="' . $matches[2][$i] . '" class="block-edit"></span>';
-					if (isset($arParams['template']) and file_exists(DIR_TEMPLATE . $this->config_site['template'] . '/iblock/' . $matches[2][$i] . '/' . $arParams['template'] . '.php')){
+					if (isset($arParams['template']) && file_exists(DIR_TEMPLATE . $this->config_site['template'] . '/iblock/' . $matches[2][$i] . '/' . $arParams['template'] . '.php')){
 						$tools .= '<span data-item="' . $matches[2][$i] . '" data-template="' . $arParams['template'] . '" class="block-template"></span>';
 					}
 					$content = '<div class="block-wrapper"><div class="tools">' . $tools . '</div>' . $content . '</div>';

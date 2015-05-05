@@ -24,7 +24,7 @@ class UserController extends Controller{
 	}
 
 	public function login(){
-		if (!isset($this->request->post['username'], $this->request->post['password']) or !$this->user->login()){
+		if (!isset($this->request->post['username'], $this->request->post['password']) || !$this->user->login()){
 			$data = array('signup' => false, 'autologin' => $this->user->autologin, 'title' => t('signin'), 'button' => t('login'));
 			die($this->load->view('user/form', $data));
 		}

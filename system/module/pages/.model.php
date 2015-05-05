@@ -100,7 +100,7 @@ class PagesModel extends Model{
 
 		$old_alias = $this->getValue($id, 'alias');
 		$main['alias'] = convertToAscii($main['alias'], $this->use_alias);
-		if ($old_alias != $main['alias'] and $id > 1){
+		if ($old_alias != $main['alias'] && $id > 1){
 			$addition .= ', alias = :alias, path = :path';
 			$data['alias'] = $main['alias'];
 
@@ -166,7 +166,7 @@ class PagesModel extends Model{
 			$i = 0;
 			$filter_meta = array();
 			foreach ($filter['meta'] as $key => $search){
-				$int = (is_numeric($search['value']) or is_array($search['value'])) ? '+0' : '';
+				$int = (is_numeric($search['value']) || is_array($search['value'])) ? '+0' : '';
 				$filter_meta_tables .= "\nINNER JOIN pages_meta m{$i} ON p.id = m{$i}.page_id";
 				if ($search['condition'] == 'BETWEEN'){
 					$filter_meta[] = "m{$i}.key = '{$key}' AND m{$i}.value{$int} BETWEEN :{$key}0 AND :{$key}1";
@@ -205,7 +205,7 @@ class PagesModel extends Model{
 			}
 			$stmt->execute();
 			$this->total_pages = $stmt->fetchColumn();
-			if ($this->total_pages == 0 or $this->total_pages < $filter['skip']){
+			if ($this->total_pages == 0 || $this->total_pages < $filter['skip']){
 				return false;
 			}
 		} else {
@@ -255,7 +255,7 @@ class PagesModel extends Model{
 		foreach ($get as $key => $value){
 			if ($key == 'meta'){
 				foreach ($value as $k => $meta){
-					if (!empty($meta) or $meta === '0'){
+					if (!empty($meta) || $meta === '0'){
 						$filter['meta'][$k] = $this->parseFilter($meta);
 					}
 				}
@@ -275,7 +275,7 @@ class PagesModel extends Model{
 		$value = str_replace(array('&lt;','&gt;'), array('<','>'), $value);
 		preg_match("/([<>*]?) ?([\w ,-]+) ?([*]?)/iu", $value, $output);
 
-		if (empty($output[2]) and $output[2] != 0){
+		if (empty($output[2]) && $output[2] != 0){
 			return false;
 		} else {
 			$return['value'] = $output[2];
@@ -295,7 +295,7 @@ class PagesModel extends Model{
 				$vals = explode('-', $output[2]);
 				$vals[0] = trim($vals[0]);
 				$vals[1] = trim($vals[1]);
-				if (count($vals) == 2 and is_numeric($vals[0]) and is_numeric($vals[1])){
+				if (count($vals) == 2 && is_numeric($vals[0]) && is_numeric($vals[1])){
 					$return['condition'] = 'BETWEEN';
 					$return['value'] = $vals;
 				}
@@ -510,7 +510,7 @@ class PagesModel extends Model{
 		$last[$first] = 999;
 
 		foreach ($this->config_site['page_types'] as $type => $data){
-			if ($data['root'] == 0 or $data['structure'] == 'list') continue;
+			if ($data['root'] == 0 || $data['structure'] == 'list') continue;
 			$roots[$data['root']] = 1;
 		}
 
@@ -664,7 +664,7 @@ class PagesModel extends Model{
 
 		if ($meta){
 			foreach ($meta as $m){
-				if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $this->locale){
+				if (isset($m['key'][2]) && $m['key'][2] == '_' && substr($m['key'], 0, 2) == $this->locale){
 					$pages[$m['page_id']][ substr($m['key'], 3)] = $m['value'];
 				} else {
 					$pages[$m['page_id']][$m['key']] = $m['value'];

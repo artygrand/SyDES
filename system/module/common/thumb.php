@@ -11,7 +11,7 @@ class ThumbController{
 	public static $front = array('index');
 
 	public function index(){
-		if (empty($_GET['src']) or empty($_GET['width']) or empty($_GET['height']) or empty($_GET['act'])){
+		if (empty($_GET['src']) || empty($_GET['width']) || empty($_GET['height']) || empty($_GET['act'])){
 			die;
 		}
 
@@ -22,14 +22,14 @@ class ThumbController{
 		$th_dir = DIR_THUMB . "{$width}_{$height}_{$act}/" . dirname($_GET['src']);
 		$thumb = DIR_THUMB . "{$width}_{$height}_{$act}/{$_GET['src']}";
 
-		if (count(glob(DIR_THUMB . '*_*_*/' . $_GET['src'])) > 4 or $height > 500 or $width > 500 or $height < 50 or $width < 50){
+		if (count(glob(DIR_THUMB . '*_*_*/' . $_GET['src'])) > 4 || $height > 500 || $width > 500 || $height < 50 || $width < 50){
 			header("HTTP/1.0 404 Not Found");
 			die;
 		}
 		$image = new SimpleImage();
 		$image->load($source);
 
-		if ($image->width > $width or $image->height > $height){
+		if ($image->width > $width || $image->height > $height){
 			$image->doit($act, $width, $height);
 		}
 
@@ -53,7 +53,7 @@ class SimpleImage{
 
 	public function load($filename){
 		$image_info = @getimagesize($filename);
-		if (!$image_info or !in_array($image_info[2], array(1,2,3)) or strpos($filename, 'upload/images') === false){
+		if (!$image_info || !in_array($image_info[2], array(1,2,3)) || strpos($filename, 'upload/images') === false){
 			header("HTTP/1.0 404 Not Found");
 			die;
 		}

@@ -16,7 +16,7 @@ $admin->getSite();
 if (!$user->isLoggedIn()){
 	$app->route = 'user/login';
 } else {
-	if (IS_POST and !$user->hasToken()){
+	if (IS_POST && !$user->hasToken()){
 		$app->action('common/error/csrf');
 	}
 

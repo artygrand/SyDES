@@ -49,7 +49,7 @@ class PagesController extends Controller{
 	public function view(){
 		$data = $this->pages_model->read($this->value);
 
-		if (empty($data['title'][$this->locale]) or $data['status'] == 0 or $data['type'] == 'trash'){
+		if (empty($data['title'][$this->locale]) || $data['status'] == 0 || $data['type'] == 'trash'){
 			throw new BaseException(t('error_page_not_found'));
 		}
 
@@ -68,7 +68,7 @@ class PagesController extends Controller{
 
 		if ($meta){
 			foreach ($meta as $m){
-				if (isset($m['key'][2]) and $m['key'][2] == '_' and substr($m['key'], 0, 2) == $this->locale){
+				if (isset($m['key'][2]) && $m['key'][2] == '_' && substr($m['key'], 0, 2) == $this->locale){
 					$data[substr($m['key'], 3)] = $m['value']; // en_metakey to metakey
 				} else {
 					$data[$m['key']] = $m['value'];
@@ -164,7 +164,7 @@ class PagesController extends Controller{
 
 			$status2 = t('set_sticky');
 
-			$filter = (isset($this->request->get['filter']) and $this->request->get['filter'] != 'clear') ? $this->request->get['filter'] : array();
+			$filter = (isset($this->request->get['filter']) && $this->request->get['filter'] != 'clear') ? $this->request->get['filter'] : array();
 			$filter = array_merge(
 				array(
 				'status' => 6,
@@ -347,7 +347,7 @@ class PagesController extends Controller{
 	}
 
 	public function save(){
-		if (empty($this->request->post['title'][$this->locale]) or !isset($this->request->post['alias'])){
+		if (empty($this->request->post['title'][$this->locale]) || !isset($this->request->post['alias'])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 
@@ -362,7 +362,7 @@ class PagesController extends Controller{
 			);
 		}
 
-		if ($id < 0 or $act == 'copy'){ // new page or clone
+		if ($id < 0 || $act == 'copy'){ // new page or clone
 			if (!empty($this->request->post['alias'])){
 				$alias = $this->request->post['alias'];
 			} else {
@@ -413,7 +413,7 @@ class PagesController extends Controller{
 	}
 
 	public function delete(){
-		if (empty($this->request->get['id']) or preg_match('![^\d,]!', $this->request->get['id'])){
+		if (empty($this->request->get['id']) || preg_match('![^\d,]!', $this->request->get['id'])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		
@@ -428,7 +428,7 @@ class PagesController extends Controller{
 	}
 
 	public function setstatus(){
-		if (!isset($this->request->post['id'], $this->request->get['value']) or preg_match('![^\d,]!', $this->request->post['id'])){
+		if (!isset($this->request->post['id'], $this->request->get['value']) || preg_match('![^\d,]!', $this->request->post['id'])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$val = (int)$this->request->get['value'];
@@ -442,13 +442,13 @@ class PagesController extends Controller{
 	}
 
 	public function move(){
-		if (isset($this->request->post['id']) and !preg_match('![^\d,]!', $this->request->post['id'])){
+		if (isset($this->request->post['id']) && !preg_match('![^\d,]!', $this->request->post['id'])){
 			$ids = explode(',', $this->request->post['id']);
 		}
 		if (isset($this->request->get['id'])){
 			$ids = array((int)$this->request->get['id']);
 		}
-		if (!isset($ids) or !isset($this->request->get['to'], $this->config_site['page_types'][$this->request->get['to']])){
+		if (!isset($ids) || !isset($this->request->get['to'], $this->config_site['page_types'][$this->request->get['to']])){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 
@@ -496,7 +496,7 @@ class PagesController extends Controller{
 	}
 
 	public function setparent(){
-		if (!isset($this->request->post['id'], $this->request->post['parent_id']) or $this->request->post['id'] < 2){
+		if (!isset($this->request->post['id'], $this->request->post['parent_id']) || $this->request->post['id'] < 2){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 
@@ -537,7 +537,7 @@ class PagesController extends Controller{
 	}
 
 	public function find(){
-		if (!isset($this->request->post['term']) or !IS_AJAX){
+		if (!isset($this->request->post['term']) || !IS_AJAX){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$result = $this->pages_model->find($this->request->post['term']);

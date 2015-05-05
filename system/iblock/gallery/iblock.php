@@ -35,7 +35,7 @@ if (!$files){
 }
 
 $count = count($files);
-$skip = (!empty($_GET['skip']) and $_GET['skip'] > 0) ? (int)$_GET['skip'] : 0;
+$skip = (!empty($_GET['skip']) && $_GET['skip'] > 0) ? (int)$_GET['skip'] : 0;
 $files = array_slice($files, $skip, $args['perpage']);
 ?>
 

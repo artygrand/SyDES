@@ -12,7 +12,7 @@ $defaults = array(
 );
 $args = array_merge($defaults, $args);
 
-if (!isset($page['id']) or $page['id'] < 2) return;
+if (!isset($page['id']) || $page['id'] < 2) return;
 
 $stmt = $this->db->query("SELECT p1.path, pc.title
 	FROM pages p1, pages p2

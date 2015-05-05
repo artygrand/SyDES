@@ -60,7 +60,7 @@ class H{
 	}
 
 	public static function saveButton($file = '', $button = ''){
-		if (!$file or (is_writable($file) and is_writable(dirname($file)))){
+		if (!$file || (is_writable($file) && is_writable(dirname($file)))){
 			$btn = $button ? $button : '<button type="submit" class="btn btn-primary btn-block">' . t('save') . '</button>';
 		} else {
 			$btn = '<button type="button" class="btn btn-primary btn-block btn-save disabled">' . t('not_writeable') . '</button>';
@@ -294,7 +294,7 @@ class H{
 			$pre = '<div class="' . $type . '"><label>';
 			$post = '</label></div>';
 		}
-		$name_post = ($type == 'checkbox' and count($data) > 1) ? '[]' : '';
+		$name_post = ($type == 'checkbox' && count($data) > 1) ? '[]' : '';
 		$html = '<div' . self::attr($attr) . '>';
 		foreach ($data as $value => $title){
 			$chkd = in_array($value, (array)$selected, true) ? ' checked' : '';

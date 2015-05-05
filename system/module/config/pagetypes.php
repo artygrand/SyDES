@@ -87,7 +87,7 @@ class PagetypesController extends Controller{
 	}
 
 	public function save(){
-		if (!isset($this->request->post['type'], $this->request->post['title']) or !$this->user->isAdmin()){
+		if (!isset($this->request->post['type'], $this->request->post['title']) || !$this->user->isAdmin()){
 			throw new BaseException(t('error_mastercode_needed'), 'warning', '?route=config/pagetypes');
 		}
 
@@ -151,7 +151,7 @@ class PagetypesController extends Controller{
 
 	public function delete(){
 		$url = '?route=config/pagetypes';
-		if (!isset($this->request->get['type'], $this->types[$this->request->get['type']]) or !$this->user->isAdmin()){
+		if (!isset($this->request->get['type'], $this->types[$this->request->get['type']]) || !$this->user->isAdmin()){
 			throw new BaseException(t('error_mastercode_needed'), 'warning', $url);
 		}
 		$type = $this->request->get['type'];

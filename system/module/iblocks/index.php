@@ -23,7 +23,7 @@ class IblocksController extends Controller{
 	}
 
 	public function edit(){
-		if (!isset($this->request->get['iblock']) or !is_file(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')){
+		if (!isset($this->request->get['iblock']) || !is_file(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')){
 			throw new BaseException(t('error_page_not_found'));
 		}
 
@@ -98,7 +98,7 @@ class IblocksController extends Controller{
 		elog('User is saved iblock ' . $iblock);
 		$this->response->notify(t('saved'));
 		if (!IS_AJAX){			
-			if (isset($this->request->post['act']) and $this->request->post['act'] == 'back'){
+			if (isset($this->request->post['act']) && $this->request->post['act'] == 'back'){
 				$this->response->redirect('?route=iblocks');
 			} else {
 				$this->response->redirect('?route=iblocks/edit&iblock=' . $iblock);
@@ -128,7 +128,7 @@ class IblocksController extends Controller{
 	}
 
 	public function cloneit(){
-		if (!IS_AJAX or !isset($this->request->get['iblock']) or !is_file(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')){
+		if (!IS_AJAX || !isset($this->request->get['iblock']) || !is_file(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')){
 			throw new BaseException(t('error_page_not_found'));
 		}
 

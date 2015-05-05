@@ -113,7 +113,7 @@ class DashboardController extends Controller{
 	}
 
 	public function add(){
-		if (isset($this->request->get['widget']) and !preg_match("/[^a-z]+/", $this->request->get['widget']) and is_file(DIR_WIDGET . $this->request->get['widget'] . '.php')){
+		if (isset($this->request->get['widget']) && !preg_match("/[^a-z]+/", $this->request->get['widget']) && is_file(DIR_WIDGET . $this->request->get['widget'] . '.php')){
 			$widgets = $this->config->get('widgets');
 			$widgets[0][] = $this->request->get['widget'];
 			$this->config->set('widgets', $widgets)->save();
@@ -122,7 +122,7 @@ class DashboardController extends Controller{
 	}
 
 	public function remove(){
-		if (isset($this->request->get['widget']) and !preg_match("/[^a-z]+/", $this->request->get['widget']) and is_file(DIR_WIDGET . $this->request->get['widget'] . '.php')){
+		if (isset($this->request->get['widget']) && !preg_match("/[^a-z]+/", $this->request->get['widget']) && is_file(DIR_WIDGET . $this->request->get['widget'] . '.php')){
 			$stmt = $this->db->query("SELECT value FROM config WHERE module = 'dashboard' AND key = 'widgets'");
 			$widgets = str_replace(array('"' . $this->request->get['widget'] . '"', ',]', '[,'), array('', ']', '['), $stmt->fetchColumn());
 			$stmt = $this->db->prepare("UPDATE config SET value = :value WHERE module = 'dashboard' AND key = 'widgets'");
@@ -132,7 +132,7 @@ class DashboardController extends Controller{
 	}
 
 	public function save(){
-		if (isset($this->request->post['widget']) and !preg_match("/[^a-z]+/", $this->request->post['widget'])){
+		if (isset($this->request->post['widget']) && !preg_match("/[^a-z]+/", $this->request->post['widget'])){
 			$stmt = $this->db->prepare("INSERT OR REPLACE INTO config (module, key, value) VALUES ('widget', :key, :value)");
 			$stmt->execute(array('key' => $this->request->post['widget'], 'value' => json_encode($this->request->post['data'])));
 			$this->response->notify(t('saved'));

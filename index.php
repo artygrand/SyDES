@@ -25,10 +25,10 @@ if ($user->isLoggedIn()){
 
 $app->connect2db();
 
-if ($app->config_site['maintenance_mode'] and !isset($app->request->cookie['is_admin'])){
+if ($app->config_site['maintenance_mode'] && !isset($app->request->cookie['is_admin'])){
 	$app->route = 'common/error/e503';
 } else {
-	if ($app->config_site['need_cache'] and !IS_POST and !$user->is_editor){ // check for page cache if needed
+	if ($app->config_site['need_cache'] && !IS_POST && !$user->is_editor){ // check for page cache if needed
 		$cache = DIR_CACHE . $app->site . '/' . str_replace(array('\\','/',':','*','?','"','<','>','|'), '_', $app->uri) . '.html';
 		if (is_file($cache)){
 			include $cache;
@@ -42,7 +42,7 @@ if ($app->config_site['maintenance_mode'] and !isset($app->request->cookie['is_a
 
 $app->run($front);
 
-if ($app->config_site['need_cache'] and !IS_POST and !$user->is_editor and $app->route != 'common/error/e404'){
+if ($app->config_site['need_cache'] && !IS_POST && !$user->is_editor && $app->route != 'common/error/e404'){
 	$dir = dirname($cache);
 	is_dir($dir) || @mkdir($dir) || die(t('error_cant_create_cache_folder'));
 	file_put_contents($cache, $registry->response->body); // cache this page

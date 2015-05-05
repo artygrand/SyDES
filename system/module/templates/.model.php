@@ -20,9 +20,9 @@ class TemplatesModel extends Model{
 		}
 		$this->layout_db = $this->template_path . 'layouts.php';
 
-		if (isset($this->request->get['file']) and $this->request->get['file'] != 'clone'){
+		if (isset($this->request->get['file']) && $this->request->get['file'] != 'clone'){
 			$ext = strrchr($this->request->get['file'], '.');
-			if (!$ext or !in_array($ext, array('.css', '.js', '.html', '.php'))){
+			if (!$ext || !in_array($ext, array('.css', '.js', '.html', '.php'))){
 				throw new BaseException(t('error_wrong_values_passed'));
 			}
 

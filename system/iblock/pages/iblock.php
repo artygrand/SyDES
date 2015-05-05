@@ -51,7 +51,7 @@ $count = $this->pages_model->getCount($filter);
 if (!$count) return;
 
 $args['order'] = str_replace('position', 'position+0', $args['order']);
-$skip = (isset($_GET['skip']) and (int)$_GET['skip'] > 0 and $args['show_pagination']) ? (int)$_GET['skip'] : 0;
+$skip = (isset($_GET['skip']) && (int)$_GET['skip'] > 0 && $args['show_pagination']) ? (int)$_GET['skip'] : 0;
 $data = $this->pages_model->getListWithMeta($filter, $args['order'], $args['limit'], $skip);
 foreach ($data as $k => $d){
 	if (!isset($d['image'])){

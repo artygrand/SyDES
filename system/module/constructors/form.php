@@ -186,7 +186,7 @@ class FormController extends Controller{
 
 		foreach ($notices as $id => $notice){
 			if ($id == 0){
-				if ($notice['to'] == '' or $notice['subject'] == '' or $notice['subject'] == 'body'){
+				if ($notice['to'] == '' || $notice['subject'] == '' || $notice['subject'] == 'body'){
 					continue;
 				}
 				$stmt = $this->db->prepare("INSERT INTO form_notices (form_id, subject, `from`, `to`, body) VALUES (:form_id, :subject, :from, :to, :body)");
@@ -219,7 +219,7 @@ class FormController extends Controller{
 	}
 
 	public function send(){
-		if (IS_AJAX and isset($this->request->post['form_id'], $this->request->post['token']) and $this->request->post['token'] == 'token'){
+		if (IS_AJAX && isset($this->request->post['form_id'], $this->request->post['token']) && $this->request->post['token'] == 'token'){
 			// сохраняем и отправляем, если надо
 			// меняем токен в сессии
 			

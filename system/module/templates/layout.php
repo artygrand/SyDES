@@ -105,7 +105,7 @@ class LayoutController extends Controller{
 
 	public function cloneit(){
 		$layouts = $this->templates_model->getLayouts();
-		if (!isset($this->request->get['layout']) or !IS_AJAX or !isset($layouts[$this->request->get['layout']])){
+		if (!isset($this->request->get['layout']) || !IS_AJAX || !isset($layouts[$this->request->get['layout']])){
 			throw new BaseException(t('error_page_not_found'));
 		}
 

@@ -17,7 +17,7 @@ class FileController extends Controller{
 	}
 
 	public function edit(){
-		if (!isset($this->request->get['file']) or !is_file($this->templates_model->template_path . $this->request->get['file'])){
+		if (!isset($this->request->get['file']) || !is_file($this->templates_model->template_path . $this->request->get['file'])){
 			throw new BaseException(t('error_page_not_found'));
 		}
 
@@ -99,7 +99,7 @@ class FileController extends Controller{
 		if (isset($_POST['code'])){ // old file
 			$code = $_POST['code'];
 		} elseif (!is_file($path)){ // new
-			if (preg_match('/iblock\/([\w-]+)/', $filename, $iblock) and is_file(DIR_IBLOCK . $iblock[1] . '/default.php')){ // iblock
+			if (preg_match('/iblock\/([\w-]+)/', $filename, $iblock) && is_file(DIR_IBLOCK . $iblock[1] . '/default.php')){ // iblock
 				$code = file_get_contents(DIR_IBLOCK . $iblock[1] . '/default.php');
 			} else {
 				$code = '';
@@ -116,7 +116,7 @@ class FileController extends Controller{
 		elog('User is saved file ' . $filename);
 		$this->response->notify(t('saved'));
 		if (!IS_AJAX){			
-			if (isset($this->request->post['act']) and $this->request->post['act'] == 'back'){
+			if (isset($this->request->post['act']) && $this->request->post['act'] == 'back'){
 				$this->response->redirect('?route=templates&tpl=' . $this->templates_model->template);
 			} else {
 				$this->response->redirect('?route=templates/file/edit&tpl=' . $this->templates_model->template . '&file=' . $filename);
@@ -144,7 +144,7 @@ class FileController extends Controller{
 	}
 
 	public function cloneit(){
-		if (!IS_AJAX or !isset($this->request->get['file']) or !is_file($this->templates_model->template_path . $this->request->get['file'])){
+		if (!IS_AJAX || !isset($this->request->get['file']) || !is_file($this->templates_model->template_path . $this->request->get['file'])){
 			throw new BaseException(t('error_page_not_found'));
 		}
 

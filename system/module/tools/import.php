@@ -24,11 +24,11 @@ class ImportController extends Controller{
 	public function get(){
 		$t = $this->getTables();
 		$t[] = 'pages';
-		if (!isset($_GET['table']) or (!in_array($_GET['table'], $t))){
+		if (!isset($_GET['table']) || (!in_array($_GET['table'], $t))){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		if ($_GET['table'] == 'pages'){
-			if (!isset($_GET['type']) or !in_array($_GET['type'], array_keys($this->config_site['page_types']))){
+			if (!isset($_GET['type']) || !in_array($_GET['type'], array_keys($this->config_site['page_types']))){
 				throw new BaseException(t('unauthorized_request'));
 			}
 			$stmt = $this->db->query("SELECT MAX(id)+1 FROM pages");
@@ -115,11 +115,11 @@ class ImportController extends Controller{
 	public function put(){
 		$t = $this->getTables();
 		$t[] = 'pages';
-		if (!isset($_GET['table']) or (!in_array($_GET['table'], $t))){
+		if (!isset($_GET['table']) || (!in_array($_GET['table'], $t))){
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 		$meta = explode('.', $_FILES['file']['name']);
-		if (!is_uploaded_file($_FILES['file']['tmp_name']) or array_pop($meta) != 'csv'){
+		if (!is_uploaded_file($_FILES['file']['tmp_name']) || array_pop($meta) != 'csv'){
 			throw new BaseException(t('file_not_exist'));
 		}
 		$csv = file_get_contents($_FILES['file']['tmp_name']);

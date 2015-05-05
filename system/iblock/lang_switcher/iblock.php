@@ -10,7 +10,7 @@
 if (count($this->config_site['locales']) == 1) return;
 
 $links = array();
-if (isset($args['root']) or !isset($page['id'])){
+if (isset($args['root']) || !isset($page['id'])){
 	foreach ($this->config_site['locales'] as $lang){
 		$links[] = array(
 			'lang' => $lang,

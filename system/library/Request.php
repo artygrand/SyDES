@@ -26,7 +26,7 @@ class Request{
 			define('IS_POST', false);
 		}
 
-		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 			define('IS_AJAX', true);
 		} else {
 			define('IS_AJAX', false);

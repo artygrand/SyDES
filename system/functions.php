@@ -190,7 +190,7 @@ function globRecursive($dir, $mask, $recursive = false, $del = ''){
 				'title' => str_replace($dir . '/', '', $filename)
 			);
 		} 
-		if ($recursive == true and is_dir($filename)){
+		if ($recursive == true && is_dir($filename)){
 			if (!is_array($mask)){
 				$pages[$alias]['childs'] = globRecursive($filename, $mask, true, $del);
 				if (!$pages[$alias]['childs']){
@@ -212,7 +212,7 @@ function token($length){
 		'a','b','c','d','e','f','g','h','i','j','k','m',
 		'n','o','p','q','r','s','t','u','v','w','x','y','z',
 		'1','2','3','4','5','6','7','8','9');
-	if ($length < 0 or $length > 58) return null;
+	if ($length < 0 || $length > 58) return null;
 	shuffle($chars);
 	return implode('', array_slice($chars, 0, $length));
 }

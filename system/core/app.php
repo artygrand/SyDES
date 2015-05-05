@@ -152,7 +152,7 @@ final class App extends HasRegistry{
 		$last = array_pop($path);
 		$page = explode('-', $last);
 
-		if (count($page) == 2 and $page[0] == 'page' and ctype_digit($page[1])){
+		if (count($page) == 2 && $page[0] == 'page' && ctype_digit($page[1])){
 			$this->page_number = $page[1];
 			$this->uri = str_replace('/' . $last, '', $this->uri);
 		}else {
@@ -203,7 +203,7 @@ final class App extends HasRegistry{
 
 	public function action($route){
 		$parts = explode('/', $route);
-		if (!$parts[0] or !is_dir(DIR_MODULE . $parts[0])){
+		if (!$parts[0] || !is_dir(DIR_MODULE . $parts[0])){
 			throw new BaseException(t('error_module_not_found'));
 		} else {
 			$path = DIR_MODULE . $parts[0] . '/';
@@ -234,7 +234,7 @@ final class App extends HasRegistry{
 
 		include_once $file;
 
-		if (substr($method, 0, 2) == '__' or $this->section == 'front' and !in_array($method, $class::$front)){
+		if (substr($method, 0, 2) == '__' || $this->section == 'front' && !in_array($method, $class::$front)){
 			throw new BaseException(t('error_method_forbidden'));
 		}
 
@@ -263,7 +263,7 @@ final class App extends HasRegistry{
 
 		$this->trigger('after.' . str_replace('/', '.', $this->route));
 
-		if ($this->response->body === NULL and $this->response->data and !IS_AJAX){
+		if ($this->response->body === NULL && $this->response->data && !IS_AJAX){
 			$section->render();
 		}
 		$this->response->flush();
@@ -280,7 +280,7 @@ final class App extends HasRegistry{
 	}
 
 	public function trigger($event, $params = array()){
-		if (!isset($this->events[$event]) or !count($this->events[$event])){
+		if (!isset($this->events[$event]) || !count($this->events[$event])){
 			return;
 		}
 

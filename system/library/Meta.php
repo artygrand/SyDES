@@ -29,7 +29,7 @@ class Meta extends HasRegistry{
 	}
 
 	public function add($page_id, $key, $value){
-		if ($key == '' or $value == '') return;
+		if ($key == '' || $value == '') return;
 		$stmt = $this->db->prepare("INSERT OR REPLACE INTO {$this->table} (page_id, key, value) VALUES (:page_id, :key, :value)");  
 		$stmt->execute(array('page_id' => $page_id, 'key' => $key, 'value' => $value));
 		return $this->db->lastInsertId();
