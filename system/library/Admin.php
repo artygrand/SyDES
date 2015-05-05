@@ -132,7 +132,7 @@ class Admin extends HasRegistry{
 	
 	public function getContextMenu(){
 		$this->response->context['setup']['title'] = '<span class="glyphicon glyphicon-cog"></span> ' . t('set_up');
-		$this->response->context['setup']['link'] = false;
+		$this->response->context['setup']['link'] = '';
 		$this->response->context['setup']['children'][] = array(
 			'title' => t('interface'),
 			'link' => '?route=config/interface/modal',

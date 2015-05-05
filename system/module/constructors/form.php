@@ -6,6 +6,14 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+/**
+  * @property object $load
+  * @property object $request
+  * @property object $response
+  * @property object $db
+  * @property array $config_site 
+  * @property string $site
+  */
 class FormController extends Controller{
 	public $name = 'form';
 	public static $front = array('send');

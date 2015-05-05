@@ -77,7 +77,7 @@
 			<div class="col-sm-5 text-right">
 				<div class="context-menu">
 				<?php foreach ($context_menu as $item){ ?>
-					<?php if ($item['link']){ ?>
+					<?php if (!empty($item['link'])){ ?>
 					<a href="<?=$item['link'];?>"><?=$item['title'];?></a>
 					<?php } else { ?>
 					<div class="btn-group">

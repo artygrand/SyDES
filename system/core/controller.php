@@ -54,7 +54,7 @@ abstract class Controller extends HasRegistry{
 		}
 	}
 
-	protected function addContextMenu($key, $title, $link = false){
+	protected function addContextMenu($key, $title, $link = ''){
 		$this->response->context[$key] = array(
 			'title' => $title,
 			'link' => $link,
