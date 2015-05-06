@@ -7,7 +7,14 @@
  */
 
 class H{
-	public static function select($name, $value, array $source, $attr = ''){
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array $source List of items 'value' => 'title' or 0 => 'value'
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function select($name, $value, array $source, $attr = array()){
 		if (!$source){
 			$source[] = t('empty');
 		}
@@ -23,42 +30,101 @@ class H{
 		return $html.'</select>';
 	}
 
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array $source List of items 'value' => 'title' or 0 => 'value'
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
 	public static function checkbox($name, $value, array $source, $attr = array()){
-		return self::_optionElement('checkbox', $name, $source, $value, $attr);
+		return self::optionElement('checkbox', $name, $source, $value, $attr);
 	}
 
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array $source List of items 'value' => 'title' or 0 => 'value'
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
 	public static function radio($name, $value, array $source, $attr = array()){
-		return self::_optionElement('radio', $name, $source, $value, $attr);
+		return self::optionElement('radio', $name, $source, $value, $attr);
 	}
 
+	/**
+	 * @param string $name Input name
+	 * @param int|boolean $status
+	 * @return string
+	 */
 	public static function yesNo($name, $status){
-		return self::_optionElement('radio', $name, array('1' => t('yes'),'0' => t('no')), (int)$status, array('inline' => true));
+		return self::optionElement('radio', $name, array('1' => t('yes'),'0' => t('no')), (int)$status, array('inline' => true));
 	}
 
-	public static function string($name, $value, $attr = ''){
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function string($name, $value, $attr = array()){
 		return '<input type="text" value="' . $value . '" name="' . $name . '"' . self::attr($attr) . '>';
 	}
 
-	public static function hidden($name, $value, $attr = ''){
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function hidden($name, $value, $attr = array()){
 		return '<input type="hidden" value="' . $value . '" name="' . $name . '"' . self::attr($attr) . '>';
 	}
 
-	public static function textarea($name, $value, $attr = ''){
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function textarea($name, $value, $attr = array()){
 		return '<textarea name="' . $name . '"' . self::attr($attr) . '>' . $value . '</textarea>';
 	}
 
-	public static function button($label = 'Submit', $type = 'submit', $attr = ''){
+	/**
+	 * @param string $label
+	 * @param string $type
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function button($label = 'Submit', $type = 'submit', $attr = array()){
 		return '<button type="' . $type . '" ' . self::attr($attr) . '>' . $label . '</button>';
 	}
 
-	public static function password($name, $attr = ''){
+	/**
+	 * @param string $name
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function password($name, $attr = array()){
 		return '<input type="password" name="' . $name . '"' . self::attr($attr) . '>';
 	}
 
-	public static function link($title, $href, $attr = ''){
+	/**
+	 * @param string $title
+	 * @param string $href
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
+	public static function link($title, $href, $attr = array()){
 		return '<a href="' . $href . '"' . self::attr($attr) . '>' . $title . '</a>';
 	}
 
+	/**
+	 * @param string $file
+	 * @param string $button
+	 * @return string
+	 */
 	public static function saveButton($file = '', $button = ''){
 		if (!$file || (is_writable($file) && is_writable(dirname($file)))){
 			$btn = $button ? $button : '<button type="submit" class="btn btn-primary btn-block">' . t('save') . '</button>';
@@ -68,6 +134,10 @@ class H{
 		return '<div class="form-group">' . $btn . '</div>';
 	}
 
+	/**
+	 * @param array $crumbs 'title' => ''[, 'url' => '']
+	 * @return string
+	 */
 	public static function breadcrumb($crumbs){
 		$html = '<ol class="breadcrumb"><li><a href=".">' . t('home') . '</a></li>';
 		foreach ($crumbs as $crumb){
@@ -80,6 +150,15 @@ class H{
 		return $html . '</ol>';
 	}
 
+	/**
+	 * @param string $url Base url
+	 * @param int $total Items count
+	 * @param int $current From 'skip'
+	 * @param int $limit Per page
+	 * @param string $class Class to div-wrapper
+	 * @param int $links The number of links on the left and right of the current
+	 * @return string
+	 */
 	public static function pagination($url, $total, $current, $limit = 10, $class = 'pagination', $links = 3){
 		$pages = ceil($total / $limit);
 		if ($pages < 2) return;
@@ -195,7 +274,7 @@ class H{
 		return $html . '</tbody></table>';
 	}
 
-	public static function tab($data, $current = false, $position = 'top', $attr = ''){
+	public static function tab($data, $current = '', $position = 'top', $attr = ''){
 		$titles = $contents = '';
 		foreach ($data as $key => $d){
 			$active = $current == $key ? ' active' : '';
@@ -211,7 +290,7 @@ class H{
 		}
 	}
 
-	public static function accordion($data, $current = false){
+	public static function accordion($data, $current = ''){
 		$id = rand(0, 10000);
 		$html = '<div class="panel-group" id="accordion' . $id . '">';
 		foreach ($data as $key => $d){
@@ -244,6 +323,10 @@ class H{
 		return $html;
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public static function form($data){
 		$form = '';
 		foreach ($data as $name => $input){
@@ -272,7 +355,7 @@ class H{
 	}
 
 	/* Private functions */
-	private static function _optionElement($type, $name, $data, $selected, $attr = array()){
+	private static function optionElement($type, $name, $data, $selected, $attr = array()){
 		if (!$data){
 			return '<div>' . t('empty') . '</div>';
 		}
