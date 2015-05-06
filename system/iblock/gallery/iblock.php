@@ -29,7 +29,7 @@ if (!is_dir('upload/images/' . $args['folder'])){
 }
 
 $files = glob('upload/images/' . $args['folder'] . '/{*.jpg,*.JPG,*.jpeg,*.gif,*.png}', GLOB_BRACE);
-if (!$files){
+if (empty($files)){
 	echo "Folder {$args['folder']} is empty";
 	return;
 }

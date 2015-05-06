@@ -77,7 +77,9 @@ abstract class Controller extends HasRegistry{
 		$modules = array_diff($modules, $exclude, array('index'));
 
 		$this->load->language('module_' . $module);
-		$links['?route=' . $module] = t('module_' . $module);
+		$links = array(
+			'?route=' . $module => t('module_' . $module)
+		);
 		foreach ($modules as $mod){
 			$this->load->language('module_' . $mod);
 			$links['?route=' . $module . '/' . $mod] = t('module_' . $mod);

@@ -82,7 +82,7 @@ final class App extends HasRegistry{
 			$upd = false;
 		}
 		$langs = str_replace(DIR_LANGUAGE, '', glob(DIR_LANGUAGE . '*'));
-		if (!$langs){
+		if (empty($langs)){
 			die('Missing default language package');
 		}
 		if (!in_array($this->language, $langs)){

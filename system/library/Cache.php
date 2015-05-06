@@ -11,7 +11,7 @@ class Cache{
 
 	public function get($key){
 		$files = glob(DIR_CACHE . 'cache.' . preg_replace('/[^\w\.-]/', '', $key) . '.*');
-		if ($files){
+		if (!empty($files)){
 			$data = unserialize(file_get_contents($files[0]));
 			foreach ($files as $file){
 				$time = substr(strrchr($file, '.'), 1);
@@ -44,7 +44,7 @@ class Cache{
 			$files = array_merge($files, $pages);
 		}
 
-		if ($files){
+		if (!empty($files)){
 			foreach ($files as $file){
 				if (file_exists($file)){
 					unlink($file);

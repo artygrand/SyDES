@@ -14,7 +14,7 @@ function pre($array){
 
 function t($text, $dl = array()){
 	static $l = array();
-	if ($dl){
+	if (!empty($dl)){
 		$l = array_merge($l, $dl);
 	} else {
 		return isset($l[$text]) ? $l[$text] : $text;

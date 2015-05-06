@@ -34,7 +34,7 @@ class Admin extends HasRegistry{
 			$upd = false;
 		}
 		$sites = str_replace(DIR_SITE, '', glob(DIR_SITE . 's*'));
-		if (!$sites){
+		if (empty($sites)){
 			$this->site = false;
 			return;
 		}

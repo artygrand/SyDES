@@ -15,7 +15,7 @@ class H{
 	 * @return string
 	 */
 	public static function select($name, $value, array $source, $attr = array()){
-		if (!$source){
+		if (empty($source)){
 			$source[] = t('empty');
 		}
 		if (array_values($source) === $source){
@@ -34,7 +34,7 @@ class H{
 	 * @param string $name Input name
 	 * @param string $value
 	 * @param array $source List of items 'value' => 'title' or 0 => 'value'
-	 * @param array|string $attr Input attributes, like class
+	 * @param array $attr Input attributes, like class
 	 * @return string
 	 */
 	public static function checkbox($name, $value, array $source, $attr = array()){
@@ -45,7 +45,7 @@ class H{
 	 * @param string $name Input name
 	 * @param string $value
 	 * @param array $source List of items 'value' => 'title' or 0 => 'value'
-	 * @param array|string $attr Input attributes, like class
+	 * @param array $attr Input attributes, like class
 	 * @return string
 	 */
 	public static function radio($name, $value, array $source, $attr = array()){

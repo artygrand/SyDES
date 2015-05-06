@@ -43,7 +43,9 @@ class Front extends HasRegistry{
 		$this->compile($response->data['content']);
 		$this->compile($template);
 
-		$head[] = '<title>' . $response->data['meta_title'] . '</title>';
+		$head = array(
+			'<title>' . $response->data['meta_title'] . '</title>'
+		);
 		$head[] = empty($response->data['meta_description']) ? '' : '<meta name="description" content="' . $response->data['meta_description'] . '">';
 		$head[] = empty($response->data['meta_keywords']) ? '' : '<meta name="keywords" content="' . $response->data['meta_keywords'] . '">';
 		$head[] = '<meta name="generator" content="SyDES">';
@@ -80,6 +82,8 @@ class Front extends HasRegistry{
 
 		$replace_arr = array_merge($common, $response->data);
 
+		$find = array();
+		$replace = array();
 		foreach ($replace_arr as $key => $val){
 			$find[] = '{' . $key . '}';
 			$replace[] = $val;
@@ -120,8 +124,10 @@ class Front extends HasRegistry{
 			return sprintf(t('error_iblock_not_found'), $iblock_name);
 		}
 		$page = $this->response->data;
-		
-		$args['template'] = 'default';
+
+		$args = array(
+			'template' => 'default'
+		);
 		if ($params){
 			$args = array_merge($args, $params);
 		}
