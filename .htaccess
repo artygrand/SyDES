@@ -25,6 +25,8 @@ Options -Indexes
 	RewriteRule ^index\.php$ - [L]
 
 	#hepler redirecting
+	RewriteRule ^rss/(.+)$ /index.php?route=common/rss/view/$1 [L]
+	
 	RewriteCond %{REQUEST_URI} ^(/cache/img/)
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^cache/img/(\d+)_(\d+)_(\w)/(.+)$ index.php?route=common/thumb&width=$1&height=$2&act=$3&src=$4 [L]
