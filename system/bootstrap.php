@@ -98,4 +98,4 @@ if (glob(DIR_SITE . 's*', GLOB_ONLYDIR)){
 $registry->config_admin = include DIR_SITE . 'config.php';
 $user->set($registry->config_admin['user']);
 
-$app->trigger('app.bootstrap');
+$app->trigger('after.bootstrap');

@@ -252,7 +252,7 @@ final class App extends HasRegistry{
 	}
 
 	public function run($section){
-		$this->trigger('before.' . str_replace('/', '.', $this->route));
+		$this->trigger('before.module');
 
 		try {
 			$this->action($this->route);
@@ -261,17 +261,19 @@ final class App extends HasRegistry{
 			$this->action($this->route);
 		}
 
-		$this->trigger('after.' . str_replace('/', '.', $this->route));
+		$this->trigger('after.module');
 
 		if ($this->response->body === NULL && $this->response->data && !IS_AJAX){
+			$this->trigger('before.render');
 			$section->render();
+			$this->trigger('after.render');
 		}
 		$this->response->flush();
 	}
 
-	public function on($event, $callback, $priority = 0){
+	public function on($event, $routes, $callback, $priority = 0){
 		if (!isset($this->events[$event])) $this->events[$event] = array();
-		$this->events[$event][] = array("fn" => $callback, "prio" => $priority);
+		$this->events[$event][] = array('routes' => $routes, 'fn' => $callback, 'prio' => $priority);
 	}
 
 	public function off($event){
@@ -286,14 +288,26 @@ final class App extends HasRegistry{
 
 		$queue = new SplPriorityQueue();
 		foreach ($this->events[$event] as $index => $action){
-			$queue->insert($index, $action["prio"]);
+			$queue->insert($index, $action['prio']);
 		}
 
 		$queue->top();
 		while($queue->valid()){
 			$index = $queue->current();
-			if (is_callable($this->events[$event][$index]["fn"])){
-				if (call_user_func_array($this->events[$event][$index]["fn"], $params) === false) {
+			if (isset($this->route)){
+				$routes = explode(',', $this->events[$event][$index]['routes']);
+				$current_route = false;
+				foreach ($routes as $route){
+					if (fnmatch(trim($route), $this->route)){
+						$current_route = true;
+						break;
+					}
+				}
+			} else {
+				$current_route = true;
+			}
+			if ($current_route && is_callable($this->events[$event][$index]['fn'])){
+				if (call_user_func_array($this->events[$event][$index]['fn'], $params) === false) {
 					break;
 				}
 			}

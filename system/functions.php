@@ -200,3 +200,9 @@ function str_replace_once($search, $replace, $text){
 function lower($string){
 	return mb_strtolower($string, "UTF-8");
 }
+
+if (!function_exists('fnmatch')){
+	function fnmatch($pattern, $string){
+		return preg_match('#^' . strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.')) . '$#i', $string);
+	}
+}
