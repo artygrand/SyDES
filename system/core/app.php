@@ -155,7 +155,7 @@ final class App extends HasRegistry{
 		if (count($page) == 2 && $page[0] == 'page' && ctype_digit($page[1])){
 			$this->page_number = $page[1];
 			$this->uri = str_replace('/' . $last, '', $this->uri);
-		}else {
+		} else {
 			$this->page_number = 1;
 		}
 	}
@@ -292,7 +292,7 @@ final class App extends HasRegistry{
 		}
 
 		$queue->top();
-		while($queue->valid()){
+		while ($queue->valid()){
 			$index = $queue->current();
 			if (isset($this->route)){
 				$routes = explode(',', $this->events[$event][$index]['routes']);

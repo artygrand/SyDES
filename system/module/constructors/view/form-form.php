@@ -18,7 +18,7 @@
 						<a href="#" class="list-group-item" data-type="string"><?=t('input_text');?></a>
 						<a href="#" class="list-group-item" data-type="textarea"><?=t('input_textarea');?></a>
 						<a href="#" class="list-group-item" data-type="email"><?=t('input_email');?></a>
-						<a href="#" class="list-group-item" data-type="phone"><?=t('input_phone');?></a>
+						<a href="#" class="list-group-item" data-type="tel"><?=t('input_phone');?></a>
 						<a href="#" class="list-group-item" data-type="file"><?=t('input_file');?></a>
 						<a href="#" class="list-group-item" data-type="number"><?=t('input_number');?></a>
 						<a href="#" class="list-group-item" data-type="listing"><?=t('input_listing');?></a>

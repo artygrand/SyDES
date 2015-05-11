@@ -239,4 +239,5 @@ array (
   'input_hidden' => 'Скрытое поле',
   'token' => 'Маркер',
   'select_in_sidebar' => 'Выберите в сайдбаре',
+  'submit' => 'Отправить',
 );

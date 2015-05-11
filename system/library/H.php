@@ -77,6 +77,16 @@ class H{
 	 * @param array|string $attr Input attributes, like class
 	 * @return string
 	 */
+	public static function input($name, $value, $type, $attr = array()){
+		return '<input type="' . $type . '" value="' . $value . '" name="' . $name . '"' . self::attr($attr) . '>';
+	}
+
+	/**
+	 * @param string $name Input name
+	 * @param string $value
+	 * @param array|string $attr Input attributes, like class
+	 * @return string
+	 */
 	public static function hidden($name, $value, $attr = array()){
 		return '<input type="hidden" value="' . $value . '" name="' . $name . '"' . self::attr($attr) . '>';
 	}
@@ -354,7 +364,42 @@ class H{
 		return $form;
 	}
 
-	/* Private functions */
+	public static function attr($attr){
+		if (is_string($attr)){
+			return ' ' . $attr;
+		}
+		$str = ' ';
+		foreach ($attr as $key => $values){
+			if ($values === true){
+				$str .= $key . ' ';
+			} elseif (is_string($values)){
+				$str .= $key . '="' . $values . '" ';
+			} else {
+				$str .= $key . '="' . implode(' ', $values) . '" ';
+			}
+		}
+		return $str;
+	}
+
+	public static function parseAttr($attr_string){
+		$attr = array();
+		$pattern = '/([\w-]+)\s*(=\s*"([^"]*)")?/';
+		preg_match_all($pattern, $attr_string, $matches, PREG_SET_ORDER);
+		foreach ($matches as $match){
+			$name = strtolower($match[1]);
+			$value = isset($match[3]) ? $match[3] : true;
+			switch ($name){
+				case 'class':
+					$attr[$name] = explode(' ', trim($value));
+					break;
+				default:
+					$attr[$name] = $value;
+			}
+		}
+		return $attr;
+	}
+
+	/* Private function */
 	private static function optionElement($type, $name, $data, $selected, $attr = array()){
 		if (!$data){
 			return '<div>' . t('empty') . '</div>';
@@ -384,20 +429,5 @@ class H{
 			$html .= $pre . '<input type="'. $type . '" name="' .$name . $name_post . '" value="' . $value . '"' . $chkd . '> ' . $title . $post . PHP_EOL;
 		}
 		return $html . '</div>';
-	}
-
-	private static function attr($attr){
-		if (is_string($attr)){
-			return ' ' . $attr;
-		}
-		$str = ' ';
-		foreach ($attr as $key => $values){
-			if (is_string($values)){
-				$str .= $key . '="' . $values . '" ';
-			} else {
-				$str .= $key . '="' . implode(' ', $values) . '" ';
-			}
-		}
-		return $str;
 	}
 }

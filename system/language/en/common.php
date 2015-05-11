@@ -239,4 +239,5 @@ array (
   'input_hidden' => 'Hidden field',
   'token' => 'Token',
   'select_in_sidebar' => 'Select in sidebar',
+  'submit' => 'Submit',
 );
