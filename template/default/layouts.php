@@ -3,8 +3,7 @@
   array (
     'name' => 'Page',
     'file' => 'page.html',
-    'html' => '{content}
-<div>{iblock:my}</div>',
+    'html' => '{content}',
   ),
   'news-item' => 
   array (
