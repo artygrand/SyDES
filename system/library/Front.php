@@ -80,8 +80,7 @@ class Front extends HasRegistry{
 		$alerts .= '</div>';
 		$response->data['alerts'] = $alerts;
 
-		$replace_arr = array_merge($common, $response->data);
-
+		$replace_arr = array_merge($response->data, $common);
 		$find = array();
 		$replace = array();
 		foreach ($replace_arr as $key => $val){
