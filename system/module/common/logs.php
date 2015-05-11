@@ -28,7 +28,7 @@ class LogsController extends Controller{
 			'meta_title' => t('logs'),
 			'breadcrumbs' => H::breadcrumb(array(
 			array('title' => t('logs'))
-			))
-		);;
+			)),
+		);
 	}
 }

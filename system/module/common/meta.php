@@ -190,7 +190,7 @@ class MetaController extends Controller{
 			if (isset($this->config_admin['meta'][$item['key']])){
 				$field = $this->config_admin['meta'][$item['key']];
 			} else {
-				$field = array (
+				$field = array(
 					'title' => '',
 					'type' => 'string',
 					'config' => '',
