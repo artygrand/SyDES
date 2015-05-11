@@ -15,7 +15,7 @@ class RssController extends Controller{
 	}
 
 	public function view(){
-		if(preg_match('![^\w-]!', $this->value) || $this->value == 'trash'){
+		if (preg_match('![^\w-]!', $this->value) || $this->value == 'trash'){
 			throw new BaseException(t('error_page_not_found'));
 		}
 

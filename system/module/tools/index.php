@@ -10,14 +10,13 @@ class ToolsController extends Controller{
 	public $name = 'tools';
 
 	public function index(){
-		$data['content'] = t('select_in_sidebar');
-		$data['sidebar_left'] = $this->getSideMenu('tools');
-
-		$data['meta_title'] = t('module_' . $this->name);
-		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('title' => t('module_' . $this->name))
-		));
-
-		$this->response->data = $data;
+		$this->response->data = array(
+			'content' => t('select_in_sidebar'),
+			'sidebar_left' => $this->getSideMenu('tools'),
+			'meta_title' => t('module_' . $this->name),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('title' => t('module_' . $this->name))
+			)),
+		);
 	}
 }

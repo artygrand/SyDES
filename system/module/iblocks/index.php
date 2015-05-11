@@ -10,16 +10,15 @@ class IblocksController extends Controller{
 	public $name = 'iblocks';
 
 	public function index(){
-		$data['content'] = $this->load->view('iblocks/index', array('iblocks' => $this->getIblocks()));
-		$data['sidebar_left'] = $data['sidebar_right'] = ' ';
-
-		$data['meta_title'] = t('iblocks');
-		$crumbs = array(
-			array('title' => t('iblocks'))
+		$this->response->data = array(
+			'content' => $this->load->view('iblocks/index', array('iblocks' => $this->getIblocks())),
+			'sidebar_left' => ' ',
+			'sidebar_right' => ' ',
+			'meta_title' => t('iblocks'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('title' => t('iblocks'))
+			)),
 		);
-		$data['breadcrumbs'] = H::breadcrumb($crumbs);
-
-		$this->response->data = $data;
 	}
 
 	public function edit(){
@@ -29,6 +28,7 @@ class IblocksController extends Controller{
 
 		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.19.0/';
 		$this->response->style[] = $cdn . 'codemirror.min.css';
+		$script = array();
 		$script[] = $cdn . 'codemirror.min.js';
 		$script[] = $cdn . 'addon/edit/matchbrackets.min.js';
 		$script[] = $cdn . 'addon/edit/closebrackets.min.js';
@@ -42,6 +42,7 @@ class IblocksController extends Controller{
 		$this->response->script = $script;
 
 		$path = DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php';
+		$data = array();
 		$data['content'] = $this->load->view('templates/file', array(
 			'content' => str_replace('<', '&lt;', file_get_contents($path)),
 			'mode' => $mode
@@ -150,6 +151,7 @@ class IblocksController extends Controller{
 	}
 
 	private function getIblocks(){
+		$files = array();
 		foreach (glob(DIR_IBLOCK . '*') as $file){
 			$files[] = str_replace(DIR_IBLOCK, '', $file);
 		}

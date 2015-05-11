@@ -18,6 +18,7 @@ class PagetypesController extends Controller{
 
 	public function index(){
 		$layouts = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+		$data = array();
 		$data['content'] = $this->load->view('config/pagetypes-list', array(
 				'types' => $this->types,
 				'layouts' => $layouts
@@ -35,10 +36,12 @@ class PagetypesController extends Controller{
 
 	public function edit(){
 		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+		$layouts = array();
 		foreach ($layout_db as $k => $l){
 			$layouts[$k] = $l['name'];
 		}
 
+		$data = array();
 		$crumbs = array(
 			array('url' => '?route=config', 'title' => t('pages')),
 			array('url' => '?route=config/pagetypes', 'title' => t('page_types'))
@@ -61,8 +64,8 @@ class PagetypesController extends Controller{
 			$data['content'] = $this->load->view('config/pagetypes-form', array(
 				'type' => 'new',
 				'title' => '',
-				'layout' => H::select('layout', false, $layouts, 'class="form-control"'),
-				'structure' => H::select('structure', false, array('list'=>t('list'), 'tree'=>t('tree')), 'class="form-control"'),
+				'layout' => H::select('layout', '', $layouts, 'class="form-control"'),
+				'structure' => H::select('structure', '', array('list'=>t('list'), 'tree'=>t('tree')), 'class="form-control"'),
 				'root' => H::select('root', 'auto', $roots, 'class="form-control"'),
 			));
 			$data['meta_title'] = t('adding');
@@ -96,7 +99,10 @@ class PagetypesController extends Controller{
 		if ($type != 'new'){
 			$data = $this->types[$type];
 			elog('User is saved page type ' . $this->request->post['title']);
-		} elseif (!empty($this->request->post['key'])){
+		} else {
+			if (empty($this->request->post['key'])){
+				throw new BaseException(t('error_empty_values_passed'), 'warning', '?route=config/pagetypes');
+			}
 			$root = $this->request->post['root'];
 			if ($root == 'auto'){
 				$main = array(

@@ -35,6 +35,7 @@ class LayoutController extends Controller{
 
 		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.19.0/';
 		$this->response->style[] = $cdn . 'codemirror.min.css';
+		$script = array();
 		$script[] = $cdn . 'codemirror.min.js';
 		$script[] = $cdn . 'addon/edit/matchbrackets.min.js';
 		$script[] = $cdn . 'addon/edit/closebrackets.min.js';
@@ -47,6 +48,7 @@ class LayoutController extends Controller{
 		$layout['mode'] = 'application/x-httpd-php';
 		$this->response->script = $script;
 
+		$data = array();
 		$data['content'] = $this->load->view('templates/layout', $layout);
 		$data['sidebar_right'] = H::saveButton($this->templates_model->layout_db) . $this->user->getMastercodeInput() . '
 		<div class="form-group">' . $this->templates_model->getIblocks() . '</div>';

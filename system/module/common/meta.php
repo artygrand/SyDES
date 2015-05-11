@@ -108,7 +108,7 @@ class MetaController extends Controller{
 		$all_keys = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 		$this->response->body['base'] = $this->load->view('common/meta', array(
-			'all_keys' => H::select('keys', false, $all_keys, 'class="form-control" title="' . t('key') . '" id="keys"'),
+			'all_keys' => H::select('keys', '', $all_keys, 'class="form-control" title="' . t('key') . '" id="keys"'),
 			'meta_data' => $page_id == 0 ? t('global_meta_data') : t('meta_data'),
 		));
 

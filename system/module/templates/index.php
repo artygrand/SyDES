@@ -15,6 +15,7 @@ class TemplatesController extends Controller{
 		$model->prepare();
 
 		$model->createLayouts();
+		$data = array();
 		$data['content'] = $this->load->view('templates/index', array(
 			'files' => $model->getFiles(),
 			'layouts' => $model->getLayouts(),
@@ -28,6 +29,7 @@ class TemplatesController extends Controller{
 		$templates = glob(DIR_TEMPLATE . '*');
 		if (count($templates) > 1){
 			$templates = str_replace(DIR_TEMPLATE, '', $templates);
+			$links = array();
 			foreach ($templates as $t){
 				$links['?route=templates&tpl=' . $t] = $t;
 			}

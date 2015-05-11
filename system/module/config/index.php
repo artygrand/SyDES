@@ -10,15 +10,17 @@ class ConfigController extends Controller{
 	public $name = 'config';
 	
 	public function index(){
-		$data['sidebar_left'] = $this->getSideMenu('config', array('interface'));
+		$data = array(
+			'sidebar_left' => $this->getSideMenu('config', array('interface')),
+			'sidebar_right' => H::saveButton(DIR_SITE . $this->site . '/database.db'),
+			'meta_title' => t('settings'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('title' => t('settings'))
+			))
+		);
 		$config = new Config('front');
 		$data['content'] = $this->load->view('config/index', array('data' => $config->get()));
 		$data['form_url'] = '?route=config/save';
-		$data['sidebar_right'] = H::saveButton(DIR_SITE . $this->site . '/database.db');
-		$data['meta_title'] = t('settings');
-		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('title' => t('settings'))
-		));
 
 		$this->response->data = $data;
 	}

@@ -70,6 +70,7 @@ class FormController extends Controller{
 
 		$stmt = $this->db->query("SELECT form_id, count(id) as count FROM form_results GROUP BY form_id");
 		$counts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$results = array();
 		foreach ($counts as $count){
 			$results[$count['form_id']] = $count['count'];
 		}
@@ -77,6 +78,7 @@ class FormController extends Controller{
 			$results = array();
 		}
 
+		$data = array();
 		$data['content'] = $this->load->view('constructors/form-list', array(
 			'forms' => $forms,
 			'results' => $results,
@@ -92,15 +94,15 @@ class FormController extends Controller{
 	}
 
 	public function results(){
-		$data['sidebar_left'] = $this->getSideMenu('constructors/form');
-		$data['meta_title'] = t('module_form');
-		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('url' => '?route=constructors', 'title' => t('module_constructors')),
-			array('url' => '?route=constructors/form', 'title' => t('module_form')),
-			array('title' => t('results')),
-		));
-
-		$this->response->data = $data;
+		$this->response->data = array(
+			'sidebar_left' => $this->getSideMenu('constructors/form'),
+			'meta_title' => t('module_form'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('url' => '?route=constructors', 'title' => t('module_constructors')),
+				array('url' => '?route=constructors/form', 'title' => t('module_form')),
+				array('title' => t('results')),
+			)),
+		);
 	}
 
 	public function edit(){
@@ -122,6 +124,7 @@ class FormController extends Controller{
 		$stmt = $this->db->query("SELECT `to` FROM form_notices WHERE `to` NOT LIKE '#%'");
 		$mails = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+		$data = array();
 		$data['content'] = $this->load->view('constructors/form-form', array(
 			'form_id' => $id,
 			'form' => $form,

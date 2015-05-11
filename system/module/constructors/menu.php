@@ -15,20 +15,22 @@ class MenuController extends Controller{
 		if (!$menus){
 			$menus = array();
 		}
-		$data['content'] = $this->load->view('constructors/menu-list', array(
-			'menus' => $menus,
-		));
-		$data['sidebar_left'] = $this->getSideMenu('constructors/menu');
-		$data['meta_title'] = t('module_menu');
-		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('url' => '?route=constructors', 'title' => t('module_constructors')),
-			array('title' => t('module_menu'))
-		));
 
-		$this->response->data = $data;
+		$this->response->data = array(
+			'content' => $this->load->view('constructors/menu-list', array(
+				'menus' => $menus,
+			)),
+			'sidebar_left' => $this->getSideMenu('constructors/menu'),
+			'meta_title' => t('module_menu'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('url' => '?route=constructors', 'title' => t('module_constructors')),
+				array('title' => t('module_menu'))
+			)),
+		);
 	}
 
 	public function edit(){
+		$data = array();
 		$data['sidebar_left'] = $this->getSideMenu('constructors/menu');
 		$config = new Config('menu');
 		$id = isset($this->request->get['id']) ? $this->request->get['id'] : 0;
@@ -79,6 +81,7 @@ class MenuController extends Controller{
 	}
 
 	public function save(){
+		$items = array();
 		foreach ($this->request->post['item']['level'] as $id => $level){
 			$items[$id] = array(
 				'level' => $level,

@@ -23,6 +23,7 @@ class FileController extends Controller{
 
 		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.19.0/';
 		$this->response->style[] = $cdn . 'codemirror.min.css';
+		$script = array();
 		$script[] = $cdn . 'codemirror.min.js';
 		$script[] = $cdn . 'addon/edit/matchbrackets.min.js';
 
@@ -40,7 +41,7 @@ class FileController extends Controller{
 			$script[] = $cdn . 'mode/xml/xml.min.js';
 			$script[] = $cdn . 'mode/htmlmixed/htmlmixed.min.js';
 			$mode = 'text/html';
-		} elseif ($ext == '.php'){
+		} else {
 			$script[] = $cdn . 'addon/edit/closebrackets.min.js';
 			$script[] = $cdn . 'mode/htmlmixed/htmlmixed.min.js';
 			$script[] = $cdn . 'mode/xml/xml.min.js';
@@ -52,6 +53,7 @@ class FileController extends Controller{
 		}
 		$this->response->script = $script;
 
+		$data = array();
 		$path = $this->templates_model->template_path . $this->request->get['file'];
 		$data['content'] = $this->load->view('templates/file', array(
 			'content' => str_replace('<', '&lt;', file_get_contents($path)),

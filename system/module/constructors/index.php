@@ -13,12 +13,14 @@ class ConstructorsController extends Controller{
 		
 		$modules = str_replace(array(DIR_MODULE . 'constructors/', '.php'), '', glob(DIR_MODULE . 'constructors/*.php'));
 		$modules = array_diff($modules, array('index'));
+		$constructors = array();
 		foreach ($modules as $module){
 			$result = $this->run($module);
 			if (!empty($result)){
 				$constructors[] = $result;
 			}
 		}
+		$data = array();
 		$data['content'] = '<div class="row"><div class="col-sm-6">' . implode('</div><div class="col-sm-6">', $constructors) . '</div></div>';
 
 		$data['meta_title'] = t('module_constructors');

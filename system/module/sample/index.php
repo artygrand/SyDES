@@ -34,6 +34,7 @@ class SampleController extends Controller{
 			*/
 		}
 
+		$data = array();
 		$data['content'] = $this->load->view($this->name . '/form', array(
 			'opt1' => 'Text content',
 			'opt2' => '',
@@ -51,6 +52,7 @@ class SampleController extends Controller{
 	}
 
 	public function index(){
+		$data = array();
 		$data['content'] = 'Module content';
 		$data['sidebar_left'] = $data['sidebar_right'] = ' ';
 

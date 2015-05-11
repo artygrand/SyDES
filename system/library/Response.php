@@ -52,7 +52,7 @@ class Response{
 	}
 
 	public function redirect($url = ''){
-		if ($this->alerts){
+		if (!empty($this->alerts)){
 			$_SESSION['alerts'] = $this->alerts;
 			unset($this->alerts);
 		}
@@ -73,7 +73,7 @@ class Response{
 
 	public function flush(){
 		if (!headers_sent()){
-			if ($this->notify){
+			if (!empty($this->notify)){
 				if (IS_AJAX){
 					$this->body['notify'] = $this->notify;
 				} else {

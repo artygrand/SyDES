@@ -83,6 +83,7 @@ class PagesController extends Controller{
 	}
 
 	public function index(){
+		$filter = array();
 		if ($this->settings['structure'] == 'tree'){
 			$filter['page']['type'] = array('condition' => '=', 'value' => $this->type);
 		} else {
@@ -113,6 +114,7 @@ class PagesController extends Controller{
 			$pages = array();
 		}
 
+		$data = array();
 		$data['footer_left'] = '';
 		if ($this->settings['structure'] == 'tree'){
 			$statuses = array('2'=>t('in_menu'), '1'=>t('visible'), '0'=>t('hidden'));
@@ -269,6 +271,7 @@ class PagesController extends Controller{
 			unset($page['path']);
 		}
 		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+		$layouts = array();
 		foreach ($layout_db as $k => $v){
 			$layouts[$k] = $v['name'];
 		}
@@ -319,6 +322,7 @@ class PagesController extends Controller{
 			);
 		}
 
+		$data = array();
 		$data['content'] =  $this->load->view('pages/editor', array(
 			'page' => $page,
 			'parents' => $this->pages_model->getParentSelect($this->type, $page['parent_id'], $id),
@@ -355,6 +359,7 @@ class PagesController extends Controller{
 		$parent_id = (int)$this->request->post['parent_id'];
 		$act = $this->request->post['act'];
 
+		$content = array();
 		foreach ($this->config_site['locales'] as $loc){
 			$content[$loc] = array(
 				'title' => $this->request->post['title'][$loc],

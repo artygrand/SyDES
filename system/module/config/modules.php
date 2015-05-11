@@ -15,6 +15,7 @@ class ModulesController extends Controller{
 		$box_modules = array('common', 'config', 'constructors', 'iblocks', 'pages', 'search', 'templates', 'tools', 'user');
 		$all_modules = str_replace(DIR_MODULE, '', glob(DIR_MODULE . '*'));
 		$new_modules = array_diff($all_modules, $box_modules);
+		$modules = array();
 		foreach ($new_modules as $module){
 			$this->load->language('module_' . $module);
 			$modules[$module]['name'] = t('module_' . $module);

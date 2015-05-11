@@ -11,17 +11,17 @@ class ProfileController extends Controller{
 	
 	public function index(){
 		$button = '<button type="submit" class="btn btn-primary btn-block">' . t('save') . '</button>';
-		$data['content'] = $this->load->view('config/profile-form', array('autologin' => $this->user->autologin));
-		$data['sidebar_left'] = $this->getSideMenu('config/profile', array('interface'));
-		$data['sidebar_right'] = H::saveButton(DIR_SITE . 'config.php', $button) . $this->user->getMastercodeInput();
-		$data['form_url'] = "?route=config/profile/save";
-		$data['meta_title'] = t('module_profile');
-		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('url' => '?route=config', 'title' => t('settings')),
-			array('title' => t('module_profile'))
-		));
-
-		$this->response->data = $data;
+		$this->response->data = array(
+			'content' => $this->load->view('config/profile-form', array('autologin' => $this->user->autologin)),
+			'sidebar_left' => $this->getSideMenu('config/profile', array('interface')),
+			'sidebar_right' => H::saveButton(DIR_SITE . 'config.php', $button) . $this->user->getMastercodeInput(),
+			'form_url' => '?route=config/profile/save',
+			'meta_title' => t('module_profile'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('url' => '?route=config', 'title' => t('settings')),
+				array('title' => t('module_profile'))
+			)),
+		);
 	}
 
 	public function save(){

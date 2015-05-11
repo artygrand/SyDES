@@ -17,18 +17,16 @@ class SitesController extends Controller{
 			$sites_data[$site]['domain'] = include DIR_SITE . $site . '/domains.php';
 		}
 
-		$data['content'] = $this->load->view('config/sites-list', array('sites' => $sites_data));
-		$data['sidebar_left'] = $this->getSideMenu('config/sites', array('interface'));
-		$data['sidebar_right'] = ' ';
-		$data['meta_title'] = t('site_list');
-
-		$crumbs = array(
-			array('url' => '?route=config', 'title' => t('settings')),
-			array('title' => t('site_list'))
+		$this->response->data = array(
+			'content' => $this->load->view('config/sites-list', array('sites' => $sites_data)),
+			'sidebar_left' => $this->getSideMenu('config/sites', array('interface')),
+			'sidebar_right' => ' ',
+			'meta_title' => t('site_list'),
+			'breadcrumbs' => H::breadcrumb(array(
+				array('url' => '?route=config', 'title' => t('settings')),
+				array('title' => t('site_list'))
+			)),
 		);
-		$data['breadcrumbs'] = H::breadcrumb($crumbs);
-
-		$this->response->data = $data;
 	}
 
 	public function add(){
@@ -45,6 +43,7 @@ class SitesController extends Controller{
 			}
 
 			$domain_arr = explode("\n", trim($this->request->post['domains']));
+			$domains = array();
 			foreach ($domain_arr as $d){
 				$d = trim($d);
 				if ($d){
@@ -107,6 +106,7 @@ class SitesController extends Controller{
 			$this->response->redirect('?route=config/sites');
 		} else {
 			$templates = str_replace(DIR_TEMPLATE, '', glob(DIR_TEMPLATE . '*'));
+			$data = array();
 			$data['content'] = $this->load->view('config/sites-form', array(
 				'title' => t('new_site'),
 				'name' => '',
@@ -140,6 +140,7 @@ class SitesController extends Controller{
 		$templates = str_replace(DIR_TEMPLATE, '', glob(DIR_TEMPLATE . '*'));
 		$config = include DIR_SITE . $this->site . '/config.php';
 		$domains = include DIR_SITE . $this->site . '/domains.php';
+		$data = array();
 		$data['content'] = $this->load->view('config/sites-form', array(
 			'title' => $config['name'],
 			'name' => $config['name'],
@@ -179,6 +180,7 @@ class SitesController extends Controller{
 		$dir = DIR_SITE . $this->request->post['site'];
 
 		$domain_arr = explode("\n", trim($this->request->post['domains']));
+		$domains = array();
 		foreach ($domain_arr as $d){
 			$d = trim($d);
 			if ($d){

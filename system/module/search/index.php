@@ -14,6 +14,7 @@ class SearchController extends Controller{
 		mb_regex_encoding('UTF-8');
 		mb_internal_encoding('UTF-8');
 
+		$page = array();
 		$page['layout'] = 'page';
 		$page['title'] = t('search');
 		$locale = count($this->config_site['locales']) > 1 ? $this->locale : '';
