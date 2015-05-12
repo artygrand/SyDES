@@ -117,6 +117,8 @@ array (
   'installed' => 'Установлено',
   'uninstalled' => 'Удалено',
   'save_and_back' => 'Сохранить и назад',
+  'file' => 'Файл',
+  'iblock_list' => 'Список инфоблоков',
   'other_iblocks' => 'Другие инфоблоки',
   'iblock_editing' => 'Редактирование инфоблока',
   'iblock' => 'инфоблок',

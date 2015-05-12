@@ -117,6 +117,8 @@ array (
   'installed' => 'Installed',
   'uninstalled' => 'Uninstalled',
   'save_and_back' => 'Save and back',
+  'file' => 'File',
+  'iblock_list' => 'Iblock list',
   'other_iblocks' => 'Other iblocks',
   'iblock_editing' => 'Iblock editing',
   'iblock' => 'Iblock',
