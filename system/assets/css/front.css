@@ -1,4 +1,4 @@
-.block-wrapper{position:relative;min-height:15px;border: 1px solid rgba(0, 0, 0, 0);}
+.block-wrapper{position:relative;min-height:15px;border: 1px solid rgba(0, 0, 0, 0);margin:-1px;}
 .block-wrapper .tools{font-family:'Glyphicons Halflings';position:absolute;top:-32px;left:0;display:none;color:#fff;background:#2c313a;border-radius:4px;cursor:pointer;overflow:hidden;}
 .block-wrapper:hover{border:1px dashed #2c313a;}
 .block-wrapper:hover .tools{display:block;}
