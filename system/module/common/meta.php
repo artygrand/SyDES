@@ -233,7 +233,7 @@ class MetaController extends Controller{
 				case 'reference':
 				case 'video':
 				case 'map':
-					if ($field['type'] = 'string'){
+					if ($field['type'] == 'string'){
 						$magic_class = isset($magic[$item['key']]) ? ' field-' . $magic[$item['key']] : '';
 					} else {
 						$magic_class = ' field-' . $field['type'];
