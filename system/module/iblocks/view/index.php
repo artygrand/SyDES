@@ -33,7 +33,7 @@
 <script>
 $(document).ready(function(){
 	$('.goto').click(function(){
-		var item = $(this).parent().prev().val().match(/[a-z\.-]+/)
+		var item = $(this).parent().prev().val().match(/[a-z-_0-9]+/)
 		if (item){
 			location.href = $(this).data('url') + item
 		}
