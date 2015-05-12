@@ -69,7 +69,6 @@ class Front extends HasRegistry{
 			'year'     => date('Y'),
 			'template' => 'template/' . $this->config_site['template'] . '/',
 			'language' => $this->locale,
-			'head'     => implode("\n\t", $head),
 			'toolbar'  => $toolbar,
 		);
 
@@ -80,7 +79,7 @@ class Front extends HasRegistry{
 		$alerts .= '</div>';
 		$response->data['alerts'] = $alerts;
 
-		$replace_arr = array_merge($response->data, $common);
+		$replace_arr = array_merge(array('head' => implode("\n\t", $head)), $response->data, $common);
 		$find = array();
 		$replace = array();
 		foreach ($replace_arr as $key => $val){
