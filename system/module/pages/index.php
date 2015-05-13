@@ -275,7 +275,7 @@ class PagesController extends Controller{
 		foreach ($layout_db as $k => $v){
 			$layouts[$k] = $v['name'];
 		}
-		$permanent = isset($this->settings['form']['meta'][$page['parent_id']]) ? "'" . implode("','", $this->settings['form']['meta'][$page['parent_id']]) . "'" : '';
+		$permanent = !empty($this->settings['form']['meta'][$page['parent_id']]) ? "'" . implode("','", $this->settings['form']['meta'][$page['parent_id']]) . "'" : '';
 		$right = $this->load->view('pages/editor-right', array(
 			'status' => H::select('status', $page['status'], $statuses, 'data-id="' . $page['id'] . '" class="form-control"'),
 			'layout' => H::select('layout', $page['layout'], $layouts, 'class="form-control"'),
