@@ -1,0 +1,4 @@
+.lang_switcher{list-style:none;padding-left:0;margin-bottom:0;}
+.lang_switcher li{display:inline-block;}
+.lang_switcher a, .lang_switcher span{display:block;padding:5px 10px;}
+.lang_switcher a:hover{background:#eee;text-decoration:none;}
