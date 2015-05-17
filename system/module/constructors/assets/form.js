@@ -28,6 +28,7 @@ var count = 1,
 				switch (i){
 					case 'required':
 					case 'list_type':
+					case 'hide_label':
 						content = content.replace(i + ']" value="' + values[i] + '"', i + ']" value="' + values[i] + '" checked');
 						break
 					case 'source':
@@ -88,7 +89,7 @@ $(document).ready(function(){
 	})
 
 	$('.insert-name').click(function(){
-		$(this).parents('.input-group-btn').prev().val(syd.t('form_sended') + ' "' + $('[name="settings[name]"]').val() + '"');
+		$(this).parents('.input-group-btn').prev().val(syd.t('form_submitted') + ' "' + $('[name="settings[name]"]').val() + '"');
 	})
 	$('.find-emails').click(function(){
 		var mails = {}, source = $(this).data('source').split(',');
@@ -118,7 +119,7 @@ $(document).ready(function(){
 		var message = '';
 		$('#form-holder .panel').each(function(){
 			var label = $(this).find('.input-label').val(), key = $(this).find('.input-key').val();
-			message += '<b>' + label + ':</b> #' + key + "#\n";
+			message += '<b>' + label + ':</b> #' + key + "#<br>\n";
 		})
 		$(this).prev().val(message);
 	})
@@ -133,6 +134,13 @@ $(document).ready(function(){
 	}
 	
 	$('[name="settings[template]"][value="custom"]').parent().attr('title', syd.t('tip_custom_template')).tooltip();
+	
+	$('#notices [data-dismiss="widget"]').click(function(){
+		$.ajax({
+			url:'?route=constructors/form/delnotice',
+			data:{id:$(this).data('id')}
+		})
+	})
 })
 
 function getFields(fields){

@@ -29,7 +29,7 @@ if ($app->config_site['maintenance_mode'] && !isset($app->request->cookie['is_ad
 	$app->route = 'common/error/e503';
 } else {
 	if ($app->config_site['need_cache'] && !IS_POST && !$user->is_editor){ // check for page cache if needed
-		$cache = DIR_CACHE . $app->site . '/' . str_replace(array('\\','/',':','*','?','"','<','>','|'), '_', $app->uri) . '.html';
+		$cache = DIR_CACHE . $app->site . '/' . str_replace(array('\\','/',':','*','?','"','<','>','|'), '', $app->uri) . '.html';
 		if (is_file($cache)){
 			include $cache;
 			die;

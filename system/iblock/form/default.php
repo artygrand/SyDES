@@ -4,7 +4,5 @@
 
 	<?=implode(PHP_EOL, $fields);?>
 
-	<?=H::hidden('form_id', $form['id']);?> 
-	<?=H::hidden('token', 'token');?> 
 	<?=H::button($form['submit_button'], 'submit', 'class="btn btn-primary"');?> 
 </form>

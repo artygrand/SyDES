@@ -6,7 +6,7 @@
 		</div>
 		<div class="panel-body text-center">
 			<br><br><br>
-			<a href="?route=config/sites/add"><span class="glyphicon glyphicon-plus"></span> <?=t('create_new_site');?></a>
+			<a href="?route=config/sites/add"><span class="glyphicon glyphicon-plus-sign"></span> <?=t('create_new_site');?></a>
 			<br><br><br><br>
 		</div>
 	</div>

@@ -61,9 +61,11 @@ class Front extends HasRegistry{
 				$head[] = '<script src="' . $file . '"></script>';
 			}
 		}
-		if (!empty($response->translations)){
-			$head[] = '<script>syd.translations = ' . json_encode($response->translations) . '</script>';
-		}
+
+		$response->addJsSettings(array(
+			'locale' => $this->locale,
+		));
+		$head[] = '<script>$.extend(syd, ' . json_encode($response->js) . ');</script>';
 
 		$common = array(
 			'year'     => date('Y'),

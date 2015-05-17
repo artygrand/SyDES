@@ -34,7 +34,7 @@
 	<script src="<?=$file;?>"></script>
 <?php } ?>
 
-	<?=$translations;?>
+	<?=$js;?>
 </head>
 <body class="menu-<?=$menu_pos;?>">
 	<div id="menu" class="gradient">

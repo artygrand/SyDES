@@ -78,8 +78,20 @@
 
 
 		<div class="tab-pane form-horizontal" id="tab-notice">
-<?php foreach ($notices as $notice){ ?>
-			<div class="notice-block">
+
+<div class="panel-group" id="notices">
+<?php foreach ($notices as $notice){
+	$panel_heading = $notice['id'] > 0 ? $notice['to'] . ' :: ' . $notice['subject'] : '<span class="glyphicon glyphicon-plus-sign"></span> ' . t('add');
+	?>
+
+	<div class="widget panel panel-default">
+		<?php if ($notice['id'] > 0){ ?><div class="widget-tools">
+			<span class="glyphicon glyphicon-trash" data-id="<?=$notice['id'];?>" data-dismiss="widget" data-toggle="tooltip" title="<?=t('remove');?>"></span>
+		</div><?php } ?>
+		<div class="panel-heading" data-toggle="collapse" data-parent="#notices" href="#notice<?=$notice['id'];?>"><?=$panel_heading;?></div>
+		<div id="notice<?=$notice['id'];?>" class="panel-collapse collapse <?=$notice['id'] > 0 ? '' : 'in';?>">
+			<div class="panel-body">
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><?=t('to');?></label>
 					<div class="col-sm-10">
@@ -128,9 +140,14 @@
 						<button type="button" class="btn btn-default btn-xs generate-message"><?=t('generate');?></button>
 					</div>
 				</div>
+
 			</div>
-			<hr>
+		</div>
+	</div>
+
 <?php } ?>
+</div>
+
 		</div>
 	</div>
 </div>
@@ -145,6 +162,7 @@ var fields = <?=empty($form['fields']) ? '{}' : $form['fields'];?>;
 .onempty:not(:only-of-type){display:none;}
 #form-holder{min-height:375px;padding-bottom:50px;border:3px dashed transparent;}
 #form-holder.ready{border-color:#ddd;}
+#notices .panel-heading{cursor:pointer;}
 </style>
 
 
@@ -153,7 +171,12 @@ var fields = <?=empty($form['fields']) ? '{}' : $form['fields'];?>;
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label><?=t('label');?></label>
-				<input type="text" class="form-control input-label" name="fields[][label]">
+				<div class="input-group">
+					<input type="text" class="form-control input-label" name="fields[][label]">
+					<span class="input-group-addon">
+						<input type="checkbox" name="fields[][hide_label]" value="1" data-toggle="tooltip" data-placement="left" title="<?=t('hide_label');?>">
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -258,7 +281,7 @@ var fields = <?=empty($form['fields']) ? '{}' : $form['fields'];?>;
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label><?=t('file_extensions');?></label>
-				<input type="text" class="form-control" name="fields[][allowed-files]">
+				<input type="text" class="form-control" name="fields[][allowed_files]">
 				<p class="help-block"><?=t('file_extensions_help');?></p>
 			</div>
 		</div>

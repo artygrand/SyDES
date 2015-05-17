@@ -372,10 +372,10 @@ class H{
 		foreach ($attr as $key => $values){
 			if ($values === true){
 				$str .= $key . ' ';
-			} elseif (is_string($values)){
-				$str .= $key . '="' . $values . '" ';
-			} else {
+			} elseif (is_array($values)){
 				$str .= $key . '="' . implode(' ', $values) . '" ';
+			} else {
+				$str .= $key . '="' . $values . '" ';
 			}
 		}
 		return $str;

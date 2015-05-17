@@ -1,4 +1,4 @@
-var syd = syd || {'settings':{}, 'translations':{}};
+var syd = syd || {'settings':{}, 'l10n':{}};
 
 (function ($){
 /**
@@ -48,8 +48,8 @@ syd.alert = function(message, status){
  *   A string containing the string to translate.
  */
 syd.t = function(str){
-	if (syd.translations && syd.translations[str]){
-		return syd.translations[str];
+	if (syd.l10n && syd.l10n[str]){
+		return syd.l10n[str];
 	} else {
 		return str;
 	};

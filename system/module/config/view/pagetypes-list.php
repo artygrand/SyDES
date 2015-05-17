@@ -6,7 +6,7 @@
 		</div>
 		<div class="panel-body text-center">
 			<br><br>
-			<a href="?route=config/pagetypes/edit"><span class="glyphicon glyphicon-plus"></span> <?=t('create_new_type');?></a>
+			<a href="?route=config/pagetypes/edit"><span class="glyphicon glyphicon-plus-sign"></span> <?=t('create_new_type');?></a>
 			<br><br><br>
 		</div>
 	</div>

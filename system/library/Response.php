@@ -14,7 +14,7 @@ class Response{
 	public $script = array();
 	public $context = array();
 	public $headers = array();
-	public $translations = array();
+	public $js = array('l10n' => array(), 'settings' => array());
 	public $body;
 	public $status = 200;
 	public $mime = 'html';
@@ -48,7 +48,11 @@ class Response{
 	}
 
 	public function addJsL10n($array){
-		$this->translations = array_merge($this->translations, $array);
+		$this->js['l10n'] = array_merge($this->js['l10n'], $array);
+	}
+
+	public function addJsSettings($array){
+		$this->js['settings'] = array_merge($this->js['settings'], $array);
 	}
 
 	public function redirect($url = ''){

@@ -84,9 +84,8 @@ class Admin extends HasRegistry{
 			$dummy['col_sm'] = $dummy['col_sm']-3;
 			$dummy['col_lg'] = $dummy['col_lg']-2;
 		}
-		if (!empty($this->response->translations)){
-			$dummy['translations'] = '<script>syd.translations = ' . json_encode($this->response->translations) . '</script>';
-		}
+		$dummy['js'] = '<script>$.extend(syd, ' . json_encode($this->response->js) . ');</script>';
+
 		$this->response->data = array_merge($dummy, $this->response->data);
 		$this->response->body = render('view/main.php', $this->response->data);
 	}
