@@ -8,16 +8,17 @@
 
 class Loader extends HasRegistry{
 	public function model($module, $global = true){
-		$file = DIR_MODULE . $module . '/.model.php';
+		$part = strpos($module, '/') !== false ? explode('/', $module) : array($module, $module);
+		$file = DIR_MODULE . $part[0] . '/model/' . $part[1] . '.php';
 
 		if (!file_exists($file)){
 			throw new BaseException(sprintf(t('error_file_not_found'), $file));
 		}
 
 		include_once $file;
-		$class = ucfirst($module) . 'Model';
+		$class = ucfirst($part[1]) . 'Model';
 		if ($global){
-			$model = $module . '_model';
+			$model = $part[1] . '_model';
 			$this->$model = new $class();
 		} else {
 			return new $class();
