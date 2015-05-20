@@ -1,10 +1,12 @@
 $(document).ready(function(){
+	if (typeof jQuery.fn.datepicker !== "undefined"){
 	$('.datepicker').datepicker({
 		format: syd.settings.datepicker_format,
 		language: syd.settings.locale,
 		autoclose: true,
 		todayHighlight: true,
 	});
+	}
 });
 
 $(document).on('submit', '.dform', function(){
