@@ -247,7 +247,7 @@ var fields = <?=empty($form['fields']) ? '{}' : $form['fields'];?>;
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label><?=t('rows_count');?></label>
-				<input type="text" class="form-control" name="fields[][rows]">
+				<input type="number" min="1" class="form-control" name="fields[][rows]">
 			</div>
 		</div>
 	</div>

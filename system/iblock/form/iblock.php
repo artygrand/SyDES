@@ -1,9 +1,10 @@
 <?php
 /**
-* Infoblock: Forms
-* Usage:
-* {iblock:form?show=%id%} = id of predefined form
-*/
+ * Infoblock: Forms
+ * Usage:
+ * {iblock:form?show=%id%} - id of predefined form
+ * {iblock:form?hide_name=1} - hide form name in default template
+ */
 
 if (!isset($args['show'])){
 	return;
