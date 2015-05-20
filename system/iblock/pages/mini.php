@@ -6,7 +6,7 @@
 		</a>
 	</div>
 	<div class="media-body">
-		<span class="date"><?=$item['cdate'];?><span><br>
+		<span class="date"><?=$item['cdate'];?></span><br>
 		<a href="<?=$item['fullpath'];?>"><?=$item['title'];?></a>
 	</div>
 </div>
