@@ -284,6 +284,21 @@ class FormController extends Controller{
 		$this->response->notify(t('deleted'));
 	}
 
+	public function cloneit(){
+		$id = (int)$this->request->get['id'];
+		if ($id < 1){
+			throw new BaseException(t('error_empty_values_passed'));
+		}
+
+		$stmt = $this->db->prepare("INSERT INTO forms (template, name, description, success_text, submit_button, fields, form_attr, status)
+			SELECT template, name, description, success_text, submit_button, fields, form_attr, status FROM forms
+			WHERE id = :id");
+		$stmt->execute(array('id' => $id));
+
+		$this->response->notify(t('saved'));
+		$this->response->redirect('?route=constructors/form');
+	}
+
 	public function send(){
 		if (!IS_POST || !isset($_SESSION['form_token_key'], $this->request->post['form_id'], $this->request->post[$_SESSION['form_token_key']]) ||
 			$this->request->post[$_SESSION['form_token_key']] != $_SESSION['form_token_value']){
