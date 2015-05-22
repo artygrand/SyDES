@@ -1,9 +1,11 @@
 <?php return array (
   'module_form' => 'Forms',
   'form_name' => 'Form name',
+  'hide_name_or_button' => 'Hide name or button',
   'results' => 'Results',
   'display_as' => 'Display as',
   'default' => 'Default',
+  'horizontal' => 'Horizontal',
   'modal' => 'Modal',
   'modal_sm' => 'Modal (small)',
   'modal_lg' => 'Modal (large)',

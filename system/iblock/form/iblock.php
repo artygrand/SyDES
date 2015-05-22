@@ -3,7 +3,7 @@
  * Infoblock: Forms
  * Usage:
  * {iblock:form?show=%id%} - id of predefined form
- * {iblock:form?hide_name=1} - hide form name in default template
+ * {iblock:form?label_cols=3} - how many columns in the label if form is horizontal
  */
 
 if (!isset($args['show'])){
@@ -17,10 +17,12 @@ $form = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$form){
 	return;
 }
-
 if (empty($form['submit_button'])){
 	$form['submit_button'] = t('submit');
 }
+
+$form_attr = array_merge_recursive(H::parseAttr(htmlspecialchars_decode($form['form_attr'])), array('id' => 'dform-' . $form['id'], 'class' => array('dform')));
+$label_class = '';
 
 if (in_array($form['template'], array('modal', 'modal_sm', 'modal_lg'))){
 	$args['template'] = 'modal';
@@ -30,11 +32,16 @@ if (in_array($form['template'], array('modal', 'modal_sm', 'modal_lg'))){
 	} elseif ($form['template'] == 'modal_lg'){
 		$modal_size = 'lg';
 	}
+} elseif ($form['template'] == 'horizontal'){
+	$form_attr['class'][] = 'form-horizontal';
+	if (!isset($args['label_cols'])){
+		$args['label_cols'] = 3;
+	}
+	$args['input_cols'] = 12 - $args['label_cols'];
+	$label_class = ' class="col-sm-' . $args['label_cols'] . ' control-label"';
 }
 $this->response->script[] = '/system/iblock/form/assets/form.js';
 $this->response->addJsL10n($this->load->language('module_form', false));
-
-$form_attr = array_merge(H::parseAttr(htmlspecialchars_decode($form['form_attr'])), array('id' => 'dform-' . $form['id'], 'class' => array('dform')));
 
 if (!isset($_SESSION['form_token_key'])){
 	$_SESSION['form_token_key'] = token(rand(5, 10));
@@ -43,9 +50,6 @@ if (!isset($_SESSION['form_token_key'])){
 
 $form['fields'] = json_decode($form['fields'], true);
 foreach ($form['fields'] as $field){
-	$label = ($field['hide_label'] || empty($field['label'])) ? '' : '<label>' . $field['label'] . '</label>';
-	$description = !empty($field['description']) ? '<p class="help-block">' . $field['description'] . '</p>' : '';
-
 	$attr = array();
 	if ($field['required']){
 		$attr['required'] = true;
@@ -134,11 +138,20 @@ foreach ($form['fields'] as $field){
 			);
 	}
 
-	$fieldh = $label . $input . $description;
+	$label = ($field['hide_label'] || empty($field['label'])) ? '' : '<label' . $label_class . '>' . $field['label'] . '</label>';
+	$description = empty($field['description']) ? '' : '<p class="help-block">' . $field['description'] . '</p>';
+
+	if ($form['template'] == 'horizontal'){
+		$fieldh = $label . '<div class="col-sm-' . $args['input_cols'] . '">' . $input . $description . '</div>';
+	} else {
+		$fieldh = $label . $input . $description;
+	}
+
 	if ($field['type'] != 'hidden'){
 		$fieldh = '<div class="form-group form-type-' . $field['type'] . ' form-name-' . $field['key'] . '">' . $fieldh . '</div>';
 	}
 	$fields[] = $fieldh;
 }
-$fields[] = H::hidden('form_id', $form['id']);
-$fields[] = H::hidden($_SESSION['form_token_key'], $_SESSION['form_token_value']);
+
+$system_fields = H::hidden('form_id', $form['id']);
+$system_fields .= H::hidden($_SESSION['form_token_key'], $_SESSION['form_token_value']);

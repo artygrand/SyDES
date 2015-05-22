@@ -238,7 +238,7 @@ class ImportController extends Controller{
 			$values = str_pad('?', ($count*2)-1, ',?');
 			$this->db->beginTransaction();
 			$stmt = $this->db->prepare("INSERT OR REPLACE INTO {$_GET['table']} VALUES ({$values})");
-			foreach ($arr as $data){
+			foreach ($rows as $data){
 				if (count($data) == $count){
 					$stmt->execute($data);
 				}

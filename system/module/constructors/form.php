@@ -15,6 +15,7 @@ class FormController extends Controller{
 		`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		`template` TEXT default 'default',
 		`name` TEXT default '',
+		`hide_name` INTEGER default 0,
 		`description` TEXT default '',
 		`success_text` TEXT default '',
 		`submit_button` TEXT default '',
@@ -186,6 +187,7 @@ class FormController extends Controller{
 			'mails' => implode(',', $mails),
 			'templates' => array(
 				'default' => t('default'),
+				'horizontal' => t('horizontal'),
 				'modal' => t('modal'),
 				'modal_sm' => t('modal_sm'),
 				'modal_lg' => t('modal_lg'),
@@ -238,8 +240,9 @@ class FormController extends Controller{
 
 		$notices = $this->request->post['notice'];
 		$form_id = $settings['id'];
+		$settings['hide_name'] = isset($settings['hide_name']) ? 1 : 0;
 
-		$stmt = $this->db->prepare("UPDATE forms SET template = :template, name = :name,
+		$stmt = $this->db->prepare("UPDATE forms SET template = :template, name = :name, hide_name = :hide_name,
 			description = :description, success_text = :success_text, submit_button = :submit_button,
 			fields = :fields, form_attr = :form_attr, status = :status WHERE id = :id");
 		$stmt->execute($settings);
@@ -290,8 +293,8 @@ class FormController extends Controller{
 			throw new BaseException(t('error_empty_values_passed'));
 		}
 
-		$stmt = $this->db->prepare("INSERT INTO forms (template, name, description, success_text, submit_button, fields, form_attr, status)
-			SELECT template, name, description, success_text, submit_button, fields, form_attr, status FROM forms
+		$stmt = $this->db->prepare("INSERT INTO forms (template, name, hide_name, description, success_text, submit_button, fields, form_attr, status)
+			SELECT template, name, hide_name, description, success_text, submit_button, fields, form_attr, status FROM forms
 			WHERE id = :id");
 		$stmt->execute(array('id' => $id));
 

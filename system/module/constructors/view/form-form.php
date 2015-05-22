@@ -34,8 +34,11 @@
 			<input type="hidden" name="settings[id]" value="<?=$form['id'];?>">
 			<div class="form-group">
 				<label class="col-sm-2 control-label"><?=t('form_name');?></label>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="text" name="settings[name]" class="form-control" value="<?=$form['name'];?>" required>
+				</div>
+				<div class="col-sm-4">
+					<?=H::checkbox('settings[hide_name]', (int)$form['hide_name'], array(1 => t('hide_name_or_button')));?> 
 				</div>
 			</div>
 			<div class="form-group">

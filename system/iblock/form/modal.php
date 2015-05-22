@@ -1,4 +1,6 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-<?=$form['id'];?>" data-size="<?=$modal_size;?>"><?=$form['name'];?></button>
+<?php if (!$form['hide_name']){ ?>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-<?=$form['id'];?>" data-size="<?=$modal_size;?>"><?=$form['name'];?></button>
+<?php } ?>
 
 <div class="modal fade" id="modal-form-<?=$form['id'];?>" tabindex="-1" role="dialog">
 	<div class="modal-dialog">
@@ -13,7 +15,8 @@
 
 					<?=implode(PHP_EOL, $fields);?>
 
-					<?=H::button($form['submit_button'], 'submit', 'class="btn btn-primary"');?> 
+					<?=$system_fields;?>
+					<button type="submit" class="btn btn-primary"><?=$form['submit_button'];?></button> 
 				</form>
 			</div>
 		</div>

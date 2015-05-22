@@ -1,9 +1,11 @@
 <?php return array (
   'module_form' => 'Формы',
   'form_name' => 'Название',
+  'hide_name_or_button' => 'Скрыть название или кнопку',
   'results' => 'Результаты',
   'display_as' => 'Отображать&nbsp;как',
   'default' => 'По умолчанию',
+  'horizontal' => 'Горизонтальный',
   'modal' => 'Модальное окно',
   'modal_sm' => '(малое)',
   'modal_lg' => '(большое)',
