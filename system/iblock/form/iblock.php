@@ -11,7 +11,7 @@ if (!isset($args['show'])){
 }
 
 $stmt = $this->db->prepare("SELECT * FROM forms WHERE id = :id AND status = 1");
-$stmt->execute(array('id' => $args['show']));
+$stmt->execute(array('id' => (int)$args['show']));
 $form = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$form){
