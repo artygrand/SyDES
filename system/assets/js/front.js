@@ -49,7 +49,7 @@ function modalPosition(){
 			}
 		});
 
-		$(this).find('.modal-dialog').css({
+		$(this).find('.modal-dialog').addClass('modal-dialog-center').css({
 			'margin-top': function(){
 				return -($(this).outerHeight() / 2);
 			},
