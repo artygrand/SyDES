@@ -63,7 +63,7 @@ if (!is_numeric($args['show'])){
 			$pages[$i]['attr'] = 'class="opened"';
 		}
 	}
-} else {
+} elseif (isset($page['fullpath'])){
 	foreach ($pages as $i => $p){
 		if ($p['fullpath'] == $page['fullpath']){
 			$pages[$i]['attr'] = 'class="active"';
