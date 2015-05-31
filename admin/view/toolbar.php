@@ -2,7 +2,7 @@
 	<a href="<?=ADMIN;?>/"><?=t('admin');?></a>
 	<div class="btn-group">
 		<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=t('add');?> <span class="caret"></span></button>
-		<ul class="dropdown-menu dropdown-menu-right">
+		<ul class="dropdown-menu dropdown-menu">
 <?php foreach ($types as $type => $name){ ?>
 			<li><a href="<?=ADMIN;?>/?route=pages/edit&type=<?=$type;?>"><?=$name;?></a></li>
 <?php } ?>
@@ -18,7 +18,7 @@
 	<?php } else { ?>
 		<div class="btn-group">
 			<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"><?=$item['title']?> <span class="caret"></span></button>
-			<ul class="dropdown-menu dropdown-menu-right">
+			<ul class="dropdown-menu dropdown-menu">
 			<?php foreach ($item['children'] as $child){ ?>
 				<li><?=$child?></li>
 			<?php } ?>
