@@ -108,7 +108,7 @@ class ImportController extends Controller{
 		$this->response->addHeader("Content-Disposition: attachment;filename=syd_{$t}_" . date("Ymd") . ".{$_POST['encoding']}.csv");
 		$t = '';
 		foreach ($titles as $row){
-			$t .= '"' . implode('";"', str_replace(array('&quot;', "\r\n"), array('""', "\n"), $row)) . '"' . "\r\n";
+			$t .= '"' . implode('";"', str_replace(array('"', '&quot;', "\r\n"), array('""', '""', "\n"), $row)) . '"' . "\r\n";
 		}
 		if ($_POST['encoding'] == 'cp1251'){
 			$t = iconv('utf-8', 'cp1251//TRANSLIT', $t);
