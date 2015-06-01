@@ -67,7 +67,7 @@ syd.cookie = function(key, value, days){
 	if (arguments.length > 1){
 		var d = new Date();
 		d.setDate(d.getDate() + days);
-		var e = escape(value) + ((days == null) ? '' : '; expires=' + d.toUTCString());
+		var e = escape(value) + ((days == null) ? '' : '; expires=' + d.toUTCString()) + '; path=/';
 		document.cookie = key + '=' + e;
 	} else {
 		var i, x, y, arr = document.cookie.split(';');
