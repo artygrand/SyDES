@@ -1,4 +1,4 @@
-# [SyDES](http://sydes.ru) - Beautiful cms with SQLite database
+# [SyDES](http://sydes.ru) - Experimental cms with SQLite database
 
 ## Overview
 
@@ -6,7 +6,7 @@ SyDES is a free open source content management system for various small or mediu
 
 ## Main features
 
-1. Fast and lightweight engine (only 402KB for engine + 3.55MB by ckeditor and ckfinder)
+1. Fast and lightweight engine (only 408KB for engine + 3.55MB by ckeditor and ckfinder)
 2. Support multi-language for site and admin center
 3. Friendly and customizable interface with some magic and changeable skins
 4. Easily expandable with modules, plugins, constructors and infoblocks
