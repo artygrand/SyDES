@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	// fancybox initialization
 	if (typeof jQuery.fn.fancybox !== "undefined"){
-		$(".fancybox").fancybox()
+		$('.fancybox, [rel^="lightbox"]').fancybox()
 	};
 
 	// back to top
