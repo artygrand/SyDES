@@ -5,8 +5,10 @@ ErrorDocument 403 /?route=common/error/e403
 Options -Indexes
 
 # Prevent Direct Access to files
-<FilesMatch "\.(db|log)">
+<FilesMatch "\.(db|log|sql|ini|cache)">
 	Order allow,deny
+	Deny from all
+	Satisfy all
 </FilesMatch>
 
 # SEF URL Settings
@@ -14,12 +16,14 @@ Options -Indexes
 	RewriteEngine On
 
 	# Force www:
-	#RewriteCond %{HTTP_HOST} !^www\.
-	#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+	#RewriteCond %{HTTPS} !=on
+	#RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+	#RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 	# Force non-www:
+	RewriteCond %{HTTPS} !=on
 	RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+	RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
 
 	RewriteBase /
 	RewriteRule ^index\.php$ - [L]
@@ -47,21 +51,20 @@ Options -Indexes
 
 # optimization below
 <IfModule mod_expires.c>
-#	ExpiresActive On
-#	ExpiresDefault "access plus 604800 seconds"
+	ExpiresActive On
+	ExpiresDefault "access plus 1 week"
 </IfModule>
 
 <IfModule mod_headers.c>
 <FilesMatch "\.(ico|jpe?g|png|gif|swf|css|js)$">
-#	Header set Cache-Control "max-age=604800, public"
+	Header set Cache-Control "max-age=604800, public"
 </FilesMatch>
 <FilesMatch "\.(x?html?)$">
-#	Header set Cache-Control "max-age=86400, private, must-revalidate"
+	Header set Cache-Control "max-age=86400, private, must-revalidate"
 </FilesMatch>
 <filesMatch "\.(ico|pdf|flv|jpe?g|png|gif|js|css|swf)$">
-#	Header unset ETag
-#	FileETag None
-#	Header unset Last-Modified
+	Header unset ETag
+	FileETag None
 </filesMatch>
 </ifModule>
 
