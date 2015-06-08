@@ -53,6 +53,9 @@ foreach ($form['fields'] as $field){
 	$attr = array();
 	if ($field['required']){
 		$attr['required'] = true;
+		if (!empty($field['label'])){
+			$field['label'] .= ' <span class="required-star">*</span>';
+		}
 	}
 	if (!empty($field['placeholder'])){
 		$attr['placeholder'] = $field['placeholder'];
