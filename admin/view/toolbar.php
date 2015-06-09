@@ -41,5 +41,6 @@ $(document).ready(function(){
 	$('.block-template').on('click', function(e){
 		location.href = '/<?=ADMIN;?>/?route=templates/file/edit&tpl=<?=$template;?>&file=iblock/' + $(this).data('item') + '/' + $(this).data('template') + '.php'
 	})
+	$('body').addClass('with-toolbar');
 })
 </script>
