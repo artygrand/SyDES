@@ -59,8 +59,9 @@ clear:both !important;
 color:#333 !important;
 white-space:nowrap !important;
 }
-#toolbar .dropdown-menu>li>a:hover{
-background:none !important;
+#toolbar .dropdown-menu>li>a:focus, #toolbar .dropdown-menu>li>a:hover {
+color:#262626 !important;
+background-color:#f5f5f5 !important;
 }
 #toolbar .caret {
 display:inline-block !important;
