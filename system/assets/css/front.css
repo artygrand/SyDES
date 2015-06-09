@@ -7,12 +7,71 @@
 .block-edit:before{content:"\270f";}
 .block-template:before{content:"\e060";}
 
-#toolbar{background:#2c313a;color:#a7a7a7;box-shadow:0px 1px 2px #000;}
-#toolbar>a{color:#fff;padding:6px 7px;display:inline-block;}
-#toolbar>a:hover{background: #444;text-decoration:none;}
-#toolbar .btn {background:none;color:#fff;padding:4px 10px 5px;font-size:14px;}
-#toolbar .btn:hover {background:#444;}
-#toolbar .divider{margin:0 5px;border-left:1px solid #eee;}
+#toolbar{
+background:#2c313a !important;
+box-shadow:0px 1px 2px #000 !important;
+}
+#toolbar a{
+text-shadow:none !important;
+text-transform:initial !important;
+font:normal normal normal 14px/20px Arial,sans-serif !important;
+}
+#toolbar a:hover{
+text-decoration:none !important;
+text-shadow:none !important;
+box-shadow:none !important;
+}
+#toolbar>a{
+color:#fff !important;
+padding:6px 7px !important;
+display:inline-block !important;
+}
+#toolbar>a:hover{
+background:#444444 !important;
+}
+#toolbar .btn {
+background:none !important;
+color:#fff !important;
+padding:4px 10px 5px !important;
+font:normal normal normal 14px/20px Arial,sans-serif !important;
+text-transform:initial !important;
+box-shadow:none !important;
+}
+#toolbar .btn:hover {
+background:#444444 !important;
+box-shadow:none !important;
+}
+#toolbar .divider{
+margin:0 5px !important;
+border-left:1px solid #eee !important;
+}
+#toolbar .dropdown-menu{
+background-color:#fff !important;
+}
+#toolbar .dropdown-menu>li{
+padding:0 !important;
+margin:0 !important;
+}
+#toolbar .dropdown-menu>li>a {
+display:block !important;
+padding:3px 20px !important;
+clear:both !important;
+color:#333 !important;
+white-space:nowrap !important;
+}
+#toolbar .dropdown-menu>li>a:hover{
+background:none !important;
+}
+#toolbar .caret {
+display:inline-block !important;
+width:0 !important;
+height:0 !important;
+margin-left:2px !important;
+vertical-align:middle !important;
+border-top:4px dashed #fff !important;
+border-right:4px solid rgba(0, 0, 0, 0) !important;
+border-left:4px solid rgba(0, 0, 0, 0) !important;
+}
 
 .spoiler-toggle{display:inline-block;padding:0px 2px 0px 6px;background:#eee;}
 .spoiler-toggle.show-icon:before{content:"\2212";}
