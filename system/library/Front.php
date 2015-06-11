@@ -52,12 +52,14 @@ class Front extends HasRegistry{
 		$head[] = '<base href="http://' . $this->base . '/">';
 
 		if (!empty($response->style)){
-			foreach ($response->style as $file){
+			$s = array_unique($response->style);
+			foreach ($s as $file){
 				$head[] = '<link rel="stylesheet" href="' . $file . '" media="screen">';
 			}
 		}
 		if (!empty($response->script)){
-			foreach ($response->script as $file){
+			$s = array_unique($response->script);
+			foreach ($s as $file){
 				$head[] = '<script src="' . $file . '"></script>';
 			}
 		}
