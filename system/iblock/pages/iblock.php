@@ -3,10 +3,9 @@
 * Infoblock: Pages preview
 * Gets any data from child pages with list structure
 * Usage:
-* {iblock:pages} - shows only from current category
+* {iblock:pages} - shows elements in current category or all in type
 * show - specify which pages to show
-*   show=all - show pages from all branch
-*   show=category - only current category 
+*   show=news - only with page_type = news 
 *   show=3 - pages with parent_id = 3
 * limit - quantity per page if show_pagination=1 or just limit when show_pagination=0
 * order - sort by any main column
@@ -15,7 +14,7 @@
 */
 
 $defaults = array(
-	'show' => 'category',
+	'show' => 'subs',
 	'limit' => 20,
 	'order' => 'status DESC, id DESC',
 	'date_format' => 'd.m.Y',
@@ -25,18 +24,27 @@ $defaults = array(
 );
 $args = array_merge($defaults, $args);
 
-if ($args['show'] == 'all'){
-	$stmt = $this->db->query("SELECT id FROM pages WHERE position LIKE '{$page['position']}%'");
-	$ids = implode(',', $stmt->fetchAll(PDO::FETCH_COLUMN));
-	$parents = "parent_id IN ({$ids})";
+if ($args['show'] == 'subs'){
+	$found_type = false;
+	foreach($this->config_site['page_types'] as $type => $d){
+		if ($d['root'] == $page['id']){
+			$found_type = $type;
+			break;
+		}
+	}
+	if ($found_type){
+		$condition = "type = '{$found_type}'";
+	} else {
+		$condition = "parent_id = {$page['id']}";
+	}
 } elseif (is_numeric($args['show'])){
-	$parents = "parent_id = {$args['show']}";
+	$condition = "parent_id = {$args['show']}";
 } else {
-	$parents = "parent_id = {$page['id']}";
+	$condition = "type = '{$args['show']}'";
 }
 
 $filter = array(
-	$parents,
+	$condition,
 	"position NOT LIKE '#%'",
 	"status > 0",
 	"type != 'trash'"
