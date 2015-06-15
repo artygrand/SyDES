@@ -1,5 +1,7 @@
 # [SyDES](http://sydes.ru) - Experimental cms with SQLite database
 
+[![Join the chat at https://gitter.im/artygrand/SyDES](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/artygrand/SyDES?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Overview
 
 SyDES is a free open source content management system for various small or medium  personal sites. With iblocks you can put any dynamic or static content to any page that allows you to create any entity, such as a blog, catalog or even gallery. Multi-Site will allow to create network of satellites with any domain or language.
