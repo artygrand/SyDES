@@ -31,8 +31,11 @@ if ($args['order'] == 'position'){
 	$args['order'] .= '+0';
 }
 
-$result = $this->pages_model->getList(array("parent_id = {$parent}", "status > 0", "type != 'trash'", "position NOT LIKE '#%'"), $args['order'], $args['limit']);
-if (!$result) return;
+$filter = array("parent_id = {$parent}", "status > 0", "type != 'trash'", "position NOT LIKE '#%'");
+$count = $this->pages_model->getCount($filter);
+if (!$count) return;
+
+$result = $this->pages_model->getList($filter, $args['order'], $args['limit']);
 ?>
 
 <ul class="<?=$args['class'];?>">

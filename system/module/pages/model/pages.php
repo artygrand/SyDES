@@ -634,6 +634,7 @@ class PagesModel extends Model{
 			return false;
 		}
 
+		$pages = array();
 		foreach ($data as $d){
 			if (!$d['title']){
 				continue;
