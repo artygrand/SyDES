@@ -63,7 +63,7 @@ class PagesController extends Controller{
 			$data['content'] = $content[0];
 		}
 
-		$stmt = $this->db->query("SELECT key, value FROM pages_meta WHERE page_id = 0 OR page_id = {$data['id']} GROUP BY key");
+		$stmt = $this->db->query("SELECT key, value FROM pages_meta WHERE page_id = 0 OR page_id = {$data['id']} GROUP BY key ORDER BY page_id");
 		$meta = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		if ($meta){
