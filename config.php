@@ -17,7 +17,6 @@ define('DIR_IBLOCK',  DIR_SYS . 'iblock/');
 define('DIR_MODULE',  DIR_SYS . 'module/');
 define('DIR_LIBRARY', DIR_SYS . 'library/');
 define('DIR_LANGUAGE',DIR_SYS . 'language/');
-define('DIR_WIDGET',  DIR_SYS . 'widget/');
 define('DIR_PLUGIN',  DIR_SYS . 'plugin/');
 define('DIR_TEMPLATE',DIR_ROOT. 'template/');
 
