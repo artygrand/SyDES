@@ -25,9 +25,9 @@ class UpgradeController extends Controller{
 		$data['sidebar_left'] = $this->getSideMenu('tools/upgrade');
 		$data['sidebar_right'] = ' ';
 		$data['content'] = $this->load->view('tools/upgrade', array('latest' => $latest));
-		$data['meta_title'] = t('module_update');
+		$data['meta_title'] = t('module_upgrade');
 		$data['breadcrumbs'] = H::breadcrumb(array(
-			array('title' => t('module_update'))
+			array('title' => t('module_upgrade'))
 		));
 
 		$this->response->data = $data;

@@ -78,7 +78,7 @@ $(document).on('click', '.apply-modal', function(){
 
 $(document).on('click', '.skin-selector a', function(){
 	var skin = $(this).attr('title')
-	$('#skin').attr('href', 'assets/css/skin.' + skin + '.css')
+	$('#skin').attr('href', '/system/assets/css/skin.' + skin + '.css')
 	syd.cookie('skin', skin, 7)
 	return false
 })
