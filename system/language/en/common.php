@@ -52,6 +52,7 @@ array (
   'title' => 'Title',
   'field_type' => 'Field type',
   'items_list' => 'Items list',
+  'display_as' => 'Display as',
   'meta_listing_help' => 'Enter list items one per line in the format key|value',
   'meta_field_settings' => 'Field settings',
   'apply' => 'Apply',
