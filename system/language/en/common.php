@@ -243,4 +243,5 @@ array (
   'token' => 'Token',
   'select_in_sidebar' => 'Select in sidebar',
   'submit' => 'Submit',
+  'is_active' => 'Is active?',
 );
