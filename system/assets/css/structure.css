@@ -105,3 +105,5 @@ html, body{height:100%;}
 .form-confirm .btn{width:100px;text-align:center;}
 
 .meta-field .input-group-btn, .meta-value .input-group-btn{vertical-align: top;}
+
+.data-table th:first-child, .data-table th:nth-last-child(2){width:30px;}

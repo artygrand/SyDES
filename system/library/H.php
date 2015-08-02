@@ -340,7 +340,7 @@ class H{
 	public static function form($data){
 		$form = '';
 		foreach ($data as $name => $input){
-			$piece = isset($input['label']) ? '<label>' . $input['label'] . '</label>' : '';
+			$piece = (isset($input['label']) && $input['type'] != 'hidden') ? '<label>' . $input['label'] . '</label>' : '';
 
 			$type = $input['type'];
 			$attr = isset($input['attr']) ? $input['attr'] : '';

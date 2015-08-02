@@ -35,15 +35,6 @@ abstract class Controller extends HasRegistry{
 		$this->db->commit();
 	}
 
-	protected function createTableByArray($table, $structure){
-		$a = 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT';
-		foreach ($structure as $name => $col){
-			$a .= ", {$name} {$col['def']}";
-		}
-		$a .= ", status INTEGER NOT NULL default '1'";
-		$this->db->exec("CREATE TABLE {$table} ({$a})");
-	}
-
 	protected function confirm($message, $return_url){
 		if (!isset($this->request->post['confirm'])){
 			$this->response->data['content'] = $this->load->view('common/confirm', array(
