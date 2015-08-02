@@ -7,14 +7,13 @@
  */
 
 class Front extends HasRegistry{
-	private $translate;
 	private $config;
 	public function render(){
 		if (!isset($this->pages_model)){
 			$this->load->model('pages');
 		}
 		$response = $this->response;
-		$this->translate = $this->load->language('front', false, $this->locale);
+		$this->load->language('front', true, $this->locale);
 		$this->config = new Config('front');
 
 		$toolbar = '';
@@ -158,7 +157,7 @@ class Front extends HasRegistry{
 	}
 
 	public function t($text){
-		return isset($this->translate[$text]) ? $this->translate[$text] : $text;
+		return t($text);
 	}
 
 	public function config($key){
