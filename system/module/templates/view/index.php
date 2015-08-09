@@ -143,7 +143,7 @@
 <script>
 $(document).ready(function(){
 	$('.goto').click(function(){
-		var item = $(this).parent().prev().val().match(/[a-z0-9\.-]+/)
+		var item = $(this).parent().prev().val().match(/[a-z-_0-9\.]+/)
 		if (item){
 			var select = $(this).parent().prev().prev().find('select')
 			if (select.length){
