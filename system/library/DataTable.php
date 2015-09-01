@@ -158,14 +158,14 @@ class DataTable extends Controller{
 		foreach ($this->request->post as $key => $value){
 			if (in_array($key, $table_keys)){
 				if ($this->structure[$key]['type'] == 'checkbox'){
-					$data[] = json_decode($value);
+					$data[$key] = json_decode($value);
 				} else {
-					$data[] = $value;
+					$data[$key] = $value;
 				}
 			}
 		}
-		$count = str_pad('?', (count($this->structure)*2)-1, ',?');
-		$stmt = $this->db->prepare("INSERT OR REPLACE INTO {$this->name} VALUES ({$count})");
+		$values = ':' . implode(', :', $table_keys);
+		$stmt = $this->db->prepare("INSERT OR REPLACE INTO {$this->name} VALUES ({$values})");
 		if (!$stmt->execute($data)) throw new BaseException(t('error_not_saved'));
 		$this->response->notify(t('saved'));
 		$this->response->redirect('?route=' . $this->name);
