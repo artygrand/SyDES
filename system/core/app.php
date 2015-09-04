@@ -244,6 +244,8 @@ final class App extends HasRegistry{
 		if (is_callable(array($controller, $method))){
 			if ($this->section == 'front' && in_array($method, $class::$front)){
 				return call_user_func(array($controller, $method));
+			} else {
+				throw new BaseException(t('error_module_not_found'));
 			}
 		} elseif (is_callable(array($controller, 'view')) && in_array('view', $class::$front)){
 			$this->value = $method;
