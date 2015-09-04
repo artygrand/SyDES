@@ -234,7 +234,7 @@ final class App extends HasRegistry{
 
 		include_once $file;
 
-		if (substr($method, 0, 2) == '__' || $this->section == 'front' && !in_array($method, $class::$front)){
+		if (substr($method, 0, 2) == '__'){
 			throw new BaseException(t('error_method_forbidden'));
 		}
 
@@ -242,8 +242,10 @@ final class App extends HasRegistry{
 		$this->load->language('module_' . $name);
 
 		if (is_callable(array($controller, $method))){
-			return call_user_func(array($controller, $method));
-		} elseif (is_callable(array($controller, 'view'))){
+			if ($this->section == 'front' && in_array($method, $class::$front)){
+				return call_user_func(array($controller, $method));
+			}
+		} elseif (is_callable(array($controller, 'view')) && in_array('view', $class::$front)){
 			$this->value = $method;
 			return call_user_func(array($controller, 'view'));
 		} else {
