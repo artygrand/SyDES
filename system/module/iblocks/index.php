@@ -44,7 +44,7 @@ class IblocksController extends Controller{
 		$path = DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php';
 		$data = array();
 		$data['content'] = $this->load->view('templates/file', array(
-			'content' => str_replace('<', '&lt;', file_get_contents($path)),
+			'content' => str_replace(array('&', '<'), array('&amp;', '&lt;'), file_get_contents($path)),
 			'mode' => $mode
 		));
 

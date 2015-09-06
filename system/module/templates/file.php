@@ -56,7 +56,7 @@ class FileController extends Controller{
 		$data = array();
 		$path = $this->templates_model->template_path . $this->request->get['file'];
 		$data['content'] = $this->load->view('templates/file', array(
-			'content' => str_replace('<', '&lt;', file_get_contents($path)),
+			'content' => str_replace(array('&', '<'), array('&amp;', '&lt;'), file_get_contents($path)),
 			'mode' => $mode
 		));
 
