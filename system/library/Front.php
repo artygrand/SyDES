@@ -21,16 +21,21 @@ class Front extends HasRegistry{
 			$toolbar = $this->getToolbar();
 		}
 
-		$layout = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		$layout = $layout[$response->data['layout']];
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
+		$layout = $theme['layouts'][$response->data['layout']];
 
 		$layout_file = DIR_TEMPLATE . $this->config_site['template'] . '/' . $layout['file'];
 		if (!is_file($layout_file)){
 			die(sprintf(t('error_layout_file_not_found'), $layout_file));
 		}
-
 		$template = file_get_contents($layout_file);
-		$template = str_replace('{layout}', htmlspecialchars_decode($layout['html']), $template);
+
+		$layout_html = DIR_TEMPLATE . $this->config_site['template'] . '/layout/' . $response->data['layout'] . '.html';
+		if (!is_file($layout_html)){
+			die(sprintf(t('error_layout_file_not_found'), $layout_html));
+		}
+
+		$template = str_replace('{layout}', file_get_contents($layout_html), $template);
 
 		$response->script[] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js';
 		$response->script[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js';

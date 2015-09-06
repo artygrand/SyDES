@@ -17,11 +17,11 @@ class PagetypesController extends Controller{
 	}
 
 	public function index(){
-		$layouts = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
 		$data = array();
 		$data['content'] = $this->load->view('config/pagetypes-list', array(
 				'types' => $this->types,
-				'layouts' => $layouts
+				'layouts' => $theme['layouts']
 			));
 		$data['sidebar_left'] = $this->getSideMenu('config/pagetypes', array('interface'));
 		$data['sidebar_right'] = ' ';
@@ -35,9 +35,9 @@ class PagetypesController extends Controller{
 	}
 
 	public function edit(){
-		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
 		$layouts = array();
-		foreach ($layout_db as $k => $l){
+		foreach ($theme['layouts'] as $k => $l){
 			$layouts[$k] = $l['name'];
 		}
 

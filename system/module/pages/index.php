@@ -270,9 +270,10 @@ class PagesController extends Controller{
 			$statuses = array(2 => t('sticky'), 1 => t('visible'), 0 => t('hidden'));
 			unset($page['path']);
 		}
-		$layout_db = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
+
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
 		$layouts = array();
-		foreach ($layout_db as $k => $v){
+		foreach ($theme['layouts'] as $k => $v){
 			$layouts[$k] = $v['name'];
 		}
 		$permanent = !empty($this->settings['form']['meta'][$page['parent_id']]) ? "'" . implode("','", $this->settings['form']['meta'][$page['parent_id']]) . "'" : '';

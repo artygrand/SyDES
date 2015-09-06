@@ -10,15 +10,14 @@ class TemplatesController extends Controller{
 	public $name = 'templates';
 
 	public function index(){
-		$this->load->model('templates');
-		$model = $this->templates_model;
+		$model = $this->load->model('templates', false);
 		$model->prepare();
 
 		$model->createLayouts();
 		$data = array();
 		$data['content'] = $this->load->view('templates/index', array(
 			'files' => $model->getFiles(),
-			'layouts' => $model->getLayouts(),
+			'layouts' => $model->settings['layouts'],
 			'modules' => $model->getOverrides('module'),
 			'iblocks' => $model->getOverrides('iblock'),
 			'iblock_list' => str_replace(array(DIR_IBLOCK, '/default.php'), '', glob(DIR_IBLOCK . '*/default.php')),
@@ -28,10 +27,10 @@ class TemplatesController extends Controller{
 		$data['sidebar_left'] = $data['sidebar_right'] = ' ';
 		$templates = glob(DIR_TEMPLATE . '*');
 		if (count($templates) > 1){
-			$templates = str_replace(DIR_TEMPLATE, '', $templates);
 			$links = array();
 			foreach ($templates as $t){
-				$links['?route=templates&tpl=' . $t] = $t;
+				$theme = parse_ini_file($t . '/manifest.ini', true);
+				$links['?route=templates&tpl=' . str_replace(DIR_TEMPLATE, '', $t)] = $theme['theme']['name'];
 			}
 			$data['sidebar_left'] = H::listLinks($links, '?route=templates&tpl=' . $model->template, 'class="nav nav-tabs-left"');
 		}

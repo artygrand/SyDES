@@ -16,8 +16,8 @@ class ErrorController extends Controller{
 	public function e404(){
 		$this->response->status = '404';
 
-		$layouts = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		$layout = isset($layouts['404']) ? '404' : 'page';
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
+		$layout = isset($theme['layouts']['404']) ? '404' : 'page';
 		$this->response->data = array(
 			'layout' => $layout,
 			'title' => '404',
@@ -32,8 +32,8 @@ class ErrorController extends Controller{
 	public function e403(){
 		$this->response->status = '403';
 
-		$layouts = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		$layout = isset($layouts['403']) ? '403' : 'page';
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
+		$layout = isset($theme['layouts']['403']) ? '403' : 'page';
 		$this->response->data = array(
 			'layout' => $layout,
 			'title' => '403',
@@ -49,8 +49,8 @@ class ErrorController extends Controller{
 		$this->response->status = '503';
 		$this->response->addHeader('Retry-After: 3964800');
 
-		$layouts = include DIR_TEMPLATE . $this->config_site['template'] . '/layouts.php';
-		$layout = isset($layouts['503']) ? '503' : 'page';
+		$theme = parse_ini_file(DIR_TEMPLATE . $this->config_site['template'] . '/manifest.ini', true);
+		$layout = isset($theme['layouts']['503']) ? '503' : 'page';
 		$this->response->data = array(
 			'layout' => $layout,
 			'title' => t('title_maintenance_mode'),

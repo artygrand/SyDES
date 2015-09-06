@@ -9,7 +9,8 @@
 class TemplatesModel extends Model{
 	public $template;
 	public $template_path;
-	public $layout_db;
+	public $settings;
+	public $settings_file;
 
 	public function prepare(){
 		$this->template = isset($this->request->get['tpl']) ? $this->request->get['tpl'] : $this->config_site['template'];
@@ -18,7 +19,23 @@ class TemplatesModel extends Model{
 		if (!is_file($this->template_path . 'page.html')){
 			throw new BaseException(sprintf(t('error_template_not_found'), $this->template));
 		}
-		$this->layout_db = $this->template_path . 'layouts.php';
+
+		$this->settings_file = $this->template_path . 'manifest.ini';
+		if (is_file($this->settings_file)){
+			$this->settings = parse_ini_file($this->settings_file, true);
+		} else {
+			$this->settings = array(
+				'theme' => array(
+					'name' => 'Theme name ' . token(4),
+					'description' => 'Theme description',
+					'version' => '1.0',
+					'author' => 'You',
+					'author_uri' => ''
+				),
+				'layouts' => array()
+			);
+			$this->createLayouts();
+		}
 
 		if (isset($this->request->get['file']) && $this->request->get['file'] != 'clone'){
 			$ext = strrchr($this->request->get['file'], '.');
@@ -34,28 +51,27 @@ class TemplatesModel extends Model{
 	}
 
 	public function createLayouts(){
-		$layouts = $this->getLayouts();
 		$used = array();
-		foreach ($layouts as $layout){
+		foreach ($this->settings['layouts'] as $layout){
 			$used[] = $layout['file'];
 		}
 		$files = $this->getFiles('html');
 		$need = array_diff($files,$used);
 		if ($need){
+			if (!is_dir($this->template_path . 'layout')){
+				mkdir($this->template_path . 'layout', 0777);
+			}
 			foreach ($need as $file){
 				$name = str_replace('.html', '', $file);
-				if (!isset($layouts[$name])){
-					$layouts[$name] = array('name' => $name, 'file' => $file, 'html' => '{content}');
+				if (!isset($this->settings['layouts'][$name])){
+					$this->settings['layouts'][$name] = array('name' => $name, 'file' => $file);
+					file_put_contents($this->template_path . 'layout/' . $name . '.html', '{content}');
 				} else {
-					$layouts[$name]['file'] = $file;
+					$this->settings['layouts'][$name]['file'] = $file;
 				}
 			}
-			arr2file($layouts, $this->layout_db);
+			write_ini_file($this->settings, $this->settings_file, true);
 		}
-	}
-
-	public function getLayouts(){
-		return file_exists($this->layout_db) ? include $this->layout_db : array();
 	}
 
 	public function getFiles($exts = array('html','css','js')){

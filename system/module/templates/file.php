@@ -159,7 +159,7 @@ class FileController extends Controller{
 			),
 			'code' => array(
 				'type' => 'textarea',
-				'value' => str_replace('<', '&lt;', file_get_contents($this->templates_model->template_path . $this->request->get['file'])),
+				'value' => str_replace(array('&', '<'), array('&amp;', '&lt;'), file_get_contents($this->templates_model->template_path . $this->request->get['file'])),
 				'attr' => 'style="display:none;"'
 			)
 		));

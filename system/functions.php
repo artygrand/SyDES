@@ -91,6 +91,42 @@ function render($render, $data = array()){
 	}
 }
 
+function write_ini_file($array, $path, $process_sections = false){
+	$content = '';
+	if ($process_sections){
+		foreach ($array as $key => $elem){
+			$content .= "[{$key}]\n";
+			foreach ($elem as $key2 => $elem2){
+				if (is_array($elem2)){
+					foreach ($elem2 as $key3 => $elem3){
+						$content .= "{$key2}[{$key3}] = {$elem3}\n";
+					}
+				} else {
+					$content .= "{$key2} = {$elem2}\n";
+				}
+			}
+		}
+	} else {
+		foreach ($array as $key => $elem){
+			if (is_array($elem)){
+				foreach ($elem2 as $key3 => $elem3){
+						$content .= "{$key2}[{$key3}] = {$elem3}\n";
+					}
+			} else {
+				$content .= "{$key} = {$elem}\n";
+			}
+		}
+	}
+
+	if (!$handle = fopen($path, 'w')){
+		return false;
+	}
+
+	$success = fwrite($handle, $content);
+	fclose($handle);
+	return $success;
+}
+
 function checkServer(){
 	$paths = array('cache', 'site', 'system/iblock', 'template/default', 'upload/images');
 	$wr = '';

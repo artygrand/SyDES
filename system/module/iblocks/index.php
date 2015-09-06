@@ -95,7 +95,7 @@ class IblocksController extends Controller{
 			mkdir(dirname($path), 0777, true);
 		}
 
-		file_put_contents($path, $code); 
+		file_put_contents($path, $code);
 		elog('User is saved iblock ' . $iblock);
 		$this->response->notify(t('saved'));
 		if (!IS_AJAX){			
@@ -142,7 +142,7 @@ class IblocksController extends Controller{
 			),
 			'code' => array(
 				'type' => 'textarea',
-				'value' => str_replace('<', '&lt;', file_get_contents(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')),
+				'value' => str_replace(array('&', '<'), array('&amp;', '&lt;'), file_get_contents(DIR_IBLOCK . $this->request->get['iblock'] . '/iblock.php')),
 				'attr' => 'style="display:none;"'
 			)
 		));

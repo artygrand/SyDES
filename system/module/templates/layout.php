@@ -21,11 +21,14 @@ class LayoutController extends Controller{
 			throw new BaseException(t('error_page_not_found'));
 		}
 
-		$layouts = $this->templates_model->getLayouts();
+		$layouts = $this->templates_model->settings['layouts'];
 		if (isset($layouts[$this->request->get['layout']])){
 			$layout = $layouts[$this->request->get['layout']];
+			$layout['html'] = str_replace(array('&', '<'), array('&amp;', '&lt;'), file_get_contents($this->templates_model->template_path . 'layout/' . $this->request->get['layout'] . '.html'));
+			$source_file = $this->templates_model->template_path . 'layout/' . $this->request->get['layout'] . '.html';
 		} else {
 			$layout = array('name' => '', 'file' => 'page.html', 'html' => '{content}');
+			$source_file = $this->templates_model->settings_file;
 		}
 
 		$files = $this->templates_model->getFiles('html');
@@ -50,7 +53,7 @@ class LayoutController extends Controller{
 
 		$data = array();
 		$data['content'] = $this->load->view('templates/layout', $layout);
-		$data['sidebar_right'] = H::saveButton($this->templates_model->layout_db) . $this->user->getMastercodeInput() . '
+		$data['sidebar_right'] = H::saveButton($source_file) . $this->user->getMastercodeInput() . '
 		<div class="form-group">' . $this->templates_model->getIblocks() . '</div>';
 
 		$data['meta_title'] = t('layout_editing');
@@ -73,14 +76,14 @@ class LayoutController extends Controller{
 			throw new BaseException(t('error_mastercode_needed'), 'warning', $url);
 		}
 
-		$layouts = $this->templates_model->getLayouts();
-		$layouts[$key] = array(
+		$this->templates_model->settings['layouts'][$key] = array(
 			'name' => $this->request->post['name'],
 			'file' => $this->request->post['file'],
-			'html' => $_POST['html'],
 		);
 
-		arr2file($layouts, $this->templates_model->layout_db);
+		file_put_contents($this->templates_model->template_path . 'layout/' . $key . '.html', $_POST['html']);
+		write_ini_file($this->templates_model->settings, $this->templates_model->settings_file, true);
+
 		elog('User is saved layout ' . $key);
 		$this->response->notify(t('saved'));
 		$this->response->redirect($url);
@@ -96,17 +99,17 @@ class LayoutController extends Controller{
 			throw new BaseException(t('error_mastercode_needed'), 'warning', $url);
 		}
 
-		$layouts = $this->templates_model->getLayouts();
-		unset($layouts[$this->request->get['layout']]);
+		unset($this->templates_model->settings['layouts'][$this->request->get['layout']]);
+		unlink($this->templates_model->template_path . 'layout/' . $this->request->get['layout'] . '.html');
+		write_ini_file($this->templates_model->settings, $this->templates_model->settings_file, true);
 
-		arr2file($layouts, $this->templates_model->layout_db);
 		elog('User is deleted layout ' . $this->request->get['layout']);
 		$this->response->notify(t('deleted'));
 		$this->response->redirect($url);
 	}
 
 	public function cloneit(){
-		$layouts = $this->templates_model->getLayouts();
+		$layouts = $this->templates_model->settings['layouts'];
 		if (!isset($this->request->get['layout']) || !IS_AJAX || !isset($layouts[$this->request->get['layout']])){
 			throw new BaseException(t('error_page_not_found'));
 		}
@@ -126,7 +129,7 @@ class LayoutController extends Controller{
 			),
 			'html' => array(
 				'type' => 'hidden',
-				'value' => str_replace('"', '&quot;', $layouts[$this->request->get['layout']]['html']),
+				'value' => str_replace(array('&', '"'), array('&amp;', '&quot;'), file_get_contents($this->templates_model->template_path . 'layout/' . $this->request->get['layout'] . '.html')),
 			),
 			'file' => array(
 				'type' => 'hidden',
