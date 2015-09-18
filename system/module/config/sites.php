@@ -103,6 +103,9 @@ class SitesController extends Controller{
 			foreach ($config['locales'] as $locale){
 				$this->db->exec("INSERT INTO `pages_content` VALUES ('1','{$locale}','Home','This is homepage content for locale {$locale}.')");
 			}
+
+			$this->cache->clear('domains');
+
 			$this->response->redirect('?route=config/sites');
 		} else {
 			$templates = str_replace(DIR_TEMPLATE, '', glob(DIR_TEMPLATE . '*'));
@@ -210,6 +213,8 @@ class SitesController extends Controller{
 
 		arr2file($domains, $dir . '/domains.php');
 		arr2file($this->config_site, $dir . '/config.php');
+		
+		$this->cache->clear('domains');
 
 		$this->response->redirect('?route=config/sites');
 	}

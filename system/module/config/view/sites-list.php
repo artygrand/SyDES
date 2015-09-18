@@ -24,7 +24,9 @@
 					<?=t('domains');?>:
 				</div>
 				<div class="col-sm-9">
-					<?=implode(', ', $site['domain']);?>
+					<?php foreach ($site['domain'] as $domain){ ?>
+						<a href="//<?=$domain;?>" target="_blank"><?=$domain;?></a>, 
+					<?php } ?>
 				</div>
 				<div class="clearfix"></div>
 				<div class="col-sm-3">
