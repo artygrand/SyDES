@@ -11,6 +11,9 @@ $defaults = array(
 	'separator' => '»',
 );
 $args = array_merge($defaults, $args);
+$result = array(
+	'items' => array()
+);
 
 if (!isset($page['id']) || $page['id'] < 2) return;
 
@@ -21,12 +24,7 @@ $stmt = $this->db->query("SELECT p1.path, pc.title
 $crumbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if (!$crumbs) return;
 
-$arr = array();
 foreach ($crumbs as $crumb){
 	$fullpath = $crumb['path'] == '/' ? $this->pages_model->in_url : ($this->pages_model->in_url ? $this->pages_model->in_url . $crumb['path'] : substr($crumb['path'], 1));
-	$arr[] = '<a href="' . $fullpath . '">' . $crumb['title'] . '</a>';
+	$result['items'][] = '<a href="' . $fullpath . '">' . $crumb['title'] . '</a>';
 }
-if (!$args['hide_current']){
-	$arr[] = '<span>' . $page['title'] . '</span>';
-}
-echo '<div class="breadcrumbs">', implode(" {$args['separator']} ", $arr), '</div>';

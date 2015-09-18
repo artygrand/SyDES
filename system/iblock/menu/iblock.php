@@ -16,6 +16,9 @@ $defaults = array(
 	'class' => '',
 );
 $args = array_merge($defaults, $args);
+$result = array(
+	'items' => array()
+);
 
 if (!isset($page['id'])){
 	$page['position'] = 0;
@@ -29,7 +32,7 @@ if ($args['show'] == 'all'){
 		}
 	}
 	$tree_types = "'" . implode("','", $tree_types) . "'";
-	$pages = $this->pages_model->getList(array("type IN ({$tree_types})", "status = 2"), 'position');
+	$result['items'] = $this->pages_model->getList(array("type IN ({$tree_types})", "status = 2"), 'position');
 } elseif ($args['show'] == 'branch'){
 	if (!$page['position']) return;
 
@@ -39,39 +42,35 @@ if ($args['show'] == 'all'){
 		$stmt = $this->db->query("SELECT position FROM pages WHERE id = {$page['parent_id']}");
 		$pos = explode('#', $stmt->fetchColumn());
 	}
-	$pages = $this->pages_model->getList(array("position LIKE '#{$pos[1]}#%'",  "status = 2"), 'position');
+	$result['items'] = $this->pages_model->getList(array("position LIKE '#{$pos[1]}#%'",  "status = 2"), 'position');
 } elseif (is_numeric($args['show'])){
 	$config = new Config('menu');
 	$menu = $config->get($args['show']);
-	$pages = $menu['items'];
+	$result['items'] = $menu['items'];
 } else {
 	if ($args['show'] == 'main'){
 		$args['show'] = 'page';
 	}
-	$pages = $this->pages_model->getList(array("type = '{$args['show']}'", "status = 2"), 'position');
+	$result['items'] = $this->pages_model->getList(array("type = '{$args['show']}'", "status = 2"), 'position');
 }
 
-if (!$pages) return;
+if (!$result['items']) return;
 
 if (!is_numeric($args['show'])){
-	foreach ($pages as $i => $p){
-		$pages[$i]['level'] = substr_count($p['position'],'#');
-		$pages[$i]['attr_title'] = $pages[$i]['title'];
+	foreach ($result['items'] as $i => $p){
+		$result['items'][$i]['level'] = substr_count($p['position'],'#');
+		$result['items'][$i]['attr_title'] = $result['items'][$i]['title'];
 		if ($p['id'] == $page['id']){
-			$pages[$i]['attr'] = 'class="active"';
+			$result['items'][$i]['attr'] = 'class="active"';
 		} elseif (strpos($page['position'], $p['position']) === 0){
-			$pages[$i]['attr'] = 'class="opened"';
+			$result['items'][$i]['attr'] = 'class="opened"';
 		}
 	}
 } elseif (isset($page['fullpath'])){
-	foreach ($pages as $i => $p){
+	foreach ($result['items'] as $i => $p){
 		if ($p['fullpath'] == $page['fullpath']){
-			$pages[$i]['attr'] = 'class="active"';
+			$result['items'][$i]['attr'] = 'class="active"';
 			break;
 		}
 	}
 }
-
-$class = $args['class'] ? ' class="' . $args['class'] .'"' : '';
-
-echo H::treeList($pages, function($item){return '<a href="' . $item['fullpath'] . '" title="' . $item['attr_title'] . '">' . $item['title'] . '</a>';}, 'id="menu-' . $args['show'] . '"' . $class, $args['max_level']);
