@@ -55,59 +55,68 @@ class DataTable extends Controller{
 	}
 
 	public function index(){
-		$cols = 0;
 		$data = array();
-		$data['content'] = '<table class="table table-condensed table-striped table-hover data-table"><thead><tr>';
-		foreach ($this->structure as $h){
-			if ($h['visible'] == false) continue;
-			$data['content'] .= '<th>' . $h['label'] . '</th>';
-			$cols++;
-		}
-		$data['content'] .= '<th style="width:150px;">' . t('actions') . '</th></tr></thead>';
-
 		$stmt = $this->db->query("SELECT * FROM {$this->name} ORDER BY id DESC");
 		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows){
-			foreach ($rows as $row){
-				$data['content'] .= '<tr>';
 
-				foreach ($this->structure as $name => $col){
-					if ($col['visible'] == false) continue;
-
-					if ($col['type'] == 'checkbox'){
-						$data['content'] .= '<td>' . implode(', ', json_decode($row[$name]), true) . '</td>';
-					} elseif ($col['type'] == 'textarea'){
-						$data['content'] .= '<td>' . mb_substr(strip_tags(htmlspecialchars_decode($row[$name])), 0, 50, 'utf-8') . '</td>';
-					} elseif ($col['type'] == 'yesNo'){
-						$word = $row[$name] ? t('yes') : t('no');
-						$data['content'] .= '<td>' . $word . '</td>';
-					} elseif ($col['type'] == 'string' && strpos($col['attr'], 'field-image') !== false){
-						$images = '';
-						if (!empty($row[$name])){
-							$urls = explode(',', $row[$name]);
-							foreach ($urls as $url){
-								$images .= '<img src="/cache/img/50_50_c' . $url . '">';
-							}
-						}
-						$data['content'] .= '<td>' . $images . '</td>';
-					} else {
-						$data['content'] .= '<td>' . $row[$name] . '</td>';
-					}
-				}
-
-				$data['content'] .= '<td><div class="btn-group pull-right btn-group-sm">
-	<a class="btn btn-default" href="?route=' . $this->name . '/edit&id=' . $row['id'] . '">' . t('edit') . '</a>
-	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-	<ul class="dropdown-menu dropdown-menu-right">
-		<li><a class="danger" href="?route=' . $this->name . '/delete&id=' . $row['id'] . '">' . t('delete') . '</a></li>
-	</ul>
-</div></td></tr>';
-			}
+		if (file_exists(DIR_MODULE . $this->name . '/view/index.php')){
+			$data['content'] = $this->load->view($this->name . '/index', array('result' => array(
+				'structure' => $this->structure,
+				'items' => $rows
+			)));
 		} else {
-			$data['content'] .= '<tr><td colspan="' . ($cols) . '">' . t('empty') . '</td>
-			<td><a href="?route=' . $this->name . '/edit" class="btn btn-default btn-block btn-sm">' . t('add') . '</a></td></tr>';
+			$cols = 0;
+			$data['content'] = '<table class="table table-condensed table-striped table-hover data-table"><thead><tr>';
+			foreach ($this->structure as $h){
+				if ($h['visible'] == false) continue;
+				$data['content'] .= '<th>' . $h['label'] . '</th>';
+				$cols++;
+			}
+			$data['content'] .= '<th style="width:150px;">' . t('actions') . '</th></tr></thead>';
+
+			if ($rows){
+				foreach ($rows as $row){
+					$data['content'] .= '<tr>';
+
+					foreach ($this->structure as $name => $col){
+						if ($col['visible'] == false) continue;
+
+						if ($col['type'] == 'checkbox'){
+							$data['content'] .= '<td>' . implode(', ', json_decode($row[$name]), true) . '</td>';
+						} elseif ($col['type'] == 'textarea'){
+							$data['content'] .= '<td>' . mb_substr(strip_tags(htmlspecialchars_decode($row[$name])), 0, 50, 'utf-8') . '</td>';
+						} elseif ($col['type'] == 'yesNo'){
+							$word = $row[$name] ? t('yes') : t('no');
+							$data['content'] .= '<td>' . $word . '</td>';
+						} elseif ($col['type'] == 'string' && strpos($col['attr'], 'field-image') !== false){
+							$images = '';
+							if (!empty($row[$name])){
+								$urls = explode(',', $row[$name]);
+								foreach ($urls as $url){
+									$images .= '<img src="/cache/img/50_50_c' . $url . '">';
+								}
+							}
+							$data['content'] .= '<td>' . $images . '</td>';
+						} else {
+							$data['content'] .= '<td>' . $row[$name] . '</td>';
+						}
+					}
+
+					$data['content'] .= '<td><div class="btn-group pull-right btn-group-sm">
+		<a class="btn btn-default" href="?route=' . $this->name . '/edit&id=' . $row['id'] . '">' . t('edit') . '</a>
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li><a class="danger" href="?route=' . $this->name . '/delete&id=' . $row['id'] . '">' . t('delete') . '</a></li>
+		</ul>
+	</div></td></tr>';
+				}
+			} else {
+				$data['content'] .= '<tr><td colspan="' . $cols . '">' . t('empty') . '</td>
+				<td><a href="?route=' . $this->name . '/edit" class="btn btn-default btn-block btn-sm">' . t('add') . '</a></td></tr>';
+			}
+			$data['content'] .= '</table>';
 		}
-		$data['content'] .= '</table>';
+		
 
 		$data['meta_title'] = t('module_' . $this->name);
 		$data['breadcrumbs'] = H::breadcrumb(array(
@@ -139,7 +148,12 @@ class DataTable extends Controller{
 			}
 		}
 
-		$data['content'] = H::form($this->structure);
+		if (file_exists(DIR_MODULE . $this->name . '/view/form.php')){
+			$data['content'] = $this->load->view($this->name . '/form', array('result' => $this->structure));
+		} else {
+			$data['content'] = H::form($this->structure);
+		}
+		
 		$data['sidebar_right'] = H::saveButton(DIR_SITE . $this->site . '/database.db');
 		$data['form_url'] = "?route={$this->name}/save";
 		$data['meta_title'] = t('editing') . ' ' . t('module_' . $this->name);
