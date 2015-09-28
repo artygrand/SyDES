@@ -238,8 +238,8 @@ final class App extends HasRegistry{
 			throw new BaseException(t('error_method_forbidden'));
 		}
 
-		$controller = new $class();
 		$this->load->language('module_' . $name);
+		$controller = new $class();
 
 		if (is_callable(array($controller, $method)) && ($this->section != 'front' || in_array($method, $class::$front))){
 			return call_user_func(array($controller, $method));
