@@ -50,8 +50,15 @@ class Front extends HasRegistry{
 		$head = array(
 			'<title>' . $response->data['meta_title'] . '</title>'
 		);
-		$head[] = empty($response->data['meta_description']) ? '' : '<meta name="description" content="' . $response->data['meta_description'] . '">';
-		$head[] = empty($response->data['meta_keywords']) ? '' : '<meta name="keywords" content="' . $response->data['meta_keywords'] . '">';
+
+		foreach ($response->data as $key => $value){
+			if (isset($key[5]) && $key[4] == '_' && substr($key, 0, 4) == 'meta'){
+				$key = substr($key, 5);
+				$whatname = substr($key, 0, 3) == 'og:' ? 'property' : 'name';
+				$head[] = '<meta ' . $whatname . '="' . $key . '" content="' . $value . '">';
+			}
+		}
+
 		$head[] = '<meta name="generator" content="SyDES">';
 		$head[] = '<base href="http://' . $this->base . '/">';
 
