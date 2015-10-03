@@ -37,11 +37,11 @@ class Front extends HasRegistry{
 
 		$template = str_replace('{layout}', file_get_contents($layout_html), $template);
 
-		$response->script[] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js';
-		$response->script[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js';
+		$response->script[] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
+		$response->script[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js';
 		$response->script[] = '/system/assets/js/sydes.js';
 		$response->script[] = '/system/assets/js/front.js';
-		$response->style[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css';
+		$response->style[] = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
 		$response->style[] = '/system/assets/css/front.css';
 
 		$this->compile($response->data['content']);

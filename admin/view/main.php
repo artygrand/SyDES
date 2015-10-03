@@ -5,8 +5,8 @@
 	<meta charset="utf-8">
 	<meta name="generator" content="SyDES">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
 	<link href="/system/assets/css/structure.css" rel="stylesheet" media="screen">
 	<link href="/system/assets/css/skin.<?=$skin?>.css" rel="stylesheet" media="screen" id="skin">
 
@@ -22,9 +22,9 @@
 <?php } ?>
 
 	<script>var token = '<?=$token;?>'</script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="/vendor/ckfinder/ckfinder.js"></script>
 	<script src="/system/assets/js/sydes.js"></script>
 	<script src="/system/assets/js/utils.min.js"></script>
