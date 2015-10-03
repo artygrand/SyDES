@@ -68,10 +68,7 @@ $(document).on('click', '.apply-modal', function(){
 	if (form.length){
 		$.ajax({
 			url: form.prop('action'),
-			data: form.serialize(),
-			complete: function(){
-				location.reload()
-			}
+			data: form.serialize()
 		})
 	}
 })

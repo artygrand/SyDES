@@ -69,6 +69,7 @@ class SetupController extends Controller{
 
 		arr2file($config, DIR_SITE . $this->site . '/config.php');
 		$this->response->notify(t('saved'));
+		$this->response->reload();
 	}
 
 	public function form(){
@@ -143,5 +144,6 @@ class SetupController extends Controller{
 
 		arr2file($config, DIR_SITE . $this->site . '/config.php');
 		$this->response->notify(t('saved'));
+		$this->response->reload();
 	}
 }

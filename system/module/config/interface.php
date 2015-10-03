@@ -39,5 +39,6 @@ class InterfaceController extends Controller{
 			setcookie('menu_pos', '', time()-1);
 		}
 		$this->response->notify(t('saved'));
+		$this->response->reload();
 	}
 }
