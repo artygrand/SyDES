@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	config.extraPlugins = 'codemirror,iblock,pagecut';
+	config.extraPlugins = 'codemirror,iblock,pagecut,bootstrapstyles';
 	config.toolbarGroups = [
 		{ name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
