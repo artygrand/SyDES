@@ -33,16 +33,6 @@ class ModulesController extends Controller{
 			$modules[$module]['installed'] = in_array($module, $installed);
 		}
 
-		$box_tools = array('index', 'import');
-		$all_tools = str_replace(array(DIR_MODULE . 'tools/', '.php'), '', glob(DIR_MODULE . 'tools/*.php'));
-		$new_tools = array_diff($all_tools, $box_tools);
-		foreach ($new_tools as $module){
-			$this->load->language('module_' . $module);
-			$modules[$module]['name'] = t('module_tools') . ': ' . t('module_' . $module);
-			$modules[$module]['route'] = 'tools/' . $module;
-			$modules[$module]['installed'] = in_array($module, $installed);
-		}
-
 		$data['content'] = $this->load->view('config/modules-list', array('modules' => $modules));
 		$data['sidebar_left'] = $this->getSideMenu('config/modules', array('interface'));
 		$data['sidebar_right'] = ' ';
