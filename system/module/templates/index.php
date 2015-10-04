@@ -29,8 +29,13 @@ class TemplatesController extends Controller{
 		if (count($templates) > 1){
 			$links = array();
 			foreach ($templates as $t){
-				$theme = parse_ini_file($t . '/manifest.ini', true);
-				$links['?route=templates&tpl=' . str_replace(DIR_TEMPLATE, '', $t)] = $theme['theme']['name'];
+				if (file_exists($t . '/manifest.ini')){
+					$theme = parse_ini_file($t . '/manifest.ini', true);
+					$theme_name = $theme['theme']['name'];
+				} else {
+					$theme_name = 'unknown theme';
+				}
+				$links['?route=templates&tpl=' . str_replace(DIR_TEMPLATE, '', $t)] = $theme_name;
 			}
 			$data['sidebar_left'] = H::listLinks($links, '?route=templates&tpl=' . $model->template, 'class="nav nav-tabs-left"');
 		}
