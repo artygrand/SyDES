@@ -17,15 +17,8 @@ Disallow: /index.php*
 Disallow: /?*
 Disallow: /*?utm_source=
 Disallow: /search
-Host: {$this->base}";
-
-	if (count($this->config_site['locales']) > 1){
-		foreach ($this->config_site['locales'] as $locale){
-			$text .= "\nSitemap: http://{$this->base}/{$locale}/sitemap.xml";
-		}
-	} else {
-		$text .= "\nSitemap: http://{$this->base}/sitemap.xml";
-	}
+Host: {$this->base}
+Sitemap: http://{$this->base}/sitemap.xml";
 
 	$this->response->body = $text;
 	}
