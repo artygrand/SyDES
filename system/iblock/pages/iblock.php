@@ -20,7 +20,7 @@ $defaults = array(
 	'date_format' => 'd.m.Y',
 	'columns' => 3,
 	'filter' => '',
-	'show_pagination' => 1,
+	'no_skip' => 0,
 );
 $args = array_merge($defaults, $args);
 
@@ -59,7 +59,7 @@ $count = $this->pages_model->getCount($filter);
 if (!$count) return;
 
 $args['order'] = str_replace('position', 'position+0', $args['order']);
-$skip = (isset($_GET['skip']) && (int)$_GET['skip'] > 0 && $args['show_pagination']) ? (int)$_GET['skip'] : 0;
+$skip = (!$args['no_skip'] && isset($_GET['skip']) && (int)$_GET['skip'] > 0) ? (int)$_GET['skip'] : 0;
 $data = $this->pages_model->getListWithMeta($filter, $args['order'], $args['limit'], $skip);
 foreach ($data as $k => $d){
 	if (!isset($d['image'])){

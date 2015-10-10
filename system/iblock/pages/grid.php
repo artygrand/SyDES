@@ -26,7 +26,7 @@ foreach ($result as $item){
 </div>
 
 <?php
-if ($args['show_pagination']){
+if (!$args['no_skip']){
 	echo H::pagination($page['fullpath'], $count, $skip, $args['limit']);
 }
 ?>

@@ -14,6 +14,6 @@
 </div>
 <?php } ?>
 
-<?php if ($args['show_pagination']){
+<?php if (!$args['no_skip']){
 	echo H::pagination($page['fullpath'], $count, $skip, $args['limit']);
 } ?>
