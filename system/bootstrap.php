@@ -12,7 +12,7 @@ if (!isset($_SERVER['HTTP_HOST'])){
 }
 
 session_start();
-define('VERSION', '2.6.0');
+define('VERSION', '2.6.1');
 
 spl_autoload_register(function($class){
 	$library_path = DIR_LIBRARY . str_replace('\\', '/', $class) . '.php';
