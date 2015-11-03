@@ -93,6 +93,8 @@ class SimpleImage{
 			$new_height = $thumb_height;
 		}
 		$new_image = imagecreatetruecolor($new_width, $new_height);
+		$white = imagecolorallocate($new_image, 255, 255, 255);
+		imagefill($new_image, 0, 0, $white);
 		imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $new_width, $new_height, $this->width, $this->height);
 		$this->image = $new_image;
 	}
@@ -106,6 +108,8 @@ class SimpleImage{
 			$new_height = $this->height / ($this->width / $thumb_width);
 		}
 		$new_image = imagecreatetruecolor($thumb_width, $thumb_height);
+		$white = imagecolorallocate($new_image, 255, 255, 255);
+		imagefill($new_image, 0, 0, $white);
 		imagecopyresampled($new_image, $this->image, 0 - ($new_width - $thumb_width) / 2, 0 - ($new_height - $thumb_height) / 2, 0, 0, $new_width, $new_height, $this->width, $this->height);
 		$this->image = $new_image;
 	}
