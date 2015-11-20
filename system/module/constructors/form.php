@@ -398,7 +398,7 @@ class FormController extends Controller{
 				$to = str_replace("\r\n", ' ', $notice['to']);
 				$to = str_replace($find, $replace, $to);
 
-				$subject = '=?UTF-8?B?' . base64_encode($notice['subject']) . '?=';
+				$subject = '=?UTF-8?B?' . base64_encode(str_replace($find, $replace, $notice['subject'])) . '?=';
 
 				$message = htmlspecialchars_decode($notice['body']);
 				$message = str_replace($find, $replace, $message);
