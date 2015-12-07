@@ -64,6 +64,7 @@ class Response{
 		if (IS_AJAX){
 			$this->body['redirect'] = $url;
 		} else {
+			$this->status = 301;
 			$host = $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 			$this->addHeader("Location: http://{$host}{$url}");
 		}
