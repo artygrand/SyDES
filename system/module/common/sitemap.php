@@ -17,7 +17,7 @@ class SitemapController extends Controller{
 
 			foreach ($this->config_site['locales'] as $locale){
 				$stmt = $this->db->query("SELECT p.path, p.cdate FROM pages p, pages_content pc
-				WHERE p.status > 0 AND pc.page_id = p.id AND pc.locale = '{$locale}' AND pc.title != '' ORDER BY p.path");
+				WHERE p.status > 0 AND p.type != 'trash' AND pc.page_id = p.id AND pc.locale = '{$locale}' AND pc.title != '' ORDER BY p.path");
 				$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$in_url = count($this->config_site['locales']) > 1 ? $locale : '';
