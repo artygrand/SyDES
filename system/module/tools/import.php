@@ -52,14 +52,14 @@ class ImportController extends Controller{
 				$rawPagesContent = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$rawDataContentTitle = array();
 				foreach ($this->config_site['locales'] as $loc){
-					$rawDataContentTitle[]['key'] = $loc . '_title';
-					$rawDataContentTitle[]['key'] = $loc . '_content';
+					$rawDataContentTitle[] = $loc . '_title';
+					$rawDataContentTitle[] = $loc . '_content';
 				}
 
 				// set a title row
 				$titles[0] = array_keys($rawPages[0]);
 				foreach ($rawDataContentTitle as $title){
-					$titles[0][] = $title['key'];
+					$titles[0][] = $title;
 				}
 				foreach ($rawMetaTitles as $title){
 					$titles[0][] = $title;
@@ -79,10 +79,10 @@ class ImportController extends Controller{
 
 				foreach ($rawPages as &$data){
 					foreach ($rawDataContentTitle as $title){
-						$data[$title['key']] = $truDataContent[$data['id']][$title['key']];
+						$data[$title] = $truDataContent[$data['id']][$title];
 					}
 					foreach ($rawMetaTitles as $title){
-						$data[$title['key']] = $truDataMeta[$data['id']][$title];
+						$data[$title] = $truDataMeta[$data['id']][$title];
 					}
 				}
 
