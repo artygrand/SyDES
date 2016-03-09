@@ -320,6 +320,9 @@ class FormController extends Controller{
 		$fields = json_decode($form['fields'], true);
 		$file_fields = $result = array();
 		foreach ($fields as $field){
+			if (strpos($this->request->post[$field['key']], 'a href')){
+				return;
+			}
 			if ($field['type'] != 'file' && $field['type'] != 'listing' && !isset($this->request->post[$field['key']])){
 				throw new BaseException(t('error_empty_values_passed'));
 			}
