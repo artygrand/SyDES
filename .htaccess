@@ -44,9 +44,9 @@ Options -Indexes
 </IfModule>
 
 <IfModule mod_php5.c>
-	php_flag magic_quotes_gpc off
-	php_flag magic_quotes_runtime off
-	php_flag register_globals off
+	php_flag magic_quotes_gpc Off
+	php_flag magic_quotes_runtime Off
+	php_flag register_globals Off
 </IfModule>
 
 # optimization below
