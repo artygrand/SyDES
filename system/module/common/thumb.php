@@ -22,7 +22,7 @@ class ThumbController{
 		$th_dir = DIR_THUMB . "{$width}_{$height}_{$act}/" . dirname($_GET['src']);
 		$thumb = DIR_THUMB . "{$width}_{$height}_{$act}/{$_GET['src']}";
 
-		if (count(glob(DIR_THUMB . '*_*_*/' . $_GET['src'])) > 4 || $height > 500 || $width > 500 || $height < 50 || $width < 50){
+		if (count(glob(DIR_THUMB . '*_*_*/' . $_GET['src'])) > 10){
 			header("HTTP/1.0 404 Not Found");
 			die;
 		}
