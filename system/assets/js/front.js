@@ -9,7 +9,7 @@ $(document).ready(function(){
 	
 	// fix redirect to home when # clicked
 	var pathname = window.location.href.split('#')[0];
-	$('a[href^="#"]').each(function(){
+	$('a[href^="#"]').not('.various').each(function(){
 		var $this = $(this),
 		link = $this.attr('href');
 		$this.attr('href', pathname + link);
