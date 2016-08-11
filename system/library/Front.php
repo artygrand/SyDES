@@ -117,7 +117,7 @@ class Front extends HasRegistry{
 					$arParams = str_replace('"', '', $arParams);
 				}
 				$content = $this->$method($matches[2][$i], $arParams);
-				if ($this->user->is_editor && in_array($method, array('iblock', 'config'))){
+				/*if ($this->user->is_editor && in_array($method, array('iblock', 'config'))){
 					if (!$content){
 						$content = '&nbsp;';
 					}
@@ -126,7 +126,7 @@ class Front extends HasRegistry{
 						$tools .= '<span data-item="' . $matches[2][$i] . '" data-template="' . $arParams['template'] . '" class="block-template"></span>';
 					}
 					$content = '<div class="block-wrapper"><div class="tools">' . $tools . '</div>' . $content . '</div>';
-				}
+				}*/
 				$html = str_replace($matches[0][$i], $content, $html);
 			}
 		}
@@ -173,7 +173,7 @@ class Front extends HasRegistry{
 	}
 
 	public function config($key){
-		return $this->config->get($key);
+		return htmlspecialchars_decode($this->config->get($key));
 	}
 
 	public function getToolbar(){
