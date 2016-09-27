@@ -82,7 +82,7 @@ class DataTable extends Controller{
 						if ($col['visible'] == false) continue;
 
 						if ($col['type'] == 'checkbox'){
-							$data['content'] .= '<td>' . implode(', ', json_decode($row[$name]), true) . '</td>';
+							$data['content'] .= '<td>' . implode(', ', json_decode($row[$name], true)) . '</td>';
 						} elseif ($col['type'] == 'textarea'){
 							$data['content'] .= '<td>' . mb_substr(strip_tags(htmlspecialchars_decode($row[$name])), 0, 50, 'utf-8') . '</td>';
 						} elseif ($col['type'] == 'yesNo'){
@@ -172,7 +172,7 @@ class DataTable extends Controller{
 		foreach ($this->request->post as $key => $value){
 			if (in_array($key, $table_keys)){
 				if ($this->structure[$key]['type'] == 'checkbox'){
-					$data[$key] = json_decode($value);
+					$data[$key] = json_encode($value);
 				} else {
 					$data[$key] = $value;
 				}
