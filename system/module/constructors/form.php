@@ -268,7 +268,7 @@ class FormController extends Controller{
 
 	public function delete(){
 		$id = (int)$this->request->get['id'];
-		$stmt = $this->db->query("SELECT name FROM form WHERE id = {$id}");
+		$stmt = $this->db->query("SELECT name FROM forms WHERE id = {$id}");
 		$name = $stmt->fetchColumn();
 		if ($name){
 			$this->confirm(sprintf(t('confirm_want_to_delete'), t('form') . ' ' . $name), '?route=constructors/form');

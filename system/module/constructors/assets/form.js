@@ -58,7 +58,7 @@ $(document).ready(function(){
 		forcePlaceholderSize: true,
 		cancel: '.onempty',
 		handle: '.panel-heading'
-	}).disableSelection();
+	});
 
 	var last_placeholder_index = 0;
 	$('#form-fields').sortable({
