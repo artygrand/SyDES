@@ -48,5 +48,5 @@
 
 .nav-tabs li:only-of-type{display:none;}
 
-.view-page{display:none;color:#777;}
-.selectitem:hover .view-page{display:inline-block;margin-left:5px;}
+.view-page{opacity:0;color:#777;margin-left:5px;}
+.selectitem:hover .view-page{opacity:1;}
