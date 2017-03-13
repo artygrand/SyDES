@@ -21,7 +21,7 @@ class FileController extends Controller{
 			throw new BaseException(t('error_page_not_found'));
 		}
 
-		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.19.0/';
+		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/';
 		$this->response->style[] = $cdn . 'codemirror.min.css';
 		$script = array();
 		$script[] = $cdn . 'codemirror.min.js';

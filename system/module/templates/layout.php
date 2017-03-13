@@ -36,7 +36,7 @@ class LayoutController extends Controller{
 
 		$layout['files'] = H::select('file', $layout['file'], $files, 'class="form-control"');
 
-		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.19.0/';
+		$cdn = '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/';
 		$this->response->style[] = $cdn . 'codemirror.min.css';
 		$script = array();
 		$script[] = $cdn . 'codemirror.min.js';
