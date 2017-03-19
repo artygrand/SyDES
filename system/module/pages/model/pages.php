@@ -61,6 +61,9 @@ class PagesModel extends Model{
 				if ($v == ''){
 					continue;
 				}
+				if (is_array($v)) {
+					$v = implode(',', $v);
+				}
 				$stmt->execute(array('id' => $id, 'key' => $k, 'value' => $v));
 			}
 		}
