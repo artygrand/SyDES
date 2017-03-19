@@ -30,9 +30,12 @@ class PagesModel extends Model{
 
 		$stmt = $this->db->query("SELECT id FROM pages WHERE alias = '{$main['alias']}'{$and}"); 
 		$exists = $stmt->fetchColumn();
-		if ($exists){
-			$main['alias'] = $main['alias'] . '-2';
-			$main['path'] = $main['path'] . '-2';
+		if ($exists) {
+			$stmt = $this->db->query("SELECT MAX(id)+1 FROM pages"); 
+			$myid = $stmt->fetchColumn();
+
+			$main['alias'] = $main['alias'] . '-'.$myid;
+			$main['path'] = $main['path'] . '-'.$myid;
 		}
 
 		if ($this->config_site['page_types'][$main['type']]['structure'] == 'tree'){
