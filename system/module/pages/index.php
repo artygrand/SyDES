@@ -260,6 +260,7 @@ class PagesController extends Controller{
 			}
 
 			if (isset($this->request->get['source'])){
+				$page['id'] = -1;
 				$page['alias'] .= '-copy';
 			}
 		}
