@@ -45,7 +45,7 @@ if ($args['show'] == 'all'){
 	$result['items'] = $this->pages_model->getList(array("position LIKE '#{$pos[1]}#%'",  "status = 2"), 'position');
 } elseif (is_numeric($args['show'])){
 	$config = new Config('menu');
-	$menu = $config->get($args['show']);
+	$menu = $config->get($args['show'].':'.$this->locale);
 	$result['items'] = $menu['items'];
 } else {
 	if ($args['show'] == 'main'){

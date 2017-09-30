@@ -2,12 +2,12 @@
 
 <div class="form-group">
 	<label><?=t('menu_name');?></label>
-	<input type="text" name="title" value="<?=isset($menus[$menu_id]) ? $menus[$menu_id]['title'] : '';?>" class="form-control" style="width:400px;" required>
+	<input type="text" name="title" value="<?=$menu ? $menu['title'] : '';?>" class="form-control" style="width:400px;" required>
 </div>
 
 <label><?=t('menu_items');?></label>
-<?php if (isset($menus[$menu_id])){
-	echo H::treeList($menus[$menu_id]['items'], function($item){
+<?php if ($menu){
+	echo H::treeList($menu['items'], function($item){
 		return '
 <div class="widget panel panel-default menu-item">
 	<div class="widget-tools">

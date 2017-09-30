@@ -9,6 +9,22 @@
 class MenuController extends Controller{
 	public $name = 'menu';
 
+	public function __construct(){
+		parent::__construct();
+
+		if ($this->section == 'admin'){
+			if (count($this->config_site['locales']) > 1){
+				$this->addContextMenu('locale', $this->locale);
+				foreach ($this->config_site['locales'] as $locale){
+					$this->addToContextMenu('locale', array(
+						'title' => $locale,
+						'link' => '?route=constructors/menu&locale=' . $locale
+					));
+				}
+			}
+		}
+	}
+
 	public function index(){
 		$config = new Config('menu');
 		$menus = $config->get();
@@ -19,6 +35,7 @@ class MenuController extends Controller{
 		$this->response->data = array(
 			'content' => $this->load->view('constructors/menu-list', array(
 				'menus' => $menus,
+				'locale' => $this->locale,
 			)),
 			'sidebar_left' => $this->getSideMenu('constructors/menu'),
 			'meta_title' => t('module_menu'),
@@ -34,12 +51,11 @@ class MenuController extends Controller{
 		$data['sidebar_left'] = $this->getSideMenu('constructors/menu');
 		$config = new Config('menu');
 		$id = isset($this->request->get['id']) ? $this->request->get['id'] : 0;
-		$menus = $config->get();
-		if (!$menus){
-			$menus = array();
-		}
+
+		$menu = $config->get($id.':'.$this->locale);
+
 		$data['content'] = $this->load->view('constructors/menu-form', array(
-			'menus' => $menus,
+			'menu' => $menu,
 			'menu_id' => $id,
 		));
 		$data['form_url'] = '?route=constructors/menu/save';
@@ -69,9 +85,10 @@ class MenuController extends Controller{
 		$menus = $config->get();
 
 		if ($menus){
-			$menus[] = $menu;
+			$count = count($menus)+1;
+			$menus[$count.':'.$this->locale] = $menu;
 		} else {
-			$menus[1] = $menu;
+			$menus['1:'.$this->locale] = $menu;
 		}
 
 		$config->set($menus)->save();
@@ -100,7 +117,7 @@ class MenuController extends Controller{
 
 		$config = new Config('menu');
 		$menus = $config->get();
-		$menus[$menu_id] = $menu;
+		$menus[$menu_id.':'.$this->locale] = $menu;
 		$config->set($menus)->save();
 
 		$this->response->notify(t('saved'));

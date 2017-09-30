@@ -11,7 +11,24 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach ($menus as $id => $menu){ ?>
+	<?php
+	$used = array();
+	foreach ($menus as $id => $menu){
+		$parts = explode(':', $id);
+		$id = $parts[0];
+		if (isset($used[$id])) {
+			continue;
+		}
+		if ($parts[1] != $locale) {
+			foreach($menus as $i => $t) {
+				if ($i == $id.':'.$locale) {
+					$menu['title'] = $t['title'];
+					break;
+				}
+			}
+		}
+		$used[$id] = 1;
+	?>
 			<tr>
 				<td><?=$menu['title'];?></td>
 				<td>{iblock:menu?show=<?=$id;?>}</td>
